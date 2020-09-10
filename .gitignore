@@ -6,10 +6,10 @@
 dist/
 .cache/
 
-local-proj-file/
+local-proj-files/
 
 # Intellisense
-typings/
+types/
 
 ### VisualStudioCode ###
 .vscode/*
