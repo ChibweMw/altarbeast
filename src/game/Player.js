@@ -1,16 +1,16 @@
-import Phaser from '../lib/phaser.js'
+// import Phaser from '../lib/phaser.js'
 
-import GameOptions from '../GameOptions.js'
+import GameOptions from './GameOptions.js'
 
 
-export default class Player extends Phaser.Physics.Arcade.Sprite 
+export default class Player extends Phaser.Physics.Arcade.Sprite
 {
     /**
-     * @param {Phaser.Scene} Scene
+     * @param {Phaser.Scene} scene
      * @param {number} x
      * @param {number} y
      * @param {string} texture
-     * @param {string || integer} frame
+     * @param {string} frame
      */
     constructor(scene, x, y, texture, frame)
     {

@@ -11,6 +11,8 @@ local-proj-files/
 # Intellisense
 types/
 
+jsconfig.json
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
