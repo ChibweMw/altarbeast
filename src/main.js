@@ -1,3 +1,5 @@
+import Boot from './scenes/Boot.js'
+import Preload from './scenes/Preload.js'
 import MainMenu from './scenes/MainMenu.js'
 
 const config = {
@@ -10,7 +12,7 @@ const config = {
         autoCenter: Phaser.Scale.CENTER_BOTH,
         zoom: Phaser.Scale.ZOOM_2X
     },
-    scene: [MainMenu],
+    scene: [Boot, Preload, MainMenu],
     physics: {
         default: 'arcade',
         arcade: {
@@ -20,5 +22,3 @@ const config = {
     backgroundColor: '#000000'
 }
 const game = new Phaser.Game(config)
-
-console.log('Haunted Sakura Altar');
