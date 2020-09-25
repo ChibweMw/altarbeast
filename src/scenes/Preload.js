@@ -42,6 +42,10 @@ export default class Preload extends Phaser.Scene
         // ITEMS
         this.load.spritesheet('sw-axe', '../../assets/sprites/items/sw-axe.png', { frameWidth: 16, frameHeight: 16 })
 
+        // TILESETS
+        this.load.image('tiles-arena', '../../assets/sprites/tiles/tiles-level.png')
+        this.load.tilemapTiledJSON('level-arena-01', '../../assets/sprites/tiles/level-tiles-01.json')
+
         // AUDIO
         // MUSIC
         this.load.audio('main-menu-theme-01', '../../assets/audio/music/eery-1.wav')
@@ -84,6 +88,7 @@ export default class Preload extends Phaser.Scene
     {
         console.log(`COMPLETE!`)
         this.scene.start('menu-main')
+        // this.scene.start('game')
     }
 
     loadingBar ()

@@ -55,9 +55,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.hurtBoxX
         this.hurtBoxY
         this.hurtBoxWidth
-        this.hurtBoxHeight
-
-        
+        this.hurtBoxHeight  
     }
 
     setControlState(controlState)
