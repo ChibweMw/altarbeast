@@ -5,6 +5,8 @@ export default class Preload extends Phaser.Scene
         super('preload')
     }
 
+    newGraphics
+
     preload()
     {
         // ASSET  LOADING
@@ -86,7 +88,7 @@ export default class Preload extends Phaser.Scene
 
     complete () 
     {
-        console.log(`COMPLETE!`)
+        // console.log(`COMPLETE!`)
         this.scene.start('menu-main')
         // this.scene.start('game')
     }
@@ -98,7 +100,7 @@ export default class Preload extends Phaser.Scene
         let progressBar = new Phaser.Geom.Rectangle(this.scale.width / 2, this.scale.height / 2, 400, 50)
         progressBar.centerX = this.scale.width / 2
         progressBar.centerY = this.scale.height / 2
-		let progressBarFill = new Phaser.Geom.Rectangle(this.scale.width / 2, this.scale.height / 2, 290, 40)
+		let progressBarFill = new Phaser.Geom.Rectangle(this.scale.width / 2, this.scale.height / 2, 0 * 290, 40)
         progressBarFill.centerX = this.scale.width / 2, this.scale.height / 2
         
 		this.graphics.fillStyle(0xffffff, 1)
@@ -118,10 +120,9 @@ export default class Preload extends Phaser.Scene
         progressBarFill.centerX = this.scale.width / 2
         progressBarFill.centerY = this.scale.height / 2
         this.newGraphics.fillRectShape(progressBarFill)
-        this.newGraphics.fillRectShape(new Phaser.Geom.Rectangle(this.scale.width / 2, this.scale.height / 2, percentage*390, 40))
                 
         percentage = percentage * 100
         this.loadingText.setText(`Loading: ${percentage.toFixed(0)}%`)
-        console.log("P:" + percentage)
+        // console.log("P:" + percentage)
     }
 }
