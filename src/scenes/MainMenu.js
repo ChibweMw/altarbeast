@@ -35,6 +35,7 @@ export default class MainMenu extends Phaser.Scene
         
         // CURSOR
         this.menuSprite_Cursor = this.add.sprite(width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0).setOrigin(1, 0.75)
+        this.menuSprite_Cursor.y = this.UI_cursorTarget.y
         
         // SCENE CONTROLS - UnPause, Up/Down navigation
         this.key_CONFIRM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
