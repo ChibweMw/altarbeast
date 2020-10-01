@@ -24,6 +24,6 @@ const config = {
             debug: true
         }
     },
-    backgroundColor: '#000000'
+    backgroundColor: '#000000',
 }
 const game = new Phaser.Game(config)
