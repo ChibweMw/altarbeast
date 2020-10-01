@@ -1,3 +1,5 @@
+import gameOptions from '../game/GameOptions.js'
+
 export default class Pause extends Phaser.Scene
 {
     constructor()
@@ -42,9 +44,10 @@ export default class Pause extends Phaser.Scene
         // SCENE MENU TEXT
         this.sceneResumeText = this.add.bitmapText(width / 2, height * 0.3, 'tentown', 'Resume', 12).setOrigin(0.5)
         this.sceneRestartText = this.add.bitmapText(width / 2, height * 0.3 + (18 * 1), 'tentown', 'Retry', 12).setOrigin(0.5)
-        this.sceneReturnToMainMenuText = this.add.bitmapText(width / 2, height * 0.3 + (18 * 2), 'tentown', 'Main Menu', 12).setOrigin(0.5)
+        this.sceneOptionsMenuText = this.add.bitmapText(width / 2, height * 0.3 + (18 * 2), 'tentown', 'Options', 12).setOrigin(0.5)
+        this.sceneReturnToMainMenuText = this.add.bitmapText(width / 2, height * 0.3 + (18 * 3), 'tentown', 'Main Menu', 12).setOrigin(0.5)
         
-        this.menuItems = [this.sceneResumeText, this.sceneRestartText, this.sceneReturnToMainMenuText]
+        this.menuItems = [this.sceneResumeText, this.sceneRestartText, this.sceneOptionsMenuText, this.sceneReturnToMainMenuText]
         this.UI_cursorTarget = this.menuItems[0]
         
         // SCENE MENU CURSOR IMAGE
@@ -64,19 +67,17 @@ export default class Pause extends Phaser.Scene
             switch (this.UI_cursorTarget.text)
             {
                 case this.sceneResumeText.text:
-                    // console.log(`SELECTED: ${this.sceneResumeText.text}`)                    
-                    // console.log('UnPAUSEing')
                     this.scene.stop()
                     this.scene.resume('game')
                     break
                 case this.sceneRestartText.text:
-                    // console.log(`SELECTED: ${this.sceneRestartText.text}`)
-                    // console.log(`RESTART GAME SCENE`)
                     this.scene.start('game')
                     break
+                case this.sceneOptionsMenuText.text:
+                    gameOptions.scene_prev = this.scene.key
+                    this.scene.switch('options')
+                    break
                 case this.sceneReturnToMainMenuText.text:
-                    // console.log(`SELECTED: ${this.sceneReturnToMainMenuText.text}`)                    
-                    // console.log(`Back to menu button hit`)
                     this.scene.stop('ui')
                     this.scene.stop('game')
                     this.scene.start('menu-main')

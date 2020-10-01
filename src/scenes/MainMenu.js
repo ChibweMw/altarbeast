@@ -1,3 +1,5 @@
+import gameOptions from '../game/GameOptions.js'
+
 export default class MainMenu extends Phaser.Scene
 {
     constructor()
@@ -38,13 +40,6 @@ export default class MainMenu extends Phaser.Scene
         this.key_CONFIRM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
         this.key_uiCursor_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
         this.key_uiCursor_DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
-        
-        // let key_START = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
-
-        // key_START.once('down', () => {
-        //     this.scene.start('game')
-        // })
-
     }
 
     update()
@@ -54,14 +49,13 @@ export default class MainMenu extends Phaser.Scene
             switch (this.UI_cursorTarget.text)
             {
                 case this.menuText_Start.text:
-                    // console.log(`SELECTED: ${this.sceneResumeText.text}`)                    
                     console.log('Got to Game Scene')
                     this.scene.start('game')
                     break
                 case this.menuText_Options.text:
-                    // console.log(`SELECTED: ${this.sceneRestartText.text}`)
                     console.log(`Go to OPTIONS SCENE`)
-                    this.scene.start('options')
+                    gameOptions.scene_prev = this.scene.key
+                    this.scene.switch('options')
                     break
                 default:
                     console.log(`nothing selected, pick something`)

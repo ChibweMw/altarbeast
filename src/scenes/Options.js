@@ -1,3 +1,5 @@
+import gameOptions from '../game/GameOptions.js'
+
 export default class Options extends Phaser.Scene
 {
     constructor()
@@ -10,7 +12,7 @@ export default class Options extends Phaser.Scene
     key_uiCursor_DOWN
 
     txt_option_Volume
-    txt_toMainMenu
+    txt_closeOptions
 
     menuSprite_Cursor
     UI_cursorTarget
@@ -18,20 +20,34 @@ export default class Options extends Phaser.Scene
 
     create()
     {
+
         const width = this.scale.width
         const height = this.scale.height
+        
+        // SCENE OVERLAY GRAPHIC
+
+        const overlay = this.add.graphics({
+            x: 0,
+            y: 0,
+            fillStyle: {
+                color: 0x000000,
+                alpha: 0.6
+            }
+        })
+        overlay.fillRect(0, 0, width, height)
 
         // SCENE TITLE
         this.sceneTitleText = this.add.bitmapText(width / 2, height * 0.2, 'tentown', 'OPTIONS', 24).setOrigin(0.5)
 
         this.txt_option_Volume = this.add.bitmapText(width / 2, height * 0.3, 'tentown', 'Volume', 12).setOrigin(0.5)
-        this.txt_toMainMenu = this.add.bitmapText(width / 2, height * 0.3 + (18 * 1), 'tentown', 'Main Menu', 12).setOrigin(0.5)
+        this.txt_closeOptions = this.add.bitmapText(width / 2, height * 0.3 + (18 * 1), 'tentown', 'Back', 12).setOrigin(0.5)
         
-        this.menuItems = [this.txt_option_Volume, this.txt_toMainMenu]
+        this.menuItems = [this.txt_option_Volume, this.txt_closeOptions]
         this.UI_cursorTarget = this.menuItems[0]
 
         // SCENE MENU CURSOR IMAGE
         this.menuSprite_Cursor = this.add.sprite(width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0).setOrigin(1, 0.75)
+        this.menuSprite_Cursor.y = this.UI_cursorTarget.y
 
         // SCENE CONTROLS - UnPause, Up/Down navigation
         this.key_CONFIRM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
@@ -46,14 +62,13 @@ export default class Options extends Phaser.Scene
             switch (this.UI_cursorTarget.text)
             {
                 case this.txt_option_Volume.text:
-                    // console.log(`SELECTED: ${this.sceneResumeText.text}`)                    
                     console.log('Control Volume Settings')
-                    // this.scene.start('game')
+                    // Set Volume code here
                     break
-                case this.txt_toMainMenu.text:
-                    // console.log(`SELECTED: ${this.sceneRestartText.text}`)
-                    console.log(`Go to Main Menu SCENE`)
-                    this.scene.start('menu-main')
+                case this.txt_closeOptions.text:
+                    console.log(`Switch Back to Previous Scene`)
+                    this.scene.wake(gameOptions.scene_prev)
+                    this.scene.stop()
                     break
                 default:
                     console.log(`nothing selected, pick something`)

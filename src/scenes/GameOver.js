@@ -58,13 +58,9 @@ export default class GameOver extends Phaser.Scene
             switch (this.UI_cursorTarget.text)
             {
                 case this.sceneRestartText.text:
-                    // console.log(`SELECTED: ${this.sceneRestartText.text}`)
-                    // console.log(`RESTART GAME SCENE`)
                     this.scene.start('game')
                     break
                 case this.sceneReturnToMainMenuText.text:
-                    // console.log(`SELECTED: ${this.sceneReturnToMainMenuText.text}`)                    
-                    // console.log(`Back to menu button hit`)
                     this.scene.stop('ui')
                     this.scene.stop('game')
                     this.scene.start('menu-main')
