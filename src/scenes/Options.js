@@ -10,8 +10,11 @@ export default class Options extends Phaser.Scene
     key_CONFIRM
     key_uiCursor_UP
     key_uiCursor_DOWN
+    key_uiCursor_LEFT
+    key_uiCursor_RIGHT
 
     txt_option_Volume
+    txt_option_Mute
     txt_closeOptions
 
     menuSprite_Cursor
@@ -20,7 +23,6 @@ export default class Options extends Phaser.Scene
 
     create()
     {
-
         const width = this.scale.width
         const height = this.scale.height
         
@@ -39,10 +41,12 @@ export default class Options extends Phaser.Scene
         // SCENE TITLE
         this.sceneTitleText = this.add.bitmapText(width / 2, height * 0.2, 'tentown', 'OPTIONS', 24).setOrigin(0.5)
 
-        this.txt_option_Volume = this.add.bitmapText(width / 2, height * 0.3, 'tentown', 'Volume', 12).setOrigin(0.5)
-        this.txt_closeOptions = this.add.bitmapText(width / 2, height * 0.3 + (18 * 1), 'tentown', 'Back', 12).setOrigin(0.5)
+        this.txt_option_Volume = this.add.bitmapText(width * 0.5, height * 0.3, 'tentown', `Volume : ${this.sound.volume}`, 12).setOrigin(0.5)
+        this.txt_option_Mute = this.add.bitmapText(width * 0.5, height * 0.3 + (18 * 1), 'tentown', `Mute : ${this.sound.mute}`, 12).setOrigin(0.5)
+
+        this.txt_closeOptions = this.add.bitmapText(width * 0.5, height * 0.3 + (18 * 2), 'tentown', 'Back', 12).setOrigin(0.5)
         
-        this.menuItems = [this.txt_option_Volume, this.txt_closeOptions]
+        this.menuItems = [this.txt_option_Volume, this.txt_option_Mute, this.txt_closeOptions]
         this.UI_cursorTarget = this.menuItems[0]
 
         // SCENE MENU CURSOR IMAGE
@@ -53,6 +57,8 @@ export default class Options extends Phaser.Scene
         this.key_CONFIRM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
         this.key_uiCursor_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
         this.key_uiCursor_DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
+        this.key_uiCursor_LEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
+        this.key_uiCursor_RIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
     }
 
     update()
@@ -61,9 +67,10 @@ export default class Options extends Phaser.Scene
         {
             switch (this.UI_cursorTarget.text)
             {
-                case this.txt_option_Volume.text:
-                    console.log('Control Volume Settings')
-                    // Set Volume code here
+                case this.txt_option_Mute.text:
+                    console.log('Volume Mute')
+                    this.sound.mute = !this.sound.mute
+                    this.txt_option_Mute.text = `Mute : ${this.sound.mute}`
                     break
                 case this.txt_closeOptions.text:
                     console.log(`Switch Back to Previous Scene`)
@@ -74,6 +81,35 @@ export default class Options extends Phaser.Scene
                     console.log(`nothing selected, pick something`)
             }
         }
+        
+        switch (this.UI_cursorTarget.text) 
+        {
+            case this.txt_option_Volume.text:
+                if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_LEFT))
+                {
+                    // Phaser.Utils.Array.RotateRight(gameOptions.global_volume_ranges)
+                    Phaser.Utils.Array.RotateLeft(gameOptions.global_volume_ranges)
+                    this.sound.volume = gameOptions.global_volume_ranges[0]
+                    this.txt_option_Volume.text = `Volume : ${this.sound.volume}`
+                    console.log(`current global volume >> ${this.sound.volume}`)
+                    console.log(`${gameOptions.global_volume_ranges}`)
+                }
+                
+                if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_RIGHT))
+                {
+                    Phaser.Utils.Array.RotateRight(gameOptions.global_volume_ranges)
+                    this.sound.volume = gameOptions.global_volume_ranges[0]
+                    this.txt_option_Volume.text = `Volume : ${this.sound.volume}`
+                    console.log(`current global volume >> ${this.sound.volume}`)
+                    console.log(`${gameOptions.global_volume_ranges}`)
+                }
+                break;        
+            default:
+                console.log('LEFT RIGHT CONTROLS DISABLED')
+                break;
+        }
+
+        // VOLUME SETTING
 
         if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_UP))
         {

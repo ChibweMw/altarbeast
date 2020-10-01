@@ -25,5 +25,8 @@ const config = {
         }
     },
     backgroundColor: '#000000',
+    audio: {
+        disableWebAudio: true
+    },
 }
 const game = new Phaser.Game(config)
