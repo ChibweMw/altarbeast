@@ -8,6 +8,7 @@ export default class Options extends Phaser.Scene
     }
 
     key_CONFIRM
+    key_CANCEL
     key_uiCursor_UP
     key_uiCursor_DOWN
     key_uiCursor_LEFT
@@ -55,6 +56,7 @@ export default class Options extends Phaser.Scene
 
         // SCENE CONTROLS - UnPause, Up/Down navigation
         this.key_CONFIRM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
+        this.key_CANCEL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
         this.key_uiCursor_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
         this.key_uiCursor_DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
         this.key_uiCursor_LEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
@@ -74,12 +76,18 @@ export default class Options extends Phaser.Scene
                     break
                 case this.txt_closeOptions.text:
                     console.log(`Switch Back to Previous Scene`)
-                    this.scene.wake(gameOptions.scene_prev)
                     this.scene.stop()
+                    this.scene.wake(gameOptions.scene_prev)
                     break
                 default:
                     console.log(`nothing selected, pick something`)
             }
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(this.key_CANCEL))
+        {
+            this.scene.stop()
+            this.scene.wake(gameOptions.scene_prev)
         }
         
         switch (this.UI_cursorTarget.text) 

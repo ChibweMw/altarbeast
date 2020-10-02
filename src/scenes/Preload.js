@@ -89,8 +89,9 @@ export default class Preload extends Phaser.Scene
     complete () 
     {
         // console.log(`COMPLETE!`)
-        this.scene.start('menu-main')
+        // this.scene.start('menu-main')
         // this.scene.start('game')
+        this.scene.start('game-world')
     }
 
     loadingBar ()

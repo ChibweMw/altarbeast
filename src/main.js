@@ -1,5 +1,6 @@
 import Boot from './scenes/Boot.js'
 import Preload from './scenes/Preload.js'
+import GameWorld from './scenes/GameWorld.js'
 import MainMenu from './scenes/MainMenu.js'
 import Game from './scenes/Game.js'
 import UI from './scenes/UI.js'
@@ -17,7 +18,7 @@ const config = {
         autoCenter: Phaser.Scale.CENTER_BOTH,
         zoom: Phaser.Scale.ZOOM_2X
     },
-    scene: [Boot, Preload, MainMenu, Game, UI, Pause, GameOver, Options],
+    scene: [Boot, Preload, GameWorld, MainMenu, Game, UI, Pause, GameOver, Options],
     physics: {
         default: 'arcade',
         arcade: {
