@@ -1,0 +1,20 @@
+export default class UI_Cursor_Move_IDLE
+{
+    /** @param {Phaser.GameObjects.Sprite} cursor*/
+    
+    /** @param {Array} menu_Items*/
+    
+
+    constructor (cursor, menu_Items)
+    {
+        this.menu_Items = menu_Items
+        this.cursor = cursor
+    }
+
+    enter ()
+    {
+        let cursor_posY = this.menu_Items[0].y 
+        this.cursor.y = cursor_posY
+    }
+
+}

@@ -1,4 +1,4 @@
-export default class UI_Cursor_Move_UP 
+export default class UI_Cursor_Move_DOWN 
 {
     /**@type {Phaser.GameObjects.Sprite}*/
     cursor
@@ -18,7 +18,7 @@ export default class UI_Cursor_Move_UP
 
     enter ()
     {
-        Phaser.Utils.Array.RotateRight(this.menuItems)
+        Phaser.Utils.Array.RotateLeft(this.menuItems)
     }
 
 }

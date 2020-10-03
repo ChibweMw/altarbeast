@@ -1,4 +1,6 @@
 import gameOptions from '../game/GameOptions.js'
+import UI_Cursor from '../game/UI_Cursor.js'
+import UI_Cursor_Controller from '../game/UI_Cursor_Controller.js'
 
 export default class MainMenu extends Phaser.Scene
 {
@@ -14,6 +16,7 @@ export default class MainMenu extends Phaser.Scene
     menuText_Start
     menuText_Options
     menuSprite_Cursor
+    cursor_Input_Controller
 
     menuItems = []
 
@@ -36,8 +39,12 @@ export default class MainMenu extends Phaser.Scene
         this.UI_cursorTarget = this.menuItems[0]
         
         // CURSOR
-        this.menuSprite_Cursor = this.add.sprite(width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0).setOrigin(1, 0.75)
-        this.menuSprite_Cursor.y = this.UI_cursorTarget.y
+        // this.menuSprite_Cursor = this.add.sprite(width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0).setOrigin(1, 0.75)
+        this.menuSprite_Cursor = new UI_Cursor(this, width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0)
+        this.cursor_Input_Controller = new UI_Cursor_Controller(this.menuSprite_Cursor, this.menuItems)
+        
+        // set initial state
+        this.cursor_Input_Controller.setState('idle')
         
         // SCENE CONTROLS - UnPause, Up/Down navigation
         this.key_CONFIRM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
@@ -67,17 +74,13 @@ export default class MainMenu extends Phaser.Scene
 
         if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_UP))
         {
-            Phaser.Utils.Array.RotateRight(this.menuItems)
-        }
-        
-        if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_DOWN))
+            this.cursor_Input_Controller.setState('up')
+        } else if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_DOWN))
         {
-            Phaser.Utils.Array.RotateLeft(this.menuItems)
+            this.cursor_Input_Controller.setState('down')
+        } else 
+        {
+            this.cursor_Input_Controller.setState('idle')
         }
-
-        this.UI_cursorTarget = this.menuItems[0]
-
-        this.menuSprite_Cursor.y = this.UI_cursorTarget.y
-
     }
 }
