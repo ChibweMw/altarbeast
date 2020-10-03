@@ -18,4 +18,14 @@ export default class UI_Cursor extends Phaser.GameObjects.Sprite
     {
         this.scene.sound.play('ui-cursor-nav')
     }
+    
+    playSound_Confirm ()
+    {
+        this.scene.sound.play('ui-ok')
+    }
+    
+    playSound_Cancel ()
+    {
+        this.scene.sound.play('ui-cancel')
+    }
 }
