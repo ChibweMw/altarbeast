@@ -1,4 +1,6 @@
 import gameOptions from '../game/GameOptions.js'
+import UI_Cursor from '../game/UI_Cursor.js'
+import UI_Cursor_Controller from '../game/UI_Cursor_Controller.js'
 
 export default class Options extends Phaser.Scene
 {
@@ -19,6 +21,8 @@ export default class Options extends Phaser.Scene
     txt_closeOptions
 
     menuSprite_Cursor
+    cursor_Input_Controller
+
     UI_cursorTarget
     menuItems = []
 

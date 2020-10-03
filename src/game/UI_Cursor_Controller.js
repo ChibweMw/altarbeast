@@ -22,12 +22,12 @@ export default class UI_Cursor_Controller
 	constructor(cursor, menu_Items)
 	{
 		this.states = {
-				// TODO: add states
-				idle: new Cursor_IDLE(cursor, menu_Items),
-				up: new Cursor_UP(cursor, menu_Items),
-				down: new Cursor_DOWN(cursor, menu_Items),
-				left: new Cursor_LEFT(cursor),
-				right: new Cursor_RIGHT(cursor),
+			// TODO: add states
+			idle: new Cursor_IDLE(cursor, menu_Items),
+			up: new Cursor_UP(cursor, menu_Items),
+			down: new Cursor_DOWN(cursor, menu_Items),
+			left: new Cursor_LEFT(cursor),
+			right: new Cursor_RIGHT(cursor),
 		}
 	}
 

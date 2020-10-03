@@ -15,6 +15,7 @@ export default class MainMenu extends Phaser.Scene
 
     menuText_Start
     menuText_Options
+
     menuSprite_Cursor
     cursor_Input_Controller
 
@@ -39,7 +40,6 @@ export default class MainMenu extends Phaser.Scene
         this.UI_cursorTarget = this.menuItems[0]
         
         // CURSOR
-        // this.menuSprite_Cursor = this.add.sprite(width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0).setOrigin(1, 0.75)
         this.menuSprite_Cursor = new UI_Cursor(this, width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0)
         this.cursor_Input_Controller = new UI_Cursor_Controller(this.menuSprite_Cursor, this.menuItems)
         
@@ -56,7 +56,7 @@ export default class MainMenu extends Phaser.Scene
     {
         if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
         {
-            switch (this.UI_cursorTarget.text)
+            switch (gameOptions.UI_cursorTarget)
             {
                 case this.menuText_Start.text:
                     console.log('Got to Game Scene')

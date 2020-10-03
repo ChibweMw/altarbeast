@@ -1,3 +1,5 @@
+import GameOptions from "../GameOptions.js"
+
 export default class UI_Cursor_Move_IDLE
 {
     /** @param {Phaser.GameObjects.Sprite} cursor*/
@@ -13,8 +15,11 @@ export default class UI_Cursor_Move_IDLE
 
     enter ()
     {
-        let cursor_posY = this.menu_Items[0].y 
+        let cursor_posY = this.menu_Items[0].y
+        let ui_text = this.menu_Items[0].text
+
         this.cursor.y = cursor_posY
+        GameOptions.UI_cursorTarget = ui_text
     }
 
 }
