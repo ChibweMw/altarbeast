@@ -6,6 +6,8 @@ import Cursor_DOWN from './states/ui_cursor_down.js'
 import Cursor_LEFT from './states/ui_cursor_left.js'
 import Cursor_RIGHT from './states/ui_cursor_right.js'
 import Cursor_IDLE from './states/ui_cursor_idle.js'
+
+import UI_Cursor from './UI_Cursor.js'
 export default class UI_Cursor_Controller
 {
     /** @type {{ [key: string]: { enter: () => void } }} */
@@ -16,7 +18,7 @@ export default class UI_Cursor_Controller
 	cursor
 
 	/**
-	 * @param {Phaser.GameObjects.Sprite} cursor 
+	 * @param {UI_Cursor} cursor 
 	 * @param {Array} menu_Items
 	 */
 	constructor(cursor, menu_Items)
