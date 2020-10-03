@@ -54,9 +54,12 @@ export default class Options extends Phaser.Scene
         this.menuItems = [this.txt_option_Volume, this.txt_option_Mute, this.txt_closeOptions]
         this.UI_cursorTarget = this.menuItems[0]
 
-        // SCENE MENU CURSOR IMAGE
-        this.menuSprite_Cursor = this.add.sprite(width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0).setOrigin(1, 0.75)
-        this.menuSprite_Cursor.y = this.UI_cursorTarget.y
+        // CURSOR
+        this.menuSprite_Cursor = new UI_Cursor(this, width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0)
+        this.cursor_Input_Controller = new UI_Cursor_Controller(this.menuSprite_Cursor, this.menuItems)
+        
+        // set initial state
+        this.cursor_Input_Controller.setState('idle')
 
         // SCENE CONTROLS - UnPause, Up/Down navigation
         this.key_CONFIRM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
@@ -69,42 +72,32 @@ export default class Options extends Phaser.Scene
 
     update()
     {
-        if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+        switch (gameOptions.UI_cursorTarget)
         {
-            switch (this.UI_cursorTarget.text)
-            {
-                case this.txt_option_Mute.text:
+            case this.txt_option_Mute.text:
+                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+                {
                     console.log('Volume Mute')
                     this.sound.mute = !this.sound.mute
                     this.txt_option_Mute.text = `Mute : ${this.sound.mute}`
-                    break
-                case this.txt_closeOptions.text:
-                    console.log(`Switch Back to Previous Scene`)
+                    // this.UI_cursorTarget.text = this.txt_option_Mute.text
+                }
+                break
+            case this.txt_closeOptions.text:
+                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+                {
+                    // console.log(`Switch Back to Previous Scene`)
                     this.scene.stop()
                     this.scene.wake(gameOptions.scene_prev)
-                    break
-                default:
-                    console.log(`nothing selected, pick something`)
-            }
-        }
-
-        if (Phaser.Input.Keyboard.JustDown(this.key_CANCEL))
-        {
-            this.scene.stop()
-            this.scene.wake(gameOptions.scene_prev)
-        }
-        
-        switch (this.UI_cursorTarget.text) 
-        {
+                }
+                break
             case this.txt_option_Volume.text:
                 if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_LEFT))
                 {
-                    // Phaser.Utils.Array.RotateRight(gameOptions.global_volume_ranges)
                     Phaser.Utils.Array.RotateLeft(gameOptions.global_volume_ranges)
                     this.sound.volume = gameOptions.global_volume_ranges[0]
                     this.txt_option_Volume.text = `Volume : ${this.sound.volume}`
-                    console.log(`current global volume >> ${this.sound.volume}`)
-                    console.log(`${gameOptions.global_volume_ranges}`)
+                    // this.UI_cursorTarget.text = this.txt_option_Volume.text
                 }
                 
                 if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_RIGHT))
@@ -112,30 +105,35 @@ export default class Options extends Phaser.Scene
                     Phaser.Utils.Array.RotateRight(gameOptions.global_volume_ranges)
                     this.sound.volume = gameOptions.global_volume_ranges[0]
                     this.txt_option_Volume.text = `Volume : ${this.sound.volume}`
-                    console.log(`current global volume >> ${this.sound.volume}`)
-                    console.log(`${gameOptions.global_volume_ranges}`)
+                    // this.UI_cursorTarget.text = this.txt_option_Volume.text
                 }
-                break;        
+                break
             default:
-                console.log('LEFT RIGHT CONTROLS DISABLED')
-                break;
+                console.log(`Transitioned to idle`)
+                this.UI_cursorTarget = this.menuItems[0]
+                gameOptions.UI_cursorTarget = this.UI_cursorTarget.text
         }
 
-        // VOLUME SETTING
+        if (Phaser.Input.Keyboard.JustDown(this.key_CANCEL))
+        {
+            this.scene.stop()
+            this.scene.wake(gameOptions.scene_prev)
+        }
 
+        this.uiControl()
+    }
+
+    uiControl()
+    {
         if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_UP))
         {
-            Phaser.Utils.Array.RotateRight(this.menuItems)
-        }
-        
-        if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_DOWN))
+            this.cursor_Input_Controller.setState('up')
+        } else if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_DOWN))
         {
-            Phaser.Utils.Array.RotateLeft(this.menuItems)
+            this.cursor_Input_Controller.setState('down')
+        } else 
+        {
+            this.cursor_Input_Controller.setState('idle')
         }
-
-        this.UI_cursorTarget = this.menuItems[0]
-
-        this.menuSprite_Cursor.y = this.UI_cursorTarget.y
-
     }
 }

@@ -20,6 +20,8 @@ export default class UI_Cursor_Move_IDLE
 
         this.cursor.y = cursor_posY
         GameOptions.UI_cursorTarget = ui_text
+        console.log(`>> CURSOR STATE: IDLE, target: ${ui_text}` )
+
     }
 
 }

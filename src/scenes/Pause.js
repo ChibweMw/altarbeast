@@ -1,4 +1,6 @@
 import gameOptions from '../game/GameOptions.js'
+import UI_Cursor from '../game/UI_Cursor.js'
+import UI_Cursor_Controller from '../game/UI_Cursor_Controller.js'
 
 export default class Pause extends Phaser.Scene
 {
@@ -18,6 +20,8 @@ export default class Pause extends Phaser.Scene
     sceneReturnToMainMenuText
 
     menuSprite_Cursor
+    cursor_Input_Controller
+
     UI_cursorTarget
     menuItems = []
     
@@ -51,8 +55,12 @@ export default class Pause extends Phaser.Scene
         this.UI_cursorTarget = this.menuItems[0]
         
         // SCENE MENU CURSOR IMAGE
-        this.menuSprite_Cursor = this.add.sprite(width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0).setOrigin(1, 0.75)
-        
+        this.menuSprite_Cursor = new UI_Cursor(this, width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0) //this.add.sprite(width * 0.3, this.UI_cursorTarget.y, 'ui-cursor', 0).setOrigin(1, 0.75)
+        this.cursor_Input_Controller = new UI_Cursor_Controller(this.menuSprite_Cursor, this.menuItems)
+
+        // set initial state
+        this.cursor_Input_Controller.setState('idle')
+
         // SCENE CONTROLS - UnPause, Up/Down navigation
         this.key_CONFIRM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
         this.key_uiCursor_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
@@ -62,9 +70,15 @@ export default class Pause extends Phaser.Scene
     
     update()
     {
+        this.uiConfirm()
+        this.uiControl()
+    }
+
+    uiConfirm()
+    {
         if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
         {
-            switch (this.UI_cursorTarget.text)
+            switch (gameOptions.UI_cursorTarget)
             {
                 case this.sceneResumeText.text:
                     this.scene.stop()
@@ -86,20 +100,19 @@ export default class Pause extends Phaser.Scene
                     console.log(`nothing selected, pick something`)
             }
         }
+    }
 
+    uiControl()
+    {
         if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_UP))
         {
-            Phaser.Utils.Array.RotateRight(this.menuItems)
-        }
-        
-        if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_DOWN))
+            this.cursor_Input_Controller.setState('up')
+        } else if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_DOWN))
         {
-            Phaser.Utils.Array.RotateLeft(this.menuItems)
+            this.cursor_Input_Controller.setState('down')
+        } else 
+        {
+            this.cursor_Input_Controller.setState('idle')
         }
-
-        this.UI_cursorTarget = this.menuItems[0]
-
-        this.menuSprite_Cursor.y = this.UI_cursorTarget.y
-
     }
 }

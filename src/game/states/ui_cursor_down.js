@@ -19,6 +19,7 @@ export default class UI_Cursor_Move_DOWN
     enter ()
     {
         Phaser.Utils.Array.RotateLeft(this.menuItems)
+        console.log('CURSOR DOWN')
     }
 
 }

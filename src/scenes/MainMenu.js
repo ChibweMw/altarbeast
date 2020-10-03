@@ -54,24 +54,39 @@ export default class MainMenu extends Phaser.Scene
 
     update()
     {
-        if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+        this.uiConfirm()
+        this.uiControl()
+    }
+
+    uiConfirm()
+    {
+        switch (gameOptions.UI_cursorTarget)
         {
-            switch (gameOptions.UI_cursorTarget)
-            {
-                case this.menuText_Start.text:
+            case this.menuText_Start.text:
+                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+                {
                     console.log('Got to Game Scene')
                     this.scene.start('game')
-                    break
-                case this.menuText_Options.text:
+                }
+                break
+            case this.menuText_Options.text:
+                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+                {
                     console.log(`Go to OPTIONS SCENE`)
                     gameOptions.scene_prev = this.scene.key
                     this.scene.switch('options')
-                    break
-                default:
-                    console.log(`nothing selected, pick something`)
-            }
+                }
+                break
+            default:
+                this.UI_cursorTarget = this.menuItems[0]
+                gameOptions.UI_cursorTarget = this.UI_cursorTarget.text
+                console.log(`SELECTION : ${gameOptions.UI_cursorTarget}`)
         }
+        
+    }
 
+    uiControl()
+    {
         if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_UP))
         {
             this.cursor_Input_Controller.setState('up')

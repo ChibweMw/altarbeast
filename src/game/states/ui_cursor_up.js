@@ -19,6 +19,7 @@ export default class UI_Cursor_Move_UP
     enter ()
     {
         Phaser.Utils.Array.RotateRight(this.menuItems)
+        console.log('CURSOR UP')
     }
 
 }
