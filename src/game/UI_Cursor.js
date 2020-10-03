@@ -13,4 +13,9 @@ export default class UI_Cursor extends Phaser.GameObjects.Sprite
 
         this.setOrigin(1, 0.75)
     }
+
+    playSound_Nav ()
+    {
+        this.scene.sound.play('ui-cursor-nav')
+    }
 }

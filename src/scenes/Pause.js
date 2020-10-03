@@ -71,7 +71,7 @@ export default class Pause extends Phaser.Scene
     update()
     {
         this.uiConfirm()
-        this.uiControl()
+        this.ui_Nav_Control()
     }
 
     uiConfirm()
@@ -102,7 +102,7 @@ export default class Pause extends Phaser.Scene
         }
     }
 
-    uiControl()
+    ui_Nav_Control()
     {
         if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_UP))
         {

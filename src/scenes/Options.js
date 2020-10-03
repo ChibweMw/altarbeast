@@ -72,47 +72,8 @@ export default class Options extends Phaser.Scene
 
     update()
     {
-        switch (gameOptions.UI_cursorTarget)
-        {
-            case this.txt_option_Mute.text:
-                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
-                {
-                    console.log('Volume Mute')
-                    this.sound.mute = !this.sound.mute
-                    this.txt_option_Mute.text = `Mute : ${this.sound.mute}`
-                    // this.UI_cursorTarget.text = this.txt_option_Mute.text
-                }
-                break
-            case this.txt_closeOptions.text:
-                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
-                {
-                    // console.log(`Switch Back to Previous Scene`)
-                    this.scene.stop()
-                    this.scene.wake(gameOptions.scene_prev)
-                }
-                break
-            case this.txt_option_Volume.text:
-                if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_LEFT))
-                {
-                    Phaser.Utils.Array.RotateLeft(gameOptions.global_volume_ranges)
-                    this.sound.volume = gameOptions.global_volume_ranges[0]
-                    this.txt_option_Volume.text = `Volume : ${this.sound.volume}`
-                    // this.UI_cursorTarget.text = this.txt_option_Volume.text
-                }
-                
-                if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_RIGHT))
-                {
-                    Phaser.Utils.Array.RotateRight(gameOptions.global_volume_ranges)
-                    this.sound.volume = gameOptions.global_volume_ranges[0]
-                    this.txt_option_Volume.text = `Volume : ${this.sound.volume}`
-                    // this.UI_cursorTarget.text = this.txt_option_Volume.text
-                }
-                break
-            default:
-                console.log(`Transitioned to idle`)
-                this.UI_cursorTarget = this.menuItems[0]
-                gameOptions.UI_cursorTarget = this.UI_cursorTarget.text
-        }
+        
+        this.uiSettingControl()
 
         if (Phaser.Input.Keyboard.JustDown(this.key_CANCEL))
         {
@@ -120,10 +81,10 @@ export default class Options extends Phaser.Scene
             this.scene.wake(gameOptions.scene_prev)
         }
 
-        this.uiControl()
+        this.ui_Nav_Control()
     }
 
-    uiControl()
+    ui_Nav_Control()
     {
         if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_UP))
         {
@@ -134,6 +95,47 @@ export default class Options extends Phaser.Scene
         } else 
         {
             this.cursor_Input_Controller.setState('idle')
+        }
+    }
+
+    uiSettingControl ()
+    {
+        switch (gameOptions.UI_cursorTarget)
+        {
+            case this.txt_option_Mute.text:
+                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+                {
+                    console.log('Volume Mute')
+                    this.sound.mute = !this.sound.mute
+                    this.txt_option_Mute.text = `Mute : ${this.sound.mute}`
+                }
+                break
+            case this.txt_closeOptions.text:
+                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+                {
+                    this.scene.stop()
+                    this.scene.wake(gameOptions.scene_prev)
+                }
+                break
+            case this.txt_option_Volume.text:
+                if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_LEFT))
+                {
+                    Phaser.Utils.Array.RotateLeft(gameOptions.global_volume_ranges)
+                    this.sound.volume = gameOptions.global_volume_ranges[0]
+                    this.txt_option_Volume.text = `Volume : ${this.sound.volume}`
+                }
+                
+                if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_RIGHT))
+                {
+                    Phaser.Utils.Array.RotateRight(gameOptions.global_volume_ranges)
+                    this.sound.volume = gameOptions.global_volume_ranges[0]
+                    this.txt_option_Volume.text = `Volume : ${this.sound.volume}`
+                }
+                break
+            default:
+                console.log(`Transitioned to idle`)
+                this.UI_cursorTarget = this.menuItems[0]
+                gameOptions.UI_cursorTarget = this.UI_cursorTarget.text
         }
     }
 }
