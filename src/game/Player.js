@@ -33,8 +33,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         // this.AP
         // this.currentFrame
         // this.currentAnimation
-        // this.walkSpeed
-        // this.jumpVelocity
+        this.walkSpeed = 0
+        this.jumpVelocity = 0
         // this.isHurt
         // this.hurtTime
         // this.isAlive
@@ -72,30 +72,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     
     update()
     {
-        if (!this.controlState)
+        // console.log(`WALKSPEED >> '${this.walkSpeed}'`)
+        
+        this.setVelocityX(this.walkSpeed)
+        if (this.body.blocked.down)
         {
-            console.log(`control state >> ${this.controlState}`)
-            return
+            this.setVelocityY(this.jumpVelocity)
         }
-
-        if (!this.animState) {
-            console.log(`anim state >> ${this.animState}`)
-            return
-        }
-
-        if (!this.audioState)
-        {
-            console.log(`audio state >> ${this.audioState}`)
-            return
-        }
-
-        // Player Input State Machine
-        this.controlState.update(this)
-
-        // Player Animation State Machine
-        this.animState.update(this)
-
-        // Player Audio State Machine
-        this.audioState.update(this)
     }
 }
