@@ -1,7 +1,4 @@
-// import Phaser from '../lib/phaser.js'
-
 import GameOptions from './GameOptions.js'
-
 
 export default class Player extends Phaser.Physics.Arcade.Sprite
 {
@@ -10,7 +7,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
      * @param {number} x
      * @param {number} y
      * @param {string} texture
-     * @param {string} frame
+     * @param {string | number} frame
      */
     constructor(scene, x, y, texture, frame)
     {
@@ -24,38 +21,40 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.animState = undefined
         this.audioState = undefined
 
-        this.playerGravity =  GameOptions.playerGravity
-        this.playerJumpForce = GameOptions.playerJumpForce
-        this.playerJumpCount = GameOptions.playerJumpCount
+        // this.setFrame('oni-idle')
+
+        // this.playerGravity =  GameOptions.playerGravity
+        // this.playerJumpForce = GameOptions.playerJumpForce
+        // this.playerJumpCount = GameOptions.playerJumpCount
 
         this.jumpCount = 0
 
-        this.HP
-        this.AP
-        this.currentFrame
-        this.currentAnimation
-        this.walkSpeed
-        this.jumpVelocity
-        this.isHurt
-        this.hurtTime
-        this.isAlive
-        this.isInvincible
-        this.canControl
-        this.canCombo
-        this.canAttack
-        this.isAttacking
-        this.attackBufferTime
-        this.usingAbility
-        this.isJumping
-        this.jumpPressed
-        this.jumpBufferTime
+        // this.HP
+        // this.AP
+        // this.currentFrame
+        // this.currentAnimation
+        // this.walkSpeed
+        // this.jumpVelocity
+        // this.isHurt
+        // this.hurtTime
+        // this.isAlive
+        // this.isInvincible
+        // this.canControl
+        // this.canCombo
+        // this.canAttack
+        // this.isAttacking
+        // this.attackBufferTime
+        // this.usingAbility
+        // this.isJumping
+        // this.jumpPressed
+        // this.jumpBufferTime
 
-        this.onGround
+        // this.onGround
 
-        this.hurtBoxX
-        this.hurtBoxY
-        this.hurtBoxWidth
-        this.hurtBoxHeight  
+        // this.hurtBoxX
+        // this.hurtBoxY
+        // this.hurtBoxWidth
+        // this.hurtBoxHeight  
     }
 
     setControlState(controlState)
