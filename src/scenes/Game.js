@@ -112,16 +112,16 @@ export default class Game extends Phaser.Scene
             if (this.player_Cursors.space.isDown)
             {
                 this.player_CONTROLLER.setState('jump')
-            }else 
+            } else if (this.player_Cursors.space.isUp) 
             {
                 this.player.jumpVelocity = 0
             }
         } else
         {
-            this.player_CONTROLLER.setState('idle')
-            // if (!this.player.walkSpeed)
-            // {
-            // } 
+            if (!this.player.jumpVelocity)
+            {
+                this.player_CONTROLLER.setState('idle')
+            } 
         }
 
         this.player.update()
