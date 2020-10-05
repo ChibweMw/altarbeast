@@ -23,7 +23,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
         // this.setFrame('oni-idle')
 
-        // this.playerGravity =  GameOptions.playerGravity
+        this.playerGravity =  GameOptions.playerGravity
         // this.playerJumpForce = GameOptions.playerJumpForce
         // this.playerJumpCount = GameOptions.playerJumpCount
 
@@ -34,7 +34,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         // this.currentFrame
         // this.currentAnimation
         this.walkSpeed = 0
-        this.jumpVelocity = 0
+        this.jumpVelocity = GameOptions.playerJumpVel
         // this.isHurt
         // this.hurtTime
         // this.isAlive
@@ -55,6 +55,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         // this.hurtBoxY
         // this.hurtBoxWidth
         // this.hurtBoxHeight  
+
+        this.setGravityY(this.playerGravity)
+        this.setCollideWorldBounds(true)
+        this.setSize(16, 2)
+        this.setOffset(0, 32-2)
+        // this.body.checkCollision.up = false
+        // this.body.checkCollision.left = false
+        // this.body.checkCollision.right = false
+        // this.body.checkCollision.down = true
+
+
     }
 
     setControlState(controlState)

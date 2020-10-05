@@ -71,13 +71,12 @@ export default class Game extends Phaser.Scene
 
         this.layerStaticPlatform = this.map.createStaticLayer('platform-solid-static', this.tiles, 0, 0)
         
-        const layerPlatformDeco = this.map.createStaticLayer('platform-env-static', this.tiles, 0, 0)
+        const layerPlatformDeco = this.map.createStaticLayer('platform-env-static', this.tiles, 0, 0).setDepth(-1)
         
         // ADD PLAYER
         this.player = new Player(this, 30, 30, 'oni-idle', 0)
         this.player_CONTROLLER = new Player_Controller(this.player)
-        this.player.setGravityY(100)
-        this.player.setCollideWorldBounds(true)
+        
         this.player_CONTROLLER.setState('idle')
 
         this.layerStaticPlatform.setCollision([4, 3, 2, 1, 10, 11, 12], true)
@@ -99,7 +98,7 @@ export default class Game extends Phaser.Scene
         {
             if (this.player_Cursors.left.isDown)
             {
-                console.log(`IS PLAYER TOUCHING GROUND? ${this.player.body.blocked.down}`)
+                // console.log(`IS PLAYER TOUCHING GROUND? ${}`)
                 this.player_CONTROLLER.setState('left')
             } else if (this.player_Cursors.right.isDown)
             {
