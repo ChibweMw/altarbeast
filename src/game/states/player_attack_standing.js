@@ -1,7 +1,7 @@
 import GameOptions from "../GameOptions.js"
 import Player from '../Player.js'
 
-export default class Player_Idle
+export default class Player_ATTACK_STANDING
 {
     /** @param {Player} player*/
 
@@ -12,8 +12,9 @@ export default class Player_Idle
 
     enter ()
     {
-        // console.log(`>> PLAYER 'IDLE' STATE`)
-        this.player.walkSpeed = 0
+        console.log(`>> ATTCKING!`)
+        this.player.hurtBox.body.checkCollision.none = false
+        
     }
 
 }

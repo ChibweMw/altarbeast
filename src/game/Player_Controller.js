@@ -3,6 +3,8 @@ import Player_Move_JUMP from './states/player_move_jump.js'
 import Player_Move_DOWN from './states/player_move_down.js'
 import Player_Move_LEFT from './states/player_move_left.js'
 import Player_Move_RIGHT from './states/player_move_right.js'
+import Player_Take_DAMAGE from './states/player_take_damage.js'
+import Player_ATTACK_STANDING from './states/player_attack_standing.js'
 
 import Player from './Player.js'
 export default class Player_Controller
@@ -25,7 +27,9 @@ export default class Player_Controller
 			jump: new Player_Move_JUMP(player),
 			down: new Player_Move_DOWN(player),
 			left: new Player_Move_LEFT(player),
-			right: new Player_Move_RIGHT(player),
+            right: new Player_Move_RIGHT(player),
+            take_damage: new Player_Take_DAMAGE(player),
+            stand_atk_norm: new Player_ATTACK_STANDING(player)
 		}
 	}
 

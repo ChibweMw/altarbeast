@@ -1,6 +1,8 @@
 import Player from '../game/Player.js'
 import Player_Controller from '../game/Player_Controller.js'
 
+import Dummy from '../game/Dummy.js'
+
 export default class Game extends Phaser.Scene
 {
     constructor()
@@ -14,6 +16,10 @@ export default class Game extends Phaser.Scene
     key_DEBUG_GameOver
     /** @type {Phaser.Input.Keyboard.Key} */
     key_DEBUG_TOGGLE_TileCollision
+    /** @type {Phaser.Input.Keyboard.Key} */
+    key_player_A
+    /** @type {Phaser.Input.Keyboard.Key} */
+    key_player_B
     
     player_Cursors
     
@@ -23,6 +29,9 @@ export default class Game extends Phaser.Scene
     /** @type {Player} */
     player
     player_CONTROLLER
+
+    /** @type {Dummy} */
+    training_dummy
     
     /** @type {Phaser.Tilemaps.Tilemap} */
     map
@@ -58,9 +67,12 @@ export default class Game extends Phaser.Scene
         this.key_PAUSE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P)
         this.key_DEBUG_GameOver = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ZERO)
         this.key_DEBUG_TOGGLE_TileCollision = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE)
+
         
         // PLAYER CONTROLS
         this.player_Cursors = this.input.keyboard.createCursorKeys()
+        this.key_player_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
+        this.key_player_B = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z)
         
         // SCENE INITIALIZATION
         this.scene.launch('ui')
@@ -74,7 +86,7 @@ export default class Game extends Phaser.Scene
         const layerPlatformDeco = this.map.createStaticLayer('platform-env-static', this.tiles, 0, 0).setDepth(-1)
         
         // ADD PLAYER
-        this.player = new Player(this, 30, 30, 'oni-idle', 0)
+        this.player = new Player(this, 16 * 11, 16 * 5, 'oni-idle', 0)
         this.player_CONTROLLER = new Player_Controller(this.player)
         
         this.player_CONTROLLER.setState('idle')
@@ -84,44 +96,20 @@ export default class Game extends Phaser.Scene
         this.layerStaticPlatform.renderDebug(this.DEBUG_Overlay, {})
 
         this.physics.add.collider(this.player, this.layerStaticPlatform)
-        // this.physics.collide(this.player, this.layerStaticPlatform)
+
+        // ADD TRAINING DUMMY
+        this.training_dummy = new Dummy(this, 16 * 12, 16 * 5, 'dummy', 0)
+        
+        this.physics.add.overlap(this.player.hitBox, this.training_dummy, this.player.playerTakeDamage, null, this)
+        this.physics.add.overlap(this.player.hurtBox, this.training_dummy, this.training_dummy.dummyTakeDamage, null, this)
     }
+
+    
 
     update ()
     {
         this.gamePause()
         this.DEBUG_KEY_CONTROLS()
-
-        
-        // console.log(`CHECKS DOWN COLLISION : ${this.player.setCollideWorldBounds(true)}`)
-        if (this.player.body.blocked.down)
-        {
-            if (this.player_Cursors.left.isDown)
-            {
-                // console.log(`IS PLAYER TOUCHING GROUND? ${}`)
-                this.player_CONTROLLER.setState('left')
-            } else if (this.player_Cursors.right.isDown)
-            {
-                this.player_CONTROLLER.setState('right')            
-            } else
-            {
-                this.player_CONTROLLER.setState('idle')
-            }
-
-            if (this.player_Cursors.space.isDown)
-            {
-                this.player_CONTROLLER.setState('jump')
-            } else if (this.player_Cursors.space.isUp) 
-            {
-                this.player.jumpVelocity = 0
-            }
-        } else
-        {
-            if (!this.player.jumpVelocity)
-            {
-                this.player_CONTROLLER.setState('idle')
-            } 
-        }
 
         this.player.update()
     }

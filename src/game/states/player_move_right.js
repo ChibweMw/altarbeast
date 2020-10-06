@@ -12,7 +12,7 @@ export default class Player_MOVE_RIGHT
 
     enter ()
     {
-        console.log(`>> PLAYER 'MOVE RIGHT' STATE`)
+        // console.log(`>> PLAYER 'MOVE RIGHT' STATE`)
         this.player.walkSpeed = 80
     }
 

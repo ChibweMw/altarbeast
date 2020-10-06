@@ -12,7 +12,7 @@ export default class Player_MOVE_LEFT
 
     enter ()
     {
-        console.log(`>> PLAYER 'MOVE LEFT' STATE`)
+        // console.log(`>> PLAYER 'MOVE LEFT' STATE`)
         this.player.walkSpeed = -80
     }
 
