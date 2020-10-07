@@ -13,6 +13,7 @@ export default class Player_ATTACK_JUMPING
     enter ()
     {
         console.log(`>> NORMAL JUMP ATK!`)
+        
         this.player.isAttacking = true
         this.player.hurtBox.body.checkCollision.none = false
         // this.player.frame.x = this.player.x
@@ -21,16 +22,13 @@ export default class Player_ATTACK_JUMPING
         if (this.player.body.blocked.down)
         {
             this.player.walkSpeed = 0
+            console.log(`>> JUMP ATK BUGGY?!`)
         }
 
         this.player.setTexture('oni-attack-crouch', 6)
         this.player.scene.sound.play('player-attack')
 
-        console.log(`PLAYER X ${this.player.x}`)
-        console.log(`PLAYER BODY X ${this.player.body.x}`)
-        console.log(`PLAYER Y ${this.player.y}`)
-        console.log(`PLAYER BODY Y ${this.player.body.y}`)
-        console.log(`FRAME Y ${this.player.frame.y}`)
+        
 
         
     }

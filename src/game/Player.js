@@ -140,6 +140,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     player_OnGround ()
     {
         this.jumpPressed = false
+        
         this.playerAttack_Stand()
         if (!this.isAttacking)
         {
@@ -196,7 +197,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     playerAttack_Stand ()
     {
-        if (Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
+        if (this.isAttacking || Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
         {
             console.log('Stand ATTACK')
             this.scene.player_CONTROLLER.setState('stand_atk_norm')
@@ -206,7 +207,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     playerAttack_Jump ()
     {
-        if (Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
+        if ( !this.body.blocked.down && this.isAttacking || Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
         {
             console.log('Jump ATTACK')
             this.scene.player_CONTROLLER.setState('jump_atk_norm')

@@ -19,6 +19,7 @@ export default class Player_ATTACK_STANDING
         // SHOULD PROPBS TAKE THIS INTO A SEPARATE STATE
         this.player.walkSpeed = 0
         this.player.setTexture('oni-attack-stand', 2)
+        this.player.scene.sound.play('player-attack')
 
 
         console.log(`PLAYER X ${this.player.x}`)
@@ -28,7 +29,6 @@ export default class Player_ATTACK_STANDING
         console.log(`FRAME Y ${this.player.frame.y}`)
 
         
-        this.player.scene.sound.play('player-attack')
 
         
     }
