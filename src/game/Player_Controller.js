@@ -4,9 +4,12 @@ import Player_Move_DOWN from './states/player_move_down.js'
 import Player_Move_LEFT from './states/player_move_left.js'
 import Player_Move_RIGHT from './states/player_move_right.js'
 import Player_Take_DAMAGE from './states/player_take_damage.js'
+import Player_Gain_Health from './states/player_gain_health.js'
 import Player_ATTACK_STANDING from './states/player_attack_standing.js'
-
+import Player_Crouch from './states/player_crouch.js'
+import Player_ATTACK_JUMPING from './states/player_attack_jumping.js'
 import Player from './Player.js'
+
 export default class Player_Controller
 {
     /** @type {{ [key: string]: { enter: () => void } }} */
@@ -22,14 +25,17 @@ export default class Player_Controller
 	constructor(player)
 	{
 		this.states = {
-			// TODO: add states
-			idle: new Player_IDLE(player),
+            idle: new Player_IDLE(player),
+            crouch: new Player_Crouch(player),
 			jump: new Player_Move_JUMP(player),
 			down: new Player_Move_DOWN(player),
 			left: new Player_Move_LEFT(player),
             right: new Player_Move_RIGHT(player),
             take_damage: new Player_Take_DAMAGE(player),
-            stand_atk_norm: new Player_ATTACK_STANDING(player)
+            gain_health: new Player_Gain_Health(player),
+            stand_atk_norm: new Player_ATTACK_STANDING(player),
+            jump_atk_norm: new Player_ATTACK_JUMPING(player),
+            crouch_atk_norm: new Player_ATTACK_JUMPING(player)
 		}
 	}
 

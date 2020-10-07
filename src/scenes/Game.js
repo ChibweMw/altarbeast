@@ -17,9 +17,12 @@ export default class Game extends Phaser.Scene
     /** @type {Phaser.Input.Keyboard.Key} */
     key_DEBUG_TOGGLE_TileCollision
     /** @type {Phaser.Input.Keyboard.Key} */
+    key_DEBUG_ADD_HP
+    /** @type {Phaser.Input.Keyboard.Key} */
     key_player_A
     /** @type {Phaser.Input.Keyboard.Key} */
     key_player_B
+    
     
     player_Cursors
     
@@ -67,6 +70,7 @@ export default class Game extends Phaser.Scene
         this.key_PAUSE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P)
         this.key_DEBUG_GameOver = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ZERO)
         this.key_DEBUG_TOGGLE_TileCollision = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE)
+        this.key_DEBUG_ADD_HP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE)
 
         
         // PLAYER CONTROLS
@@ -98,9 +102,9 @@ export default class Game extends Phaser.Scene
         this.physics.add.collider(this.player, this.layerStaticPlatform)
 
         // ADD TRAINING DUMMY
-        this.training_dummy = new Dummy(this, 16 * 12, 16 * 5, 'dummy', 0)
+        this.training_dummy = new Dummy(this, 16 * 11, 16 * 9, 'dummy', 0)
         
-        this.physics.add.overlap(this.player.hitBox, this.training_dummy, this.player.playerTakeDamage, null, this)
+        this.physics.add.overlap(this.player.hitBox, this.training_dummy, this.player.playerTakeDamage, null, this.player)
         this.physics.add.overlap(this.player.hurtBox, this.training_dummy, this.training_dummy.dummyTakeDamage, null, this)
     }
 
@@ -138,6 +142,13 @@ export default class Game extends Phaser.Scene
             this.DEBUG_isOVERLAY = !this.DEBUG_isOVERLAY
             this.DEBUG_Overlay.visible = this.DEBUG_isOVERLAY
             console.log(`TOGGLE TILE COLLISION DEBUG GRAPHICS ${this.DEBUG_isOVERLAY}`)
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(this.key_DEBUG_ADD_HP))
+        {
+            console.log(`ADD HP TO TOTAL HEALTH}`)
+            this.player.gained_HP = 3
+            this.player_CONTROLLER.setState('gain_health')
         }
     }
 }

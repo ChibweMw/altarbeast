@@ -1,7 +1,7 @@
 import GameOptions from "../GameOptions.js"
 import Player from '../Player.js'
 
-export default class Player_Idle
+export default class Player_Crouch
 {
     /** @param {Player} player*/
 
@@ -12,9 +12,9 @@ export default class Player_Idle
 
     enter ()
     {
-        // console.log(`>> PLAYER 'IDLE' STATE`)
+        console.log(`>> PLAYER 'CROUCH' STATE`)
         this.player.walkSpeed = 0
-        this.player.setTexture('oni-idle')
+        this.player.setTexture('oni-crouch')
     }
 
 }

@@ -25,6 +25,8 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.animState = undefined
         this.audioState = undefined
 
+        this.atkPoints = 1
+
         this.setOrigin(0, 0)
 
         // this.enemyGravity =  GameOptions.enemyGravity

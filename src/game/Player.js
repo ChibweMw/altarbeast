@@ -27,7 +27,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.scene.physics.world.enable(this.hitBox)
         this.hitBox.setOrigin(0, 1)
 
-        this.hurtBox = this.scene.add.zone(this.body.x, this.body.y - 32, 48, 16)
+        this.hurtBox = this.scene.add.zone(this.body.x, this.body.y - 32, 32, 16)
         this.scene.add.existing(this.hurtBox)
         this.scene.physics.world.enable(this.hurtBox)
         this.hurtBox.setOrigin(0, 0)
@@ -52,9 +52,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.atkActiveTime = 300
         this.HP = 3
         this.AP = 3
+        this.gained_HP = 0
+        this.dmgTaken = 0
         this.isHurt = false
         this.hurtTime = 120
         this.hurtForce = -120
+        this.hurtBox_offset = 0
         this.isAttacking = false
         this.jumpPressed = false
         // this.currentFrame
@@ -78,8 +81,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.setGravityY(this.playerGravity)
         this.setCollideWorldBounds(true)
         this.setSize(16, 2)
-        this.setOffset(0, 32-2)
+        this.setOffset(16, this.frame.realHeight - this.body.height)
+        this.setFlipX(true)
+        this.setOrigin(0.5, 1)
 
+        this.body.debugBodyColor = 0xfff999
+        // this.debugBodyColor = 0x008000
     }
 
     setControlState(controlState)
@@ -100,6 +107,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     {
         this.trackHitBox()
         this.trackHurtBox()
+
         // console.log(`WALKSPEED >> '${this.walkSpeed}'`)
         this.setVelocityX(this.walkSpeed)
 
@@ -119,28 +127,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         }
     }
 
-    player_OnGround ()
-    {
-        this.jumpPressed = false
-        this.playerAttack_Stand()
-        if (this.hurtBox.body.checkCollision.none)
-        {
-            this.playerMovement_Standing()
-            this.playerJump()
-        }
-    }
-
-    player_InAir ()
-    {
-        this.playerAttack_Jump()
-            
-        if (!this.jumpPressed)
-        {
-            this.scene.player_CONTROLLER.setState('idle')
-        } 
-        this.jumpVelocity = 0
-    }
-
     trackHitBox ()
     {
         this.hitBox.setPosition(this.body.x, this.body.y + 2)
@@ -148,8 +134,41 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     trackHurtBox ()
     {
-        this.hurtBox.setPosition(this.body.x, this.body.y - 22)
+        this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 22)
     }
+
+    player_OnGround ()
+    {
+        this.jumpPressed = false
+        this.playerAttack_Stand()
+        if (!this.isAttacking)
+        {
+            if (this.scene.player_Cursors.down.isDown)
+            {
+                this.scene.player_CONTROLLER.setState('crouch')          
+            } else 
+            {
+                this.playerMovement_Standing()
+            }
+            this.playerJump()
+        } else
+        {
+            // console.log(`PLAYER X ${this.x}`)
+            // console.log(`PLAYER BODY X ${this.body.x}`)
+        }
+    }
+
+    player_InAir ()
+    {
+        this.playerAttack_Jump()
+        if (!this.jumpPressed)
+        {
+            this.scene.player_CONTROLLER.setState('idle')
+        } 
+        this.jumpVelocity = 0
+    }
+
+    
 
     playerMovement_Standing ()
     {
@@ -167,7 +186,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     playerJump ()
     {
-        if (this.scene.key_player_B.isDown)
+        if (Phaser.Input.Keyboard.JustDown(this.scene.key_player_B))
         {
             // console.log('player jump')
             this.scene.player_CONTROLLER.setState('jump')
@@ -181,7 +200,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         {
             console.log('Stand ATTACK')
             this.scene.player_CONTROLLER.setState('stand_atk_norm')
-            this.scene.player_CONTROLLER.setState('idle')
             this.scene.time.delayedCall(this.atkActiveTime, this.deactivatePlayerHurtbox, null, this)
         }
     }
@@ -191,15 +209,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         if (Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
         {
             console.log('Jump ATTACK')
-            this.scene.player_CONTROLLER.setState('stand_atk_norm')
+            this.scene.player_CONTROLLER.setState('jump_atk_norm')
             this.scene.time.delayedCall(this.atkActiveTime, this.deactivatePlayerHurtbox, null, this)
         }
     }
 
     playerTakeDamage (hitBox, dummy)
     {
-        console.log(`TEST PLAYER HIT CHECK`)
-        this.player_CONTROLLER.setState('take_damage')
+        console.log(`TEST PLAYER HIT CHECK ${hitBox}`)
+        this.dmgTaken = dummy.atkPoints
+        this.scene.player_CONTROLLER.setState('take_damage')
     }
 
     damageEnd ()
@@ -210,6 +229,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     deactivatePlayerHurtbox ()
     {
         console.log('DEACTIVATE PLAYER HURTBOX')
+        this.isAttacking = false
         this.hurtBox.body.checkCollision.none = true
     }
 }

@@ -13,7 +13,12 @@ export default class Player_MOVE_LEFT
     enter ()
     {
         // console.log(`>> PLAYER 'MOVE LEFT' STATE`)
+        
+        this.player.setFlipX(false)
+        // this.player.hurtBox.setOrigin(1, 0)
+        this.player.hurtBox_offset = 16
         this.player.walkSpeed = -80
+        this.player.setTexture('oni-walk', 1)
     }
 
 }

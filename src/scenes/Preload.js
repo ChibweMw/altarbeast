@@ -24,9 +24,10 @@ export default class Preload extends Phaser.Scene
         this.load.spritesheet('fx-hit-enemy-death', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 32, frameHeight: 32, startFrame: 5, endFrame: 9 })
         
         // PLAYER ASSETS
-        this.load.spritesheet('oni-idle', '../../assets/sprites/player/anim-player-walk.png', { frameWidth: 16, frameHeight: 32, startFrame: 2, endFrame: 2 })
-        this.load.spritesheet('oni-walk', '../../assets/sprites/player/anim-player-walk.png', { frameWidth: 16, frameHeight: 32, startFrame: 0, endFrame: 3 })
-        this.load.spritesheet('oni-jump-crouch', '../../assets/sprites/player/anim-player-jump-crouch.png', { frameWidth: 16, frameHeight: 32, startFrame: 0, endFrame: 0 })
+        this.load.spritesheet('oni-idle', '../../assets/sprites/player/anim-player-walk.png', { frameWidth: 48, frameHeight: 48, startFrame: 2, endFrame: 2 })
+        this.load.spritesheet('oni-walk', '../../assets/sprites/player/anim-player-walk.png', { frameWidth: 48, frameHeight: 48, startFrame: 0, endFrame: 3 })
+        this.load.spritesheet('oni-jump', '../../assets/sprites/player/anim-player-jump.png', { frameWidth: 48, frameHeight: 48, startFrame: 0, endFrame: 0 })
+        this.load.spritesheet('oni-crouch', '../../assets/sprites/player/anim-player-crouch.png', { frameWidth: 48, frameHeight: 48, startFrame: 0, endFrame: 0 })
         this.load.spritesheet('oni-attack-stand', '../../assets/sprites/player/anim-player-attack.png', { frameWidth: 48, frameHeight: 48, startFrame: 0, endFrame: 3 })
         this.load.spritesheet('oni-attack-crouch', '../../assets/sprites/player/anim-player-attack.png', { frameWidth: 48, frameHeight: 48, startFrame: 4, endFrame: 7 })
         this.load.spritesheet('oni-attack-hurt', '../../assets/sprites/player/anim-player-hurt.png', { frameWidth: 48, frameHeight: 48, startFrame: 0, endFrame: 1 })
