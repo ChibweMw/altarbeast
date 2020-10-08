@@ -14,7 +14,7 @@ export default class Player_Idle
     {
         // console.log(`>> PLAYER 'IDLE' STATE`)
         this.player.walkSpeed = 0
-        this.player.setTexture('oni-idle')
+        this.player.play('anim-oni-idle')
     }
 
 }

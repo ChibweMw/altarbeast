@@ -27,7 +27,9 @@ export default class Player_TAKE_DAMAGE
         this.player.HP -= this.player.dmgTaken
         console.log(`>> Damage DAMAGE : ${this.player.dmgTaken}`)
         console.log(`>> Player HP : ${this.player.HP}`)
-        this.player.setTexture('oni-attack-hurt')
+        
+        this.player.play('anim-oni-attack-hurt')
+
         this.player.dmgTaken = 0
 
     }

@@ -81,6 +81,7 @@ export default class Preload extends Phaser.Scene
 
     create ()
     {
+        // SPRITESHEETS
         const SHEET_oni_idle  = this.textures.addSpriteSheetFromAtlas(
             'oni-idle',
             {
@@ -92,7 +93,6 @@ export default class Preload extends Phaser.Scene
                 endFrame: 2
             }
         )
-
         const SHEET_oni_walk  = this.textures.addSpriteSheetFromAtlas(
             'oni-walk',
             {
@@ -104,7 +104,6 @@ export default class Preload extends Phaser.Scene
                 endFrame: 3
             }
         )
-
         const SHEET_oni_jump  = this.textures.addSpriteSheetFromAtlas(
             'oni-jump',
             {
@@ -149,7 +148,6 @@ export default class Preload extends Phaser.Scene
                 endFrame: 7
             }
         )
-
         const SHEET_oni_attack_hurt  = this.textures.addSpriteSheetFromAtlas(
             'oni-attack-hurt',
             {
@@ -172,7 +170,66 @@ export default class Preload extends Phaser.Scene
                 endFrame: 3
             }
         )
-    
+
+        // ANIMATIONS 
+        const anim_FramRate = 12
+
+        const ANIM_CNF_oni_idle = {
+            key: 'anim-oni-idle',
+            frames: this.anims.generateFrameNumbers('oni-idle', { start: 2, end: 2, first: 2 }),
+            frameRate: anim_FramRate,
+            repeat: -1
+        }
+        const ANIM_CNF_oni_walk = {
+            key: 'anim-oni-walk',
+            frames: this.anims.generateFrameNumbers('oni-walk', { start: 0, end: 3, first: 0 }),
+            frameRate: anim_FramRate,
+            repeat: -1
+        }
+        const ANIM_CNF_oni_jump = {
+            key: 'anim-oni-jump',
+            frames: this.anims.generateFrameNumbers('oni-jump', { start: 0, end: 0, first: 0 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const ANIM_CNF_oni_crouch = {
+            key: 'anim-oni-crouch',
+            frames: this.anims.generateFrameNumbers('oni-crouch', { start: 0, end: 0, first: 0 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const ANIM_CNF_attack_stand = {
+            key: 'anim-oni-attack-stand',
+            frames: this.anims.generateFrameNumbers('oni-attack-stand', { start: 0, end: 3, first: 0 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const ANIM_CNF_attack_crouch = {
+            key: 'anim-oni-attack-crouch',
+            frames: this.anims.generateFrameNumbers('oni-attack-crouch', { start: 4, end: 7, first: 4 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const ANIM_CNF_attack_jump = {
+            key: 'anim-oni-attack-jump',
+            frames: this.anims.generateFrameNumbers('oni-attack-crouch', { start: 4, end: 7, first: 4 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const ANIM_CNF_attack_hurt = {
+            key: 'anim-oni-attack-hurt',
+            frames: this.anims.generateFrameNumbers('oni-attack-hurt', { start: 0, end: 7, first: 0 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const ANIM_CNF_attack_death = {
+            key: 'anim-oni-attack-death',
+            frames: this.anims.generateFrameNumbers('oni-attack-death', { start: 0, end: 3, first: 0 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const anim_conf_oni = [ANIM_CNF_oni_idle, ANIM_CNF_oni_walk, ANIM_CNF_oni_jump, ANIM_CNF_oni_crouch, ANIM_CNF_attack_stand, ANIM_CNF_attack_crouch, ANIM_CNF_attack_jump, ANIM_CNF_attack_hurt, ANIM_CNF_attack_death]
+        anim_conf_oni.forEach((animation) => {this.anims.create(animation)})
     }
 
     complete () 

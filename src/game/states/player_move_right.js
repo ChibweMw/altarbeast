@@ -18,6 +18,7 @@ export default class Player_MOVE_RIGHT
         // this.player.hurtBox.setOrigin(0, 0)
         this.player.hurtBox_offset = 0
         this.player.walkSpeed = 80
-        this.player.setTexture('oni-walk', 1)
+        this.player.play('anim-oni-walk')
+        // this.player.setTexture('oni-walk', 1)
     }
 }

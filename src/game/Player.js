@@ -59,6 +59,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.hurtForce = -120
         this.hurtBox_offset = 0
         this.isAttacking = false
+        this.isAttacking_AIR = false
         this.jumpPressed = false
         // this.currentFrame
         // this.currentAnimation
@@ -117,12 +118,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
             this.scene.time.delayedCall(this.hurtTime, this.damageEnd, null, this)
         } else 
         {   
-            if (this.body.blocked.down)
+            if (this.body.blocked.down && !this.isAttacking_AIR)
             {
                 this.player_OnGround()
+            } else if (this.body.blocked.down && this.isAttacking_AIR)
+            {
+                this.walkSpeed = 0
             } else
             {
                 this.player_InAir()
+
             }
         }
     }
@@ -140,10 +145,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     player_OnGround ()
     {
         this.jumpPressed = false
-        
         this.playerAttack_Stand()
+        
+        // if (this.anims.getCurrentKey() !== 'anim-oni-attack-stand') {console.log('>>> STAND ATTACK PLAYING')}
+        // if (this.anims.getCurrentKey() !== 'anim-oni-attack-stand')
         if (!this.isAttacking)
         {
+
             if (this.scene.player_Cursors.down.isDown)
             {
                 this.scene.player_CONTROLLER.setState('crouch')          
@@ -154,6 +162,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
             this.playerJump()
         } else
         {
+            console.log('>>> STAND ATTACK PLAYING')
             // console.log(`PLAYER X ${this.x}`)
             // console.log(`PLAYER BODY X ${this.body.x}`)
         }
@@ -197,7 +206,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     playerAttack_Stand ()
     {
-        if (this.isAttacking || Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
+        if (!this.isAttacking && Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
         {
             console.log('Stand ATTACK')
             this.scene.player_CONTROLLER.setState('stand_atk_norm')
@@ -207,7 +216,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     playerAttack_Jump ()
     {
-        if ( !this.body.blocked.down && this.isAttacking || Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
+        if ( !this.body.blocked.down && this.isAttacking_AIR || Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
         {
             console.log('Jump ATTACK')
             this.scene.player_CONTROLLER.setState('jump_atk_norm')
@@ -231,6 +240,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     {
         console.log('DEACTIVATE PLAYER HURTBOX')
         this.isAttacking = false
+        this.isAttacking_AIR = false
         this.hurtBox.body.checkCollision.none = true
     }
 }

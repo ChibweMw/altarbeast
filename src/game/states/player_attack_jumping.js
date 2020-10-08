@@ -14,23 +14,12 @@ export default class Player_ATTACK_JUMPING
     {
         console.log(`>> NORMAL JUMP ATK!`)
         
-        this.player.isAttacking = true
+        this.player.isAttacking_AIR = true
+        this.player.play('anim-oni-attack-jump', true)
         this.player.hurtBox.body.checkCollision.none = false
-        // this.player.frame.x = this.player.x
-        
-        // SHOULD PROPBS TAKE THIS INTO A SEPARATE STATE
-        if (this.player.body.blocked.down)
-        {
-            this.player.walkSpeed = 0
-            console.log(`>> JUMP ATK BUGGY?!`)
-        }
+        this.player.atkActiveTime = this.player.anims.currentAnim.duration
+        console.log(`${this.player.atkActiveTime}`)
 
-        this.player.setTexture('oni-attack-crouch', 6)
-        this.player.scene.sound.play('player-attack')
-
-        
-
-        
+        this.player.scene.sound.play('player-attack') 
     }
-
 }

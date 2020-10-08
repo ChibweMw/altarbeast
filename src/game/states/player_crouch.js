@@ -14,7 +14,7 @@ export default class Player_Crouch
     {
         console.log(`>> PLAYER 'CROUCH' STATE`)
         this.player.walkSpeed = 0
-        this.player.setTexture('oni-crouch')
+        this.player.play('anim-oni-crouch')
     }
 
 }
