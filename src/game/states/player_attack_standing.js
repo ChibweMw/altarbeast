@@ -18,10 +18,12 @@ export default class Player_ATTACK_STANDING
         // SHOULD PROPBS TAKE THIS INTO A SEPARATE STATE
         this.player.walkSpeed = 0
         this.player.play('anim-oni-attack-stand', true)
-        this.player.hurtBox.body.checkCollision.none = false
-        console.log(`${this.player.atkActiveTime}`)
+        // this.player.hurtBox.body.checkCollision.none = false
+
+        // ACTIVATE PLAYER ATTACK HURTBOX
         this.player.atkActiveTime = this.player.anims.currentAnim.duration
-        console.log(`${this.player.atkActiveTime}`)
+        this.player.scene.time.delayedCall(this.player.atkActiveTime / 2, this.player.activatePlayerHurtbox, null, this.player)
+
 
         this.player.scene.sound.play('player-attack')
     }

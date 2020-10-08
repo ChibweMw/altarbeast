@@ -27,7 +27,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.scene.physics.world.enable(this.hitBox)
         this.hitBox.setOrigin(0, 1)
 
-        this.hurtBox = this.scene.add.zone(this.body.x, this.body.y - 32, 32, 16)
+        this.hurtBox = this.scene.add.zone(this.body.x, this.body.y + 12, 48, 32)
         this.scene.add.existing(this.hurtBox)
         this.scene.physics.world.enable(this.hurtBox)
         this.hurtBox.setOrigin(0, 0)
@@ -57,7 +57,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.isHurt = false
         this.hurtTime = 120
         this.hurtForce = -120
-        this.hurtBox_offset = 0
+        this.hurtBox_offset = 16
         this.isAttacking = false
         this.isAttacking_AIR = false
         this.jumpPressed = false
@@ -139,7 +139,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     trackHurtBox ()
     {
-        this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 22)
+        this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 42)
     }
 
     player_OnGround ()
@@ -248,9 +248,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     deactivatePlayerHurtbox ()
     {
-        console.log('DEACTIVATE PLAYER HURTBOX')
         this.isAttacking = false
         this.isAttacking_AIR = false
         this.hurtBox.body.checkCollision.none = true
+    }
+    
+    activatePlayerHurtbox ()
+    {
+        console.log('ACTIVATE PLAYER HURTBOX')
+        this.hurtBox.body.checkCollision.none = false
     }
 }
