@@ -34,6 +34,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
         this.hurtBox.body.checkCollision.none = true
         this.hurtBox.body.x = this.body.x - this.hurtBox.width
+        
+        this.hurtBox.body.debugBodyColor = 0xfff999
+        this.hurtBox.body.debugShowBody = !this.hurtBox.body.checkCollision 
 
         this.controlState = undefined
         this.animState = undefined
@@ -124,10 +127,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
             } else if (this.body.blocked.down && this.isAttacking_AIR)
             {
                 this.walkSpeed = 0
-            } else
+            } else if (!this.body.blocked.down)
             {
                 this.player_InAir()
-
             }
         }
     }
@@ -140,11 +142,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     trackHurtBox ()
     {
         this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 42)
+        this.hurtBox.body.debugShowBody = !this.hurtBox.body.checkCollision.none
     }
 
     player_OnGround ()
     {
         this.jumpPressed = false
+        // this.walkSpeed = 0
         this.playerAttack_Stand()
         
         if (!this.isAttacking)
@@ -169,9 +173,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     player_InAir ()
     {
         this.playerAttack_Jump()
-        if (!this.jumpPressed)
+        if (!this.jumpPressed && this.body.velocity.y > 0 && !this.isAttacking_AIR)
         {
+            // console.log(`>>> Neutral Fall ${this.body.velocity.y}`)
             this.scene.player_CONTROLLER.setState('idle')
+            // this.walkSpeed = 0
         } 
         this.jumpVelocity = 0
     }
@@ -228,7 +234,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     {
         if ( !this.body.blocked.down && this.isAttacking_AIR || Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
         {
-            // console.log('Jump ATTACK')
+            console.log(`>>> IS ATTACKING AIR : ${this.isAttacking_AIR}`)
             this.scene.player_CONTROLLER.setState('jump_atk_norm')
             this.scene.time.delayedCall(this.atkActiveTime, this.deactivatePlayerHurtbox, null, this)
         }
@@ -255,7 +261,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     
     activatePlayerHurtbox ()
     {
-        console.log('ACTIVATE PLAYER HURTBOX')
+        // console.log('ACTIVATE PLAYER HURTBOX')
         this.hurtBox.body.checkCollision.none = false
     }
 }
