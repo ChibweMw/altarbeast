@@ -147,8 +147,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.jumpPressed = false
         this.playerAttack_Stand()
         
-        // if (this.anims.getCurrentKey() !== 'anim-oni-attack-stand') {console.log('>>> STAND ATTACK PLAYING')}
-        // if (this.anims.getCurrentKey() !== 'anim-oni-attack-stand')
         if (!this.isAttacking)
         {
 
@@ -206,19 +204,31 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     playerAttack_Stand ()
     {
-        if (!this.isAttacking && Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
+        if (!this.isAttacking)
         {
-            console.log('Stand ATTACK')
-            this.scene.player_CONTROLLER.setState('stand_atk_norm')
-            this.scene.time.delayedCall(this.atkActiveTime, this.deactivatePlayerHurtbox, null, this)
+            if (this.scene.player_Cursors.down.isDown && Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
+            {
+                console.log('CROUCH ATTACK CONTROLS')
+                this.playerAttack_Crouch()
+            } else if (Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
+            {
+                // console.log('Stand ATTACK')
+                this.scene.player_CONTROLLER.setState('stand_atk_norm')
+                this.scene.time.delayedCall(this.atkActiveTime, this.deactivatePlayerHurtbox, null, this)
+            }
         }
     }
-
+    playerAttack_Crouch ()
+    {
+        // console.log('Crouch ATTACK')
+        this.scene.player_CONTROLLER.setState('crouch_atk_norm')
+        this.scene.time.delayedCall(this.atkActiveTime, this.deactivatePlayerHurtbox, null, this)
+    }
     playerAttack_Jump ()
     {
         if ( !this.body.blocked.down && this.isAttacking_AIR || Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
         {
-            console.log('Jump ATTACK')
+            // console.log('Jump ATTACK')
             this.scene.player_CONTROLLER.setState('jump_atk_norm')
             this.scene.time.delayedCall(this.atkActiveTime, this.deactivatePlayerHurtbox, null, this)
         }

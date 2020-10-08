@@ -8,6 +8,8 @@ import Player_Gain_Health from './states/player_gain_health.js'
 import Player_ATTACK_STANDING from './states/player_attack_standing.js'
 import Player_Crouch from './states/player_crouch.js'
 import Player_ATTACK_JUMPING from './states/player_attack_jumping.js'
+import Player_ATTACK_CROUCHING from './states/player_attack_crouch.js'
+
 import Player from './Player.js'
 
 export default class Player_Controller
@@ -35,7 +37,7 @@ export default class Player_Controller
             gain_health: new Player_Gain_Health(player),
             stand_atk_norm: new Player_ATTACK_STANDING(player),
             jump_atk_norm: new Player_ATTACK_JUMPING(player),
-            crouch_atk_norm: new Player_ATTACK_JUMPING(player)
+            crouch_atk_norm: new Player_ATTACK_CROUCHING(player)
 		}
 	}
 
