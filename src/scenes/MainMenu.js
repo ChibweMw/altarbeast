@@ -25,7 +25,7 @@ export default class MainMenu extends Phaser.Scene
     create()
     {
         // GET VOLUME 
-        this.sound.play('main-game-theme')
+        // this.sound.play('main-game-theme')
         const width = this.scale.width
         const height = this.scale.height
 

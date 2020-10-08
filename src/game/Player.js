@@ -48,8 +48,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         // this.playerJumpForce = GameOptions.playerJumpForce
         // this.playerJumpCount = GameOptions.playerJumpCount
 
-        this.jumpCount = 0
-
+        
         this.walkSpeed = 0
         this.jumpVelocity = GameOptions.playerJumpVel
         this.atkActiveTime = 300
@@ -64,6 +63,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.isAttacking = false
         this.isAttacking_AIR = false
         this.jumpPressed = false
+        this.isJumping = false
+        this.jumpCount = GameOptions.player_JumpCount
         // this.currentFrame
         // this.currentAnimation
         // this.isAlive
@@ -72,7 +73,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         // this.canCombo
         // this.canAttack
         // this.usingAbility
-        // this.isJumping
         // this.jumpBufferTime
 
         // this.onGround
@@ -113,6 +113,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.trackHurtBox()
 
         // console.log(`WALKSPEED >> '${this.walkSpeed}'`)
+        // console.log(`IS JUMPING ?? '${this.isJumping}'`)
         this.setVelocityX(this.walkSpeed)
 
         if (this.isHurt)
@@ -147,8 +148,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     player_OnGround ()
     {
-        this.jumpPressed = false
-        // this.walkSpeed = 0
+        this.jumpPressed = false  // probably put in a separate function
+        this.isJumping = false
+        this.jumpCount = GameOptions.player_JumpCount
+
         this.playerAttack_Stand()
         
         if (!this.isAttacking)
@@ -173,16 +176,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     player_InAir ()
     {
         this.playerAttack_Jump()
-        if (!this.jumpPressed && this.body.velocity.y > 0 && !this.isAttacking_AIR)
+        if (!this.isJumping && !this.isAttacking_AIR)
         {
-            // console.log(`>>> Neutral Fall ${this.body.velocity.y}`)
             this.scene.player_CONTROLLER.setState('idle')
-            // this.walkSpeed = 0
-        } 
+        }
+
         this.jumpVelocity = 0
     }
-
-    
 
     playerMovement_Standing ()
     {
@@ -200,11 +200,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     playerJump ()
     {
-        if (Phaser.Input.Keyboard.JustDown(this.scene.key_player_B))
+        if (this.jumpCount > 0 && Phaser.Input.Keyboard.JustDown(this.scene.key_player_B))
         {
             // console.log('player jump')
             this.scene.player_CONTROLLER.setState('jump')
         }
+        // this.playerJump()
+
         this.setVelocityY(this.jumpVelocity)
     }
 
@@ -232,9 +234,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     }
     playerAttack_Jump ()
     {
-        if ( !this.body.blocked.down && this.isAttacking_AIR || Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
+        if ( (!this.body.blocked.down || !this.isAttacking_AIR) && Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
         {
-            console.log(`>>> IS ATTACKING AIR : ${this.isAttacking_AIR}`)
+            // console.log(`>>> IS ATTACKING AIR : ${this.isAttacking_AIR}`)
             this.scene.player_CONTROLLER.setState('jump_atk_norm')
             this.scene.time.delayedCall(this.atkActiveTime, this.deactivatePlayerHurtbox, null, this)
         }

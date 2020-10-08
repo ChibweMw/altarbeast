@@ -12,7 +12,7 @@ export default class Player_ATTACK_CROUCHING
 
     enter ()
     {
-        console.log(`>> NORMAL CROUCH ATK!`)
+        // console.log(`>> NORMAL CROUCH ATK!`)
         
         this.player.isAttacking = true
         this.player.play('anim-oni-attack-crouch', true)
@@ -20,7 +20,7 @@ export default class Player_ATTACK_CROUCHING
         this.player.atkActiveTime = this.player.anims.currentAnim.duration
         this.player.scene.time.delayedCall(this.player.atkActiveTime / 2, this.player.activatePlayerHurtbox, null, this.player)
 
-        console.log(`${this.player.atkActiveTime}`)
+        // console.log(`${this.player.atkActiveTime}`)
 
         this.player.scene.sound.play('player-attack') 
     }
