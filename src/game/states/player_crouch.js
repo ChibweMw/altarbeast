@@ -16,5 +16,9 @@ export default class Player_Crouch
         this.player.walkSpeed = 0
         this.player.play('anim-oni-crouch')
     }
+    update ()
+    {
+        console.log(`CROUCH STATE UPDATE`)
+    }
 
 }

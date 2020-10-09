@@ -8,5 +8,5 @@ export default gameOptions =
     UI_cursorTarget: '',
     playerGravity: 2000,
     playerJumpVel: -450,
-    player_JumpCount: 2
+    player_JumpCount: 1,
 }

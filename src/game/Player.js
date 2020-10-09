@@ -50,7 +50,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
         
         this.walkSpeed = 0
-        this.jumpVelocity = GameOptions.playerJumpVel
+        // this.jumpVelocity = GameOptions.playerJumpVel
+        this.jumpVelocity = 0
         this.atkActiveTime = 300
         this.HP = 3
         this.AP = 3
@@ -113,7 +114,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.trackHurtBox()
 
         // console.log(`WALKSPEED >> '${this.walkSpeed}'`)
-        // console.log(`IS JUMPING ?? '${this.isJumping}'`)
+        // console.log(`JUMP COUNT '${this.jumpCount}'`)
+        // console.log(`IS JUMPING '${this.isJumping}'`)
         this.setVelocityX(this.walkSpeed)
 
         if (this.isHurt)
@@ -122,6 +124,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
             this.scene.time.delayedCall(this.hurtTime, this.damageEnd, null, this)
         } else 
         {   
+            // this.playerJump()
             if (this.body.blocked.down && !this.isAttacking_AIR)
             {
                 this.player_OnGround()
@@ -150,7 +153,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     {
         this.jumpPressed = false  // probably put in a separate function
         this.isJumping = false
+        this.jumpVelocity = 0
         this.jumpCount = GameOptions.player_JumpCount
+        // console.log(`ON GROUND`)
 
         this.playerAttack_Stand()
         
@@ -168,22 +173,45 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         } else
         {
             console.log('>>> STAND ATTACK PLAYING')
-            // console.log(`PLAYER X ${this.x}`)
             // console.log(`PLAYER BODY X ${this.body.x}`)
         }
     }
-
+    
     player_InAir ()
     {
         this.playerAttack_Jump()
+        this.playerJump()
+        // console.log(`JUMP PRESSED ?? ${this.jumpPressed}`)
         if (!this.isJumping && !this.isAttacking_AIR)
         {
+            console.log(`NEUTRAL FALL`)
             this.scene.player_CONTROLLER.setState('idle')
+        } else if (!this.isAttacking_AIR && this.jumpPressed)
+        {
+            // if (this.scene.player_Cursors.left.isDown)
+            // {
+            //     // this.jumpPressed = false
+            //     this.scene.player_CONTROLLER.setState('left')
+            // } else if (this.scene.player_Cursors.right.isDown)
+            // {
+            //     // this.jumpPressed = false
+            //     this.scene.player_CONTROLLER.setState('right')            
+            // }
+            this.playerMovement_Standing()
         }
 
-        this.jumpVelocity = 0
     }
 
+    playerJump ()
+    {
+        if (this.jumpCount > 0 && Phaser.Input.Keyboard.JustDown(this.scene.key_player_B))
+        {
+            // console.log('player jump')
+            this.scene.player_CONTROLLER.setState('jump')
+        }
+        
+    }
+    
     playerMovement_Standing ()
     {
         if (this.scene.player_Cursors.left.isDown)
@@ -194,20 +222,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
             this.scene.player_CONTROLLER.setState('right')            
         } else
         {
+            // this.isJumping ? console.log(`PLAYER IS JUMPING`) : console.log(`PLAYER >>> STANDING`)  
             this.scene.player_CONTROLLER.setState('idle')
         }
-    }
-
-    playerJump ()
-    {
-        if (this.jumpCount > 0 && Phaser.Input.Keyboard.JustDown(this.scene.key_player_B))
-        {
-            // console.log('player jump')
-            this.scene.player_CONTROLLER.setState('jump')
-        }
-        // this.playerJump()
-
-        this.setVelocityY(this.jumpVelocity)
     }
 
     playerAttack_Stand ()

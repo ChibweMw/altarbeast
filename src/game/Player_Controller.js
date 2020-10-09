@@ -14,9 +14,9 @@ import Player from './Player.js'
 
 export default class Player_Controller
 {
-    /** @type {{ [key: string]: { enter: () => void } }} */
+    /** @type {{ [key: string]: { enter: () => void; update?: () => void } }} */
 	states
-	/** @type {{ enter: () => void }} */
+	/** @type {{ enter: () => void; update?: () => void }} */
 	currentState
 	/**@type {Player}*/
 	player
@@ -47,8 +47,10 @@ export default class Player_Controller
 	 */
 	setState(name)
 	{
+        // if (this.currentState === this.states[name] && name !== 'jump')
         if (this.currentState === this.states[name])
         {
+            this.currentState.update()
             return
         }
         // console.log(`CURRENT STATE '${name}'`)

@@ -24,4 +24,9 @@ export default class Player_ATTACK_CROUCHING
 
         this.player.scene.sound.play('player-attack') 
     }
+
+    update ()
+    {
+        console.log(`CROUCH ATTACK STATE UPDATE`)
+    }
 }

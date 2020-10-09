@@ -34,4 +34,9 @@ export default class Player_TAKE_DAMAGE
 
     }
 
+    update()
+    {
+        console.log(`taking damage update`)
+    }
+
 }
