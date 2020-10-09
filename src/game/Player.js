@@ -66,6 +66,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.jumpPressed = false
         this.isJumping = false
         this.jumpCount = GameOptions.player_JumpCount
+        this.jumpHangTime = 120
         // this.currentFrame
         // this.currentAnimation
         // this.isAlive
@@ -74,7 +75,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         // this.canCombo
         // this.canAttack
         // this.usingAbility
-        // this.jumpBufferTime
 
         // this.onGround
 
@@ -176,11 +176,23 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
             // console.log(`PLAYER BODY X ${this.body.x}`)
         }
     }
+
+    resetGravity ()
+    {
+        this.setGravityY(this.playerGravity)
+    }
     
     player_InAir ()
     {
         this.playerAttack_Jump()
         this.playerJump()
+        // if (this.body.velocity.y >= -16.67 && this.isJumping)
+        if (this.body.velocity.y >= -20 && this.isJumping)
+        {
+            console.log(`REDUCE GRAVITY NOW`)
+            this.setGravityY(0)
+            this.scene.time.delayedCall(this.jumpHangTime, this.resetGravity, null, this)
+        }
         // console.log(`JUMP PRESSED ?? ${this.jumpPressed}`)
         if (!this.isJumping && !this.isAttacking_AIR)
         {
@@ -188,15 +200,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
             this.scene.player_CONTROLLER.setState('idle')
         } else if (!this.isAttacking_AIR && this.jumpPressed)
         {
-            // if (this.scene.player_Cursors.left.isDown)
-            // {
-            //     // this.jumpPressed = false
-            //     this.scene.player_CONTROLLER.setState('left')
-            // } else if (this.scene.player_Cursors.right.isDown)
-            // {
-            //     // this.jumpPressed = false
-            //     this.scene.player_CONTROLLER.setState('right')            
-            // }
             this.playerMovement_Standing()
         }
 
