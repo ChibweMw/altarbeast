@@ -28,4 +28,9 @@ export default class Player_ATTACK_STANDING
         this.player.scene.sound.play('player-attack')
     }
 
+    update ()
+    {
+        
+    }
+
 }

@@ -1,3 +1,5 @@
+import Player_UNHURT from './states/player_unhurt.js'
+
 import Player_IDLE from './states/player_idle.js'
 import Player_Move_JUMP from './states/player_move_jump.js'
 import Player_Move_DOWN from './states/player_move_down.js'
@@ -27,6 +29,7 @@ export default class Player_Controller
 	constructor(player)
 	{
 		this.states = {
+            STATE_UNHURT: new Player_UNHURT(player),
             idle: new Player_IDLE(player),
             crouch: new Player_Crouch(player),
 			jump: new Player_Move_JUMP(player),
@@ -56,5 +59,11 @@ export default class Player_Controller
         // console.log(`CURRENT STATE '${name}'`)
         this.currentState = this.states[name]
         this.currentState.enter()
-	}
+    }
+    
+    update ()
+    {
+        // this.currentState.update()
+        // console.log(`UPDATE >> Player Controller `)
+    }
 }

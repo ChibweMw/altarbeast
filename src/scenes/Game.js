@@ -94,6 +94,7 @@ export default class Game extends Phaser.Scene
         this.player_CONTROLLER = new Player_Controller(this.player)
         
         this.player_CONTROLLER.setState('idle')
+        // this.player_CONTROLLER.setState('STATE_UNHURT') // STATE_UNHURT
 
         this.layerStaticPlatform.setCollision([4, 3, 2, 1, 10, 11, 12], true)
         this.DEBUG_Overlay.fillRect(0, 0, width, height)
