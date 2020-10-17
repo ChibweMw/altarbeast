@@ -53,7 +53,7 @@ export default class Player_Controller
         // if (this.currentState === this.states[name] && name !== 'jump')
         if (this.currentState === this.states[name])
         {
-            this.currentState.update()
+            // this.currentState.update()
             return
         }
         // console.log(`CURRENT STATE '${name}'`)
@@ -63,7 +63,7 @@ export default class Player_Controller
     
     update ()
     {
-        // this.currentState.update()
+        this.currentState.update()
         // console.log(`UPDATE >> Player Controller `)
     }
 }

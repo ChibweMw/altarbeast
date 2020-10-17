@@ -27,7 +27,49 @@ export default class Player_MOVE_LEFT
     update ()
     {
         console.log(`LEFT WALK STATE UPDATE`)
-        this.player.play('anim-oni-walk', true)
+        
+        if (this.player.scene.player_Cursors.left.isDown)
+        {
+            this.player.walkSpeed = -80
+            this.player.play('anim-oni-walk', true)
+        } else if (this.player.scene.player_Cursors.right.isDown)
+        {
+            this.player.scene.player_CONTROLLER.setState('right')            
+        } else
+        {
+            // this.isJumping ? console.log(`PLAYER IS JUMPING`) : console.log(`PLAYER >>> STANDING`)  
+            this.player.scene.player_CONTROLLER.setState('idle')
+        }
+
+        if (this.player.scene.player_Cursors.down.isDown)
+        {
+            this.player.scene.player_CONTROLLER.setState('crouch')            
+        } 
+
+        this.normalAttack()
+
+        this.jump()
+
+    }
+
+    normalAttack()
+    {
+        if (Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_A))
+        {
+            // console.log('Stand ATTACK')
+            this.player.scene.player_CONTROLLER.setState('stand_atk_norm')
+            this.player.scene.time.delayedCall(this.player.atkActiveTime, this.player.deactivatePlayerHurtbox, null, this.player)
+        }
+    }
+
+    jump()
+    {
+        if (this.player.jumpCount > 0 && Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_B))
+        {
+            // console.log('player jump')
+            this.player.scene.player_CONTROLLER.setState('jump')
+        }
+
     }
 
 }

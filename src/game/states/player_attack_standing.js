@@ -23,14 +23,20 @@ export default class Player_ATTACK_STANDING
         // ACTIVATE PLAYER ATTACK HURTBOX
         this.player.atkActiveTime = this.player.anims.currentAnim.duration
         this.player.scene.time.delayedCall(this.player.atkActiveTime / 2, this.player.activatePlayerHurtbox, null, this.player)
-
-
         this.player.scene.sound.play('player-attack')
+
     }
 
     update ()
     {
-        
+        if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'anim-oni-attack-stand')
+        {
+            console.log(`ATTACKING`)
+            return
+        } else
+        {
+            this.player.scene.player_CONTROLLER.setState('idle')
+        }
     }
 
 }

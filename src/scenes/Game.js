@@ -1,6 +1,8 @@
 import Player from '../game/Player.js'
 import Player_Controller from '../game/Player_Controller.js'
 
+import CONTROLS from '../game/Controls.js'
+
 import Dummy from '../game/Dummy.js'
 
 export default class Game extends Phaser.Scene
@@ -32,6 +34,8 @@ export default class Game extends Phaser.Scene
     /** @type {Player} */
     player
     player_CONTROLLER
+    
+    CONTROLS_player
 
     /** @type {Dummy} */
     training_dummy
@@ -65,6 +69,7 @@ export default class Game extends Phaser.Scene
             },
         }).setDepth(1).setVisible(this.DEBUG_isOVERLAY)
         
+        this.CONTROLS_player = new CONTROLS(this)
 
         // SCENE CONTROLS - PAUSE, **DEBUG STARN 'GAME OVER' SCENE**
         this.key_PAUSE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P)

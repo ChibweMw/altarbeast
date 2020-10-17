@@ -120,26 +120,26 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.setVelocityX(this.walkSpeed)
         this.scene.player_CONTROLLER.update()
 
-        if (this.isHurt)
-        {
-            this.setVelocityY(this.jumpVelocity)
-            this.scene.time.delayedCall(this.hurtTime, this.damageEnd, null, this)
-        } else 
-        {   
-            // this.scene.player_CONTROLLER.setState('STATE_UNHURT')          
+        // if (this.isHurt)
+        // {
+        //     this.setVelocityY(this.jumpVelocity)
+        //     this.scene.time.delayedCall(this.hurtTime, this.damageEnd, null, this)
+        // } else 
+        // {   
+        //     // this.scene.player_CONTROLLER.setState('STATE_UNHURT')          
 
-            // this.playerJump()
-            if (this.body.blocked.down && !this.isAttacking_AIR)
-            {
-                this.player_OnGround()
-            } else if (this.body.blocked.down && this.isAttacking_AIR)
-            {
-                this.walkSpeed = 0
-            } else if (!this.body.blocked.down)
-            {
-                this.player_InAir()
-            }
-        }
+        //     // this.playerJump()
+        //     if (this.body.blocked.down && !this.isAttacking_AIR)
+        //     {
+        //         this.player_OnGround()
+        //     } else if (this.body.blocked.down && this.isAttacking_AIR)
+        //     {
+        //         this.walkSpeed = 0
+        //     } else if (!this.body.blocked.down)
+        //     {
+        //         this.player_InAir()
+        //     }
+        // }
     }
 
     trackHitBox ()
