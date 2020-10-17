@@ -14,7 +14,7 @@ export default class Player_FALL
     {
         this.player.play('anim-oni-jump')
 
-        this.player.walkSpeed = 0
+        // this.player.walkSpeed = 0
         
         console.log(`>> PLAYER 'FALL' STATE `)
     }
@@ -26,12 +26,22 @@ export default class Player_FALL
         if (!this.player.body.blocked.down) 
         {
             // this.player.play('anim-oni-jump')
+            if (this.player.body.velocity.y >= this.player.jumpPeakThreshold && (this.player.isJumping || this.player.isAttacking_AIR))
+            {
+                // console.log(`REDUCE GRAVITY NOW`)
+                this.player.setGravityY(0)
+                // this.player.setVelocityY(0)
+                this.player.scene.time.delayedCall(this.player.jumpHangTime, this.player.resetGravity, null, this.player)
+                
+                this.player.scene.player_CONTROLLER.setState('fall')
+            }
             
             this.jump()
             this.airAttack()
             return
         } else 
         {
+            // PLACE CHECK FOR JUMP BUTTON HERE
             this.player.scene.player_CONTROLLER.setState('idle')
         }
         
@@ -50,7 +60,19 @@ export default class Player_FALL
             } 
             // console.log('player jump')
             this.player.scene.player_CONTROLLER.setState('jump')
+        } else  if (this.player.jumpCount <= 0 && Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_B))
+        {
+            console.log(`JUMPPRESSED DURING FALL`)
+            this.player.jumpPressed = true
+            this.player.scene.time.delayedCall(this.player.jumpPressBufferTime, this.resetJumpPress, null, this)
+            
         }
+    }
+    
+    resetJumpPress()
+    {
+        this.player.jumpPressed = false        
+        console.log(`JUMPPRESSED RESET`)
     }
 
     airAttack()

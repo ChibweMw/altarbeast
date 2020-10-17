@@ -48,11 +48,14 @@ export default class Player_ATTACK_JUMPING
             return
         } else 
         {
+            this.player.isAttacking_AIR = false
+
             if (!this.player.body.blocked.down)
             {
                 this.player.scene.player_CONTROLLER.setState('fall')
             } else
             {
+                // PLACE CHECK FOR JUMP BUTTON HERE
                 this.player.scene.player_CONTROLLER.setState('idle')
             }
         }

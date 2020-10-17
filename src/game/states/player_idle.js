@@ -17,14 +17,22 @@ export default class Player_Idle
         /**
          * This resetting should be moved to an 'exit' function for further separation of concerns
          */
-        this.player.walkSpeed = 0
         this.player.jumpCount = GameOptions.player_JumpCount
         this.player.isHurt = true
-
+        
         // !this.player.jumpCount ? this.player.jumpCount = 1 : console.log(`can already jump`) 
-
-        this.player.jumpPressed ? console.log(`JUST JUMPED`) : this.player.play('anim-oni-idle', true)
+        
+        if (this.player.jumpPressed)
+        {
+            this.jump()
+        } else {
+            this.player.walkSpeed = 0
+            this.player.play('anim-oni-idle', true)
+        }
+        // this.player.jumpPressed ? console.log(`JUST JUMPED`) : this.player.play('anim-oni-idle', true)
+        // this.player.jumpPressed ? this.jump() : this.player.play('anim-oni-idle', true)
         this.player.jumpPressed = false
+        this.player.isJumping = false
         
     }
     
@@ -76,9 +84,16 @@ export default class Player_Idle
 
     jump()
     {
-        if (this.player.jumpCount > 0 && Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_B))
+        if (this.player.jumpCount > 0 && (this.player.jumpPressed || Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_B)) )
         {
             // console.log('player jump')
+            if (this.player.scene.player_Cursors.left.isDown)
+            {
+                this.player.walkSpeed = -GameOptions.player_walkSpeed
+            } else if (this.player.scene.player_Cursors.right.isDown)
+            {
+                this.player.walkSpeed = GameOptions.player_walkSpeed
+            } 
             this.player.scene.player_CONTROLLER.setState('jump')
         }
 

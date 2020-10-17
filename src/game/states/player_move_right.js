@@ -18,7 +18,7 @@ export default class Player_MOVE_RIGHT
         // this.player.hurtBox.setOrigin(0, 0)
         // this.player.hurtBox_offset = 16
         this.player.walkSpeed = GameOptions.player_walkSpeed
-        this.player.jumpPressed ? console.log(`JUMPING MOVE RIGHT`) : this.player.play('anim-oni-walk', true)
+        this.player.jumpPressed ? this.jump() : this.player.play('anim-oni-walk', true)
         this.player.jumpPressed = false
         // this.player.play('anim-oni-walk', true)
         // this.player.setTexture('oni-walk', 1)
@@ -53,6 +53,8 @@ export default class Player_MOVE_RIGHT
         }
         else if (!this.player.body.blocked.down)
         {
+            this.player.walkSpeed = 0
+
             this.player.scene.player_CONTROLLER.setState('fall')                        
         }
 
@@ -70,7 +72,8 @@ export default class Player_MOVE_RIGHT
 
     jump()
     {
-        if (this.player.jumpCount > 0 && Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_B))
+        // if (this.player.jumpCount > 0 && Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_B))
+        if (this.player.jumpCount > 0 && (this.player.jumpPressed || Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_B)) )
         {
             // console.log('player jump')
             this.player.scene.player_CONTROLLER.setState('jump')

@@ -68,6 +68,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.jumpCount = GameOptions.player_JumpCount
         this.jumpHangTime = 120
         this.jumpPeakThreshold = -20
+        this.jumpPressBufferTime = 150
         // this.currentFrame
         // this.currentAnimation
         // this.isAlive

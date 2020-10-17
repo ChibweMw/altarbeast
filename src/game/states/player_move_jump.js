@@ -22,6 +22,7 @@ export default class Player_MOVE_UP
             
             this.player.isJumping = true
             this.player.jumpPressed = true
+            this.resetJumpPress()
             this.player.jumpVelocity = GameOptions.playerJumpVel
             this.player.setVelocityY(this.player.jumpVelocity)
         }
@@ -30,22 +31,25 @@ export default class Player_MOVE_UP
     
     update ()
     {
-        // console.log(`JUMP STATE UPDATE`)
+        // console.log(`JUMP STATE UPDATE`) 
         
         if (!this.player.body.blocked.down) 
         {
             // this.player.play('anim-oni-jump')
             if (this.player.body.velocity.y >= this.player.jumpPeakThreshold && (this.player.isJumping || this.player.isAttacking_AIR))
             {
-                // console.log(`REDUCE GRAVITY NOW`)
-                this.player.setGravityY(0)
-                // this.player.setVelocityY(0)
-                this.player.scene.time.delayedCall(this.player.jumpHangTime, this.player.resetGravity, null, this.player)
+                // // console.log(`REDUCE GRAVITY NOW`)
+                // this.player.setGravityY(0)
+                // // this.player.setVelocityY(0)
+                // this.player.scene.time.delayedCall(this.player.jumpHangTime, this.player.resetGravity, null, this.player)
+                
+                this.player.scene.player_CONTROLLER.setState('fall')
             }
             this.airAttack()
             return
         } else 
         {
+            // PLACE CHECK FOR JUMP BUTTON HERE
             this.player.scene.player_CONTROLLER.setState('idle')
         }
         
@@ -59,6 +63,12 @@ export default class Player_MOVE_UP
             this.player.scene.player_CONTROLLER.setState('jump_atk_norm')
             this.player.scene.time.delayedCall(this.player.atkActiveTime, this.player.deactivatePlayerHurtbox, null, this.player)
         }
+    }
+
+    resetJumpPress()
+    {
+        this.player.jumpPressed = false        
+        console.log(`JUMPPRESSED RESET`)
     }
 
 }
