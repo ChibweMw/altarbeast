@@ -12,9 +12,9 @@ export default class Player_MOVE_UP
 
     enter ()
     {
-        this.player.play('anim-oni-jump')
         
         if (!this.player.isAttacking_AIR){
+            this.player.play('anim-oni-jump')
             console.log(`>> PLAYER MOVE 'JUMP' STATE `)
             // console.log(`>> JUMP COUNT BEFORE ${this.player.jumpCount}`)
             this.player.jumpCount -= 1
@@ -30,7 +30,7 @@ export default class Player_MOVE_UP
     
     update ()
     {
-        console.log(`JUMP STATE UPDATE`)
+        // console.log(`JUMP STATE UPDATE`)
         
         if (!this.player.body.blocked.down) 
         {

@@ -58,7 +58,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.gained_HP = 0
         this.dmgTaken = 0
         this.isHurt = false
-        this.hurtTime = 120
+        this.hurtTime = 150
         this.hurtForce = -120
         this.hurtBox_offset = 16
         this.isAttacking = false

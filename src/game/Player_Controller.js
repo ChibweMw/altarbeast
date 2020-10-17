@@ -1,3 +1,5 @@
+import GameOptions from '../game/GameOptions.js'
+
 import Player_UNHURT from './states/player_unhurt.js'
 
 import Player_IDLE from './states/player_idle.js'
@@ -11,6 +13,7 @@ import Player_ATTACK_STANDING from './states/player_attack_standing.js'
 import Player_Crouch from './states/player_crouch.js'
 import Player_ATTACK_JUMPING from './states/player_attack_jumping.js'
 import Player_ATTACK_CROUCHING from './states/player_attack_crouch.js'
+import Player_FALL from './states/player_fall.js'
 
 import Player from './Player.js'
 
@@ -33,6 +36,7 @@ export default class Player_Controller
             idle: new Player_IDLE(player),
             crouch: new Player_Crouch(player),
 			jump: new Player_Move_JUMP(player),
+			fall: new Player_FALL(player),
 			down: new Player_Move_DOWN(player),
 			left: new Player_Move_LEFT(player),
             right: new Player_Move_RIGHT(player),
@@ -53,10 +57,12 @@ export default class Player_Controller
         // if (this.currentState === this.states[name] && name !== 'jump')
         if (this.currentState === this.states[name])
         {
-            // this.currentState.update()
             return
         }
-        // console.log(`CURRENT STATE '${name}'`)
+        console.log(`CURRENT STATE '${name}'`)
+
+        GameOptions.STATE_PLAYER_PREV = name
+
         this.currentState = this.states[name]
         this.currentState.enter()
     }
@@ -64,6 +70,5 @@ export default class Player_Controller
     update ()
     {
         this.currentState.update()
-        // console.log(`UPDATE >> Player Controller `)
     }
 }

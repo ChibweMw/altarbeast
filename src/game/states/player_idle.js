@@ -13,43 +13,54 @@ export default class Player_Idle
     enter ()
     {
         // console.log(`>> PLAYER 'IDLE' STATE`)
+
+        /**
+         * This resetting should be moved to an 'exit' function for further separation of concerns
+         */
         this.player.walkSpeed = 0
         this.player.jumpCount = GameOptions.player_JumpCount
+        this.player.isHurt = true
+
         // !this.player.jumpCount ? this.player.jumpCount = 1 : console.log(`can already jump`) 
 
-        this.player.jumpPressed ? console.log(`JUMPING`) : this.player.play('anim-oni-idle', true)
+        this.player.jumpPressed ? console.log(`JUST JUMPED`) : this.player.play('anim-oni-idle', true)
         this.player.jumpPressed = false
         
     }
     
     update ()
     {
-        console.log(`IDLE UPDATE STATE`)
+        // console.log(`IDLE UPDATE STATE`)
         // this.player.jumpPressed ? console.log(`JUMPING`) : this.player.play('anim-oni-idle', true)
         // this.player.jumpPressed = false
         // this.player.play('anim-oni-idle', true)
-        
-        if (this.player.scene.player_Cursors.left.isDown)
+        if (this.player.body.blocked.down)
         {
-            this.player.scene.player_CONTROLLER.setState('left')
-        } else if (this.player.scene.player_Cursors.right.isDown)
+            if (this.player.scene.player_Cursors.left.isDown)
+            {
+                this.player.scene.player_CONTROLLER.setState('left')
+            } else if (this.player.scene.player_Cursors.right.isDown)
+            {
+                this.player.scene.player_CONTROLLER.setState('right')            
+            } else
+            {
+                // this.isJumping ? console.log(`PLAYER IS JUMPING`) : console.log(`PLAYER >>> STANDING`)  
+                // this.player.scene.player_CONTROLLER.setState('idle')
+                this.player.play('anim-oni-idle', true)
+            }
+
+            if (this.player.scene.player_Cursors.down.isDown)
+            {
+                this.player.scene.player_CONTROLLER.setState('crouch')            
+            } 
+            this.normalAttack()
+            this.jump()
+        } else if (!this.player.body.blocked.down)
         {
-            this.player.scene.player_CONTROLLER.setState('right')            
-        } else
-        {
-            // this.isJumping ? console.log(`PLAYER IS JUMPING`) : console.log(`PLAYER >>> STANDING`)  
-            // this.player.scene.player_CONTROLLER.setState('idle')
-            this.player.play('anim-oni-idle', true)
+            this.player.scene.player_CONTROLLER.setState('fall')                        
         }
 
-        if (this.player.scene.player_Cursors.down.isDown)
-        {
-            this.player.scene.player_CONTROLLER.setState('crouch')            
-        } 
 
-        this.normalAttack()
-
-        this.jump()
 
     }
 

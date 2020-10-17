@@ -17,7 +17,7 @@ export default class Player_MOVE_LEFT
         this.player.setFlipX(false)
         // this.player.hurtBox.setOrigin(1, 0)
         // this.player.hurtBox_offset = 16
-        this.player.walkSpeed = -80
+        this.player.walkSpeed = -GameOptions.player_walkSpeed
         this.player.jumpPressed ? console.log(`JUMPING MOVE LEFT`) : this.player.play('anim-oni-walk', true)
         this.player.jumpPressed = false
         // this.player.play('anim-oni-walk', true)
@@ -26,29 +26,35 @@ export default class Player_MOVE_LEFT
 
     update ()
     {
-        console.log(`LEFT WALK STATE UPDATE`)
-        
-        if (this.player.scene.player_Cursors.left.isDown)
+        // console.log(`LEFT WALK STATE UPDATE`)
+        if (this.player.body.blocked.down)
         {
-            this.player.walkSpeed = -80
-            this.player.play('anim-oni-walk', true)
-        } else if (this.player.scene.player_Cursors.right.isDown)
+            if (this.player.scene.player_Cursors.left.isDown)
+            {
+                this.player.walkSpeed = -GameOptions.player_walkSpeed
+                this.player.play('anim-oni-walk', true)
+            } else if (this.player.scene.player_Cursors.right.isDown)
+            {
+                this.player.scene.player_CONTROLLER.setState('right')            
+            } else
+            {
+                // this.isJumping ? console.log(`PLAYER IS JUMPING`) : console.log(`PLAYER >>> STANDING`)  
+                this.player.scene.player_CONTROLLER.setState('idle')
+            }
+
+            if (this.player.scene.player_Cursors.down.isDown)
+            {
+                this.player.scene.player_CONTROLLER.setState('crouch')            
+            } 
+            this.normalAttack()
+    
+            this.jump()
+        }
+        else if (!this.player.body.blocked.down)
         {
-            this.player.scene.player_CONTROLLER.setState('right')            
-        } else
-        {
-            // this.isJumping ? console.log(`PLAYER IS JUMPING`) : console.log(`PLAYER >>> STANDING`)  
-            this.player.scene.player_CONTROLLER.setState('idle')
+            this.player.scene.player_CONTROLLER.setState('fall')                        
         }
 
-        if (this.player.scene.player_Cursors.down.isDown)
-        {
-            this.player.scene.player_CONTROLLER.setState('crouch')            
-        } 
-
-        this.normalAttack()
-
-        this.jump()
 
     }
 

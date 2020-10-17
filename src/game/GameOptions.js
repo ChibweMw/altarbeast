@@ -9,4 +9,6 @@ export default gameOptions =
     playerGravity: 2000,
     playerJumpVel: -450,
     player_JumpCount: 1,
+    player_walkSpeed: 80,
+    STATE_PLAYER_PREV: '',
 }

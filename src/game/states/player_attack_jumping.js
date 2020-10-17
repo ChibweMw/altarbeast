@@ -50,7 +50,7 @@ export default class Player_ATTACK_JUMPING
         {
             if (!this.player.body.blocked.down)
             {
-                // this.player.scene.player_CONTROLLER.setState('jump')
+                this.player.scene.player_CONTROLLER.setState('fall')
             } else
             {
                 this.player.scene.player_CONTROLLER.setState('idle')
