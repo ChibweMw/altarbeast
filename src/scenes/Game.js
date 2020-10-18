@@ -46,6 +46,8 @@ export default class Game extends Phaser.Scene
     /** @type {Phaser.Tilemaps.StaticTilemapLayer} */
     layerStaticPlatform
 
+    rect
+
     init ()
     {
         this.DEBUG_isOVERLAY = false
@@ -97,7 +99,7 @@ export default class Game extends Phaser.Scene
         // ADD PLAYER
         this.player = new Player(this, 16 * 11, 16 * 5, 'oni-idle', 0)
         this.player_CONTROLLER = new Player_Controller(this.player)
-        
+
         this.player_CONTROLLER.setState('idle')
         // this.player_CONTROLLER.setState('STATE_UNHURT') // STATE_UNHURT
 
@@ -106,12 +108,14 @@ export default class Game extends Phaser.Scene
         this.layerStaticPlatform.renderDebug(this.DEBUG_Overlay, {})
 
         this.physics.add.collider(this.player, this.layerStaticPlatform)
-
+        
         // ADD TRAINING DUMMY
         this.training_dummy = new Dummy(this, 16 * 11, 16 * 9, 'dummy', 0)
+        this.physics.add.collider(this.training_dummy, this.layerStaticPlatform)
         
         this.physics.add.overlap(this.player.hitBox, this.training_dummy, this.player.playerTakeDamage, null, this.player)
-        this.physics.add.overlap(this.player.hurtBox, this.training_dummy, this.training_dummy.dummyTakeDamage, null, this)
+        this.physics.add.overlap(this.player.hurtBox, this.training_dummy, this.training_dummy.dummyTakeDamage, null, this.training_dummy)
+        // console.log(`GRAVITY ${this.physics.world.gravity.y}`)
     }
 
     
@@ -122,6 +126,7 @@ export default class Game extends Phaser.Scene
         this.DEBUG_KEY_CONTROLS()
 
         this.player.update()
+        // this.training_dummy.update()
     }
 
     gamePause ()

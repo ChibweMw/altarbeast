@@ -89,9 +89,11 @@ export default class Player_Idle
             // console.log('player jump')
             if (this.player.scene.player_Cursors.left.isDown)
             {
+                this.player.setFlipX(false)
                 this.player.walkSpeed = -GameOptions.player_walkSpeed
             } else if (this.player.scene.player_Cursors.right.isDown)
             {
+                this.player.setFlipX(true)
                 this.player.walkSpeed = GameOptions.player_walkSpeed
             } 
             this.player.scene.player_CONTROLLER.setState('jump')

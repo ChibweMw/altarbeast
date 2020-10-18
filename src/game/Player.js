@@ -68,7 +68,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.jumpCount = GameOptions.player_JumpCount
         this.jumpHangTime = 120
         this.jumpPeakThreshold = -20
-        this.jumpPressBufferTime = 150
+        this.jumpPressBufferTime = 200
         // this.currentFrame
         // this.currentAnimation
         // this.isAlive
@@ -86,7 +86,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         // this.hurtBoxHeight  
 
         this.setGravityY(this.playerGravity)
-        this.setCollideWorldBounds(true)
+        // this.setCollideWorldBounds(true)
+        this.setCollideWorldBounds(false)
         this.setSize(16, 2)
         this.setOffset(16, this.frame.realHeight - this.body.height)
         this.setFlipX(true)

@@ -28,6 +28,10 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.atkPoints = 1
 
         this.setOrigin(0, 0)
+        this.setGravity(0, GameOptions.playerGravity)
+
+        this.vulnTime = 200
+
 
         // this.enemyGravity =  GameOptions.enemyGravity
 
@@ -64,13 +68,32 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
     
     update()
     {
-        
+        console.log(`DUMMY VELOCITY Y : ${this.body.velocity.y}`)
     }
-
+    
     dummyTakeDamage ()
     {
-        // console.log('DUMMY BEEN HIT BY PLAYER')
-        // CONTEXT OF 'this' IS ACTUALLY 'game' SCENE
-        this.cameras.main.shake(100, 0.0025)
+        if (this.name)
+        {
+            return
+        }
+        else
+        {
+            this.name = 'beenhit'
+            // console.log('DUMMY BEEN HIT BY PLAYER')
+            // CONTEXT OF 'this' IS ACTUALLY 'game' SCENE
+            // this.isHit = true
+            this.scene.cameras.main.shake(100, 0.0025)
+            this.setVelocityY(-700)
+            this.setBounceY(0.7)
+            this.scene.time.delayedCall(this.vulnTime, this.recoverFromHit, null, this)
+        }
+    }
+    
+    recoverFromHit ()
+    {
+        this.name = ''
+        this.setVelocityY(0)
+        console.log(`DUMMY VELOCITY Y : ${this.body.velocity.y}`)
     }
 }
