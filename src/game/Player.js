@@ -125,8 +125,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.setVelocityX(this.walkSpeed)
         this.scene.player_CONTROLLER.update()
         
-        this,this.screenWrapX()
-        this,this.screenWrapY()
+        this.screenWrapX()
+        this.screenWrapY()
 
         
     }

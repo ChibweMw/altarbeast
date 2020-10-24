@@ -112,7 +112,7 @@ export default class Game extends Phaser.Scene
         this.physics.add.collider(this.player, this.layerStaticPlatform)
         
         // ADD TRAINING DUMMY
-        this.training_dummy = new Dummy(this, 16 * 11, 16 * 9, 'dummy', 0)
+        this.training_dummy = new Dummy(this, 16 * 2, 16 * 1, 'dummy', 0)
         this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
         this.training_dummy_CONTROLLER.setState('idle')
 
@@ -120,6 +120,7 @@ export default class Game extends Phaser.Scene
         
         this.physics.add.overlap(this.player.hitBox, this.training_dummy, this.player.playerTakeDamage, null, this.player)
         this.physics.add.overlap(this.player.hurtBox, this.training_dummy, this.training_dummy.dummyTakeDamage, null, this.training_dummy)
+        // this.physics.add.collider(this.player.hurtBox, this.training_dummy, this.training_dummy.dummyTakeDamage, null, this.training_dummy)
         // console.log(`GRAVITY ${this.physics.world.gravity.y}`)
     }
 
