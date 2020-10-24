@@ -32,6 +32,10 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
 
         this.vulnTime = 200
 
+        this.init_walkSpeed = 0
+        this.walkSpeed = 60
+        this.curr_walkSpeed = this.init_walkSpeed
+
 
         // this.enemyGravity =  GameOptions.enemyGravity
 
@@ -68,7 +72,9 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
     
     update()
     {
-        console.log(`DUMMY VELOCITY Y : ${this.body.velocity.y}`)
+        // console.log(`DUMMY VELOCITY Y : ${this.body.velocity.y}`)
+        this.scene.training_dummy_CONTROLLER.update()
+        this.setVelocityX(this.curr_walkSpeed)
     }
     
     dummyTakeDamage ()
@@ -84,7 +90,8 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
             // CONTEXT OF 'this' IS ACTUALLY 'game' SCENE
             // this.isHit = true
             this.scene.cameras.main.shake(100, 0.0025)
-            this.setVelocityY(-700)
+            // this.setVelocityY(-700)
+            this.setVelocity(200, -400)
             this.setBounceY(0.7)
             this.scene.time.delayedCall(this.vulnTime, this.recoverFromHit, null, this)
         }
@@ -93,7 +100,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
     recoverFromHit ()
     {
         this.name = ''
-        this.setVelocityY(0)
+        this.setVelocity(0)
         console.log(`DUMMY VELOCITY Y : ${this.body.velocity.y}`)
     }
 }

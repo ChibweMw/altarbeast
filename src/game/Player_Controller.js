@@ -59,7 +59,7 @@ export default class Player_Controller
         {
             return
         }
-        console.log(`CURRENT STATE '${name}'`)
+        // console.log(`CURRENT STATE '${name}'`)
 
         GameOptions.STATE_PLAYER_PREV = name
 

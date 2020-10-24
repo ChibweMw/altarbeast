@@ -1,5 +1,6 @@
 import Player from '../game/Player.js'
 import Player_Controller from '../game/Player_Controller.js'
+import Ai_Controller from '../game/Ai_Controller.js'
 
 import CONTROLS from '../game/Controls.js'
 
@@ -39,6 +40,7 @@ export default class Game extends Phaser.Scene
 
     /** @type {Dummy} */
     training_dummy
+    training_dummy_CONTROLLER
     
     /** @type {Phaser.Tilemaps.Tilemap} */
     map
@@ -99,18 +101,21 @@ export default class Game extends Phaser.Scene
         // ADD PLAYER
         this.player = new Player(this, 16 * 11, 16 * 5, 'oni-idle', 0)
         this.player_CONTROLLER = new Player_Controller(this.player)
-
+        
         this.player_CONTROLLER.setState('idle')
         // this.player_CONTROLLER.setState('STATE_UNHURT') // STATE_UNHURT
-
+        
         this.layerStaticPlatform.setCollision([4, 3, 2, 1, 10, 11, 12], true)
         this.DEBUG_Overlay.fillRect(0, 0, width, height)
         this.layerStaticPlatform.renderDebug(this.DEBUG_Overlay, {})
-
+        
         this.physics.add.collider(this.player, this.layerStaticPlatform)
         
         // ADD TRAINING DUMMY
         this.training_dummy = new Dummy(this, 16 * 11, 16 * 9, 'dummy', 0)
+        this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
+        this.training_dummy_CONTROLLER.setState('idle')
+
         this.physics.add.collider(this.training_dummy, this.layerStaticPlatform)
         
         this.physics.add.overlap(this.player.hitBox, this.training_dummy, this.player.playerTakeDamage, null, this.player)
@@ -126,7 +131,7 @@ export default class Game extends Phaser.Scene
         this.DEBUG_KEY_CONTROLS()
 
         this.player.update()
-        // this.training_dummy.update()
+        this.training_dummy.update()
     }
 
     gamePause ()

@@ -69,6 +69,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.jumpHangTime = 120
         this.jumpPeakThreshold = -20
         this.jumpPressBufferTime = 200
+
+        this.startFallY = undefined
+        this.endFallY = undefined
+
         // this.currentFrame
         // this.currentAnimation
         // this.isAlive
@@ -116,32 +120,44 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.trackHitBox()
         this.trackHurtBox()
 
-        // console.log(`WALKSPEED >> '${this.walkSpeed}'`)
         // console.log(`JUMP COUNT '${this.jumpCount}'`)
         // console.log(`IS JUMPING '${this.isJumping}'`)
         this.setVelocityX(this.walkSpeed)
         this.scene.player_CONTROLLER.update()
+        
+        this,this.screenWrapX()
+        this,this.screenWrapY()
 
-        // if (this.isHurt)
-        // {
-        //     this.setVelocityY(this.jumpVelocity)
-        //     this.scene.time.delayedCall(this.hurtTime, this.damageEnd, null, this)
-        // } else 
-        // {   
-        //     // this.scene.player_CONTROLLER.setState('STATE_UNHURT')          
+        
+    }
 
-        //     // this.playerJump()
-        //     if (this.body.blocked.down && !this.isAttacking_AIR)
-        //     {
-        //         this.player_OnGround()
-        //     } else if (this.body.blocked.down && this.isAttacking_AIR)
-        //     {
-        //         this.walkSpeed = 0
-        //     } else if (!this.body.blocked.down)
-        //     {
-        //         this.player_InAir()
-        //     }
-        // }
+    screenWrapX()
+    {
+        if (this.body.x > this.scene.scale.width - this.body.halfWidth)
+        {
+            
+            console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
+            this.body.x = 0 - this.body.halfWidth
+        } 
+        else if (this.body.x < 0 - this.body.halfWidth)
+        {
+            console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
+            this.body.x = this.scene.scale.width - this.body.halfWidth
+        }  
+    }
+    screenWrapY()
+    {
+        if (this.body.y > this.scene.scale.height - this.body.halfHeight)
+        {
+            
+            console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
+            this.body.y = 0 - this.body.halfHeight
+        } 
+        else if (this.body.y < 0 - this.body.halfHeight)
+        {
+            console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
+            this.body.y = this.scene.scale.height - this.body.halfHeight
+        }
     }
 
     trackHitBox ()
