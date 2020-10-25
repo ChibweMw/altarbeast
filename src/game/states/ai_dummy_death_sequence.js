@@ -1,7 +1,7 @@
 import GameOptions from "../GameOptions.js"
 import Dummy from '../Dummy.js'
 
-export default class Player_MOVE_LEFT
+export default class Player_DEATH_SEQUENCE
 {
     /** @param {Dummy} dummy*/
 
