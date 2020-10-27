@@ -99,6 +99,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
         this.body.debugBodyColor = 0xfff999
         // this.debugBodyColor = 0x008000
+
+        // this.scene.cameras.main.startFollow(this, true, 0.9, 1)
     }
 
     setControlState(controlState)
@@ -133,7 +135,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     screenWrapX()
     {
-        if (this.body.x > this.scene.scale.width - this.body.halfWidth)
+        // if (this.body.x > this.scene.scale.width - this.body.halfWidth)
+        // if (this.body.x > this.scene.cameras.main.width + this.scene.cameras.main.width - this.body.halfWidth)
+        if (this.body.x > this.scene.cameras.main.width - this.body.halfWidth)
         {
             
             console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
@@ -142,7 +146,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         else if (this.body.x < 0 - this.body.halfWidth)
         {
             console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
-            this.body.x = this.scene.scale.width - this.body.halfWidth
+            this.body.x = this.scene.cameras.main.width - this.body.halfWidth
         }  
     }
     screenWrapY()

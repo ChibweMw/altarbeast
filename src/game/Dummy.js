@@ -81,7 +81,8 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
 
     screenWrapX()
     {
-        if (this.body.x > this.scene.scale.width - this.body.halfWidth)
+        // if (this.body.x > this.scene.scale.width - this.body.halfWidth)
+        if (this.body.x > this.scene.cameras.main.width - this.body.halfWidth)
         {
             
             console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
@@ -90,8 +91,8 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         else if (this.body.x < 0 - this.body.halfWidth)
         {
             console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
-            this.body.x = this.scene.scale.width - this.body.halfWidth
-        }  
+            this.body.x = this.scene.cameras.main.width - this.body.halfWidth
+        }   
     }
     screenWrapY()
     {

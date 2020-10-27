@@ -31,6 +31,8 @@ export default class MainMenu extends Phaser.Scene
 
         console.log(`Main Menu Entered`)
         this.add.image(this.game.scale.width / 2, this.game.scale.height / 2, 'logo')
+        // this.add.image(this.game.scale.width / 2, this.game.scale.height / 2, 'logo').setScale(0.5)
+
         
         // MENU TEXT
         this.menuText_Start = this.add.bitmapText(this.game.scale.width / 2, this.game.scale.height * 0.8, 'tentown', 'Start Game', 12).setOrigin(0.5)

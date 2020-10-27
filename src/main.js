@@ -10,7 +10,7 @@ import Options from './scenes/Options.js'
 
 const config = {
     type: Phaser.AUTO,
-    width: 256,
+    width: 400,
     height: 240,
     pixelArt: true,
     scale: {

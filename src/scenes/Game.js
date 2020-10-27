@@ -59,9 +59,15 @@ export default class Game extends Phaser.Scene
     {
         console.log('Game Scene Online')
 
+        // width: 256,
+        // height: 240,
+
+        
         const width = this.scale.width
         const height = this.scale.height
-        
+        // this.cameras.main.setOrigin(0.5)
+        this.cameras.main.setViewport(((width - 256) / 2), 0, 256, 240)
+
         // SCENE OVERLAY GRAPHIC
 
         this.DEBUG_Overlay = this.add.graphics({
