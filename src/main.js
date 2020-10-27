@@ -10,7 +10,7 @@ import Options from './scenes/Options.js'
 
 const config = {
     type: Phaser.AUTO,
-    width: 400,
+    width: 256,
     height: 240,
     pixelArt: true,
     scale: {
@@ -22,7 +22,8 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            debug: true,
+            gravity: {y : 0}
         }
     },
     backgroundColor: '#000000',

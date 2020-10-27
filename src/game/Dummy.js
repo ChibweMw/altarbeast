@@ -32,7 +32,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
 
         this.vulnTime = 500
 
-        this.init_walkSpeed = -40
+        this.init_walkSpeed = 40
         this.walkSpeed = 60
         this.curr_walkSpeed = this.init_walkSpeed
 
