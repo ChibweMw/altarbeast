@@ -16,10 +16,15 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         super(scene, x, y, texture, frame)
 
         this.scene = scene
+        this.setOrigin(0, 0)
+        this.setActive(true)
+        this.setVisible(true)
         
-        this.scene.physics.add.existing(this)
         this.scene.add.existing(this)
+        this.scene.physics.add.existing(this)
         this.scene.physics.world.enable(this)
+        this.setGravityY(GameOptions.playerGravity)
+
 
         this.controlState = undefined
         this.animState = undefined
@@ -27,8 +32,6 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
 
         this.atkPoints = 1
 
-        this.setOrigin(0, 0)
-        this.setGravityY(GameOptions.playerGravity)
 
         this.vulnTime = 500
 
@@ -74,6 +77,11 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.audioState = audioState
     }
 
+    activateDummy(x, y)
+    {
+        this.enableBody(true, x, y, true, true)
+    }
+
     switchXDir()
     {
         this.curr_walkSpeed = -this.curr_walkSpeed
@@ -114,8 +122,15 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         // console.log(`DUMMY VELOCITY Y : ${this.body.velocity.y}`)
         this.scene.training_dummy_CONTROLLER.update()
         // this.setVelocityX(this.curr_walkSpeed)
-        this.body.blocked.left || this.body.blocked.right ? this.switchXDir() : console.log(`DUMMY WALKSPEED >> ${this.curr_walkSpeed}`)
-        !this.name && this.body.blocked.down ? this.setVelocityX(this.curr_walkSpeed) : console.log('DUMMY can move')
+        if (this.body.blocked.left || this.body.blocked.right) 
+        {
+            this.switchXDir()  
+        } //console.log(`DUMMY WALKSPEED >> ${this.curr_walkSpeed}`)
+        if (!this.name && this.body.blocked.down) 
+        {
+            this.setVelocityX(this.curr_walkSpeed)
+            console.log('DUMMY can move')
+        } 
         if (this.name && this.body.blocked.down)
         {
             // this.setVelocityX(this.curr_walkSpeed)
@@ -126,7 +141,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.screenWrapY()
     }
     
-    dummyTakeDamage (player, dummy)
+    dummyTakeDamage (player)
     {
         if (this.name)
         {
@@ -136,7 +151,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         {
             this.name = 'beenhit'
             // console.log('DUMMY BEEN HIT BY PLAYER')
-            console.log(`DUMMY >> ${dummy}`)
+            // console.log(`DUMMY >> ${dummy}`)
             console.log(`PLAYER >> ${player}`)
 
             this.setGravityY(GameOptions.playerGravity / 2)

@@ -1,7 +1,7 @@
 import GameOptions from "../GameOptions.js"
 import Dummy from '../Dummy.js'
 
-export default class Player_MOVE_UP
+export default class Player_IDLE
 {
     /** @param {Dummy} dummy*/
 
@@ -17,7 +17,7 @@ export default class Player_MOVE_UP
     
     update ()
     {
-        // console.log(`AI STATE: DUMMY > IDLE`) 
+        console.log(`AI UPDATE: DUMMY > IDLE`) 
     }
 
 }

@@ -5,6 +5,7 @@ import Ai_Controller from '../game/Ai_Controller.js'
 import CONTROLS from '../game/Controls.js'
 
 import Dummy from '../game/Dummy.js'
+import GameOptions from '../game/GameOptions.js'
 
 export default class Game extends Phaser.Scene
 {
@@ -14,19 +15,22 @@ export default class Game extends Phaser.Scene
     }
 
     /** @type {Phaser.Input.Keyboard.Key} */
-    key_PAUSE
-    /** @type {Phaser.Input.Keyboard.Key} */
     key_DEBUG_GameOver
     /** @type {Phaser.Input.Keyboard.Key} */
     key_DEBUG_TOGGLE_TileCollision
     /** @type {Phaser.Input.Keyboard.Key} */
     key_DEBUG_ADD_HP
     /** @type {Phaser.Input.Keyboard.Key} */
+    key_DEBUG_SPAWN_DUMMY
+    
+    /** @type {Phaser.Input.Keyboard.Key} */
+    key_PAUSE
+
+    /** @type {Phaser.Input.Keyboard.Key} */
     key_player_A
     /** @type {Phaser.Input.Keyboard.Key} */
     key_player_B
-    
-    
+        
     player_Cursors
     
     DEBUG_Overlay
@@ -87,6 +91,7 @@ export default class Game extends Phaser.Scene
         this.key_DEBUG_TOGGLE_TileCollision = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE)
         this.key_DEBUG_ADD_HP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE)
 
+        this.key_DEBUG_SPAWN_DUMMY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO)
         
         // PLAYER CONTROLS
         this.player_Cursors = this.input.keyboard.createCursorKeys()
@@ -117,20 +122,54 @@ export default class Game extends Phaser.Scene
         
         this.physics.add.collider(this.player, this.layerStaticPlatform)
         
-        // ADD TRAINING DUMMY
-        this.training_dummy = new Dummy(this, 16 * 2, 16 * 1, 'dummy', 0)
-        this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
-        this.training_dummy_CONTROLLER.setState('idle')
+        // ADD TRAINING DUMMY PREFAB && GROUPS!
 
-        this.physics.add.collider(this.training_dummy, this.layerStaticPlatform)
+        // ADD ACTIVE AND INACTIVE GROUP
+
+        // ACTIVE GROUP
+
+        // INACTIVE GROUP
+        this.GROUP_training_dummy = this.physics.add.group({
+            classType: Dummy,
+            max: 10,
+            maxSize: 10,
+            allowGravity: true,
+            visible: false,
+            active: false,
+            gravityY: GameOptions.playerGravity,
+            removeCallback: function (dummy) {
+                dummy.scene.GROUP_POOL_training_dummy.add(dummy)
+            }
+        })
+
+        this.GROUP_POOL_training_dummy = this.physics.add.group({
+            removeCallback: function (dummy) {
+                dummy.scene.GROUP_training_dummy.add(dummy)
+            }
+        })
+
+        this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
+        this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
+        this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
+
+
+        // this.training_dummy = new Dummy(this, 16 * 2, 16 * 1, 'dummy', 0)
+        // this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
+        // this.training_dummy_CONTROLLER.setState('idle')
+
+        // this.physics.add.collider(this.training_dummy, this.layerStaticPlatform)
         
-        this.physics.add.overlap(this.player.hitBox, this.training_dummy, this.player.playerTakeDamage, null, this.player)
-        this.physics.add.overlap(this.player.hurtBox, this.training_dummy, this.training_dummy.dummyTakeDamage, null, this.training_dummy)
+        // this.physics.add.overlap(this.player.hitBox, this.training_dummy, this.player.playerTakeDamage, null, this.player)
+        // this.physics.add.overlap(this.player.hurtBox, this.training_dummy, this.training_dummy.dummyTakeDamage, null, this.training_dummy)
+
         // this.physics.add.collider(this.player.hurtBox, this.training_dummy, this.training_dummy.dummyTakeDamage, null, this.training_dummy)
         // console.log(`GRAVITY ${this.physics.world.gravity.y}`)
     }
 
-    
+    dummyHurt(player, dummy)
+    {
+        dummy.dummyTakeDamage(player)
+    }
 
     update ()
     {
@@ -138,7 +177,12 @@ export default class Game extends Phaser.Scene
         this.DEBUG_KEY_CONTROLS()
 
         this.player.update()
-        this.training_dummy.update()
+        // this.training_dummy.update()
+        this.GROUP_training_dummy.getChildren().forEach(function (dummy) {
+            dummy.update()
+        })
+
+        // this.GROUP_training_dummy.runChildUpdate = true
     }
 
     gamePause ()
@@ -172,6 +216,40 @@ export default class Game extends Phaser.Scene
             console.log(`ADD HP TO TOTAL HEALTH}`)
             this.player.gained_HP = 3
             this.player_CONTROLLER.setState('gain_health')
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(this.key_DEBUG_SPAWN_DUMMY))
+        {
+            console.log(`SPAWNING DUMMY`)
+            this.spawnDummy(16 * 2, 16 * 1)
+        }
+    }
+    
+    spawnDummy(x, y)
+    {
+        /** @type {Dummy} */
+        let newDummy
+        
+        if(this.GROUP_POOL_training_dummy.getLength()){
+            console.log(`SPAWNED POOLED DUMMY`)
+            newDummy = this.GROUP_POOL_training_dummy.getFirst()
+            // this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
+            this.training_dummy_CONTROLLER.setState('idle')
+            newDummy.x = x
+            newDummy.y = y
+            newDummy.setActive(true)
+            newDummy.setVisible(true)
+            
+            this.GROUP_POOL_training_dummy.remove(newDummy)
+        }
+        else{
+            console.log(`SPAWNED NEW DUMMY`)
+            newDummy = this.GROUP_training_dummy.get(x, y, 'dummy', 0)
+            this.training_dummy_CONTROLLER = new Ai_Controller(newDummy)
+            this.training_dummy_CONTROLLER.setState('idle')
+            // newDummy.enableBody(true, x, y, true, true)
+
+            this.GROUP_training_dummy.add(newDummy)            
         }
     }
 }
