@@ -116,6 +116,11 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         // this.setVelocityX(this.curr_walkSpeed)
         this.body.blocked.left || this.body.blocked.right ? this.switchXDir() : console.log(`DUMMY WALKSPEED >> ${this.curr_walkSpeed}`)
         !this.name && this.body.blocked.down ? this.setVelocityX(this.curr_walkSpeed) : console.log('DUMMY can move')
+        if (this.name && this.body.blocked.down)
+        {
+            // this.setVelocityX(this.curr_walkSpeed)
+            this.recoverFromHit()
+        }
         
         this.screenWrapX()
         this.screenWrapY()
@@ -133,18 +138,19 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
             // console.log('DUMMY BEEN HIT BY PLAYER')
             console.log(`DUMMY >> ${dummy}`)
             console.log(`PLAYER >> ${player}`)
-            
+
+            this.setGravityY(GameOptions.playerGravity / 2)
             let recoil = 100
-            let xMult = 5
-            let yMult = 4
+            let xMult = 1
+            let yMult = 2
             let xVel = 0
             player.body.x < this.body.x ? xVel = recoil * xMult : xVel = -recoil * xMult
             let yVel = -recoil * yMult
             this.setVelocity(xVel, yVel)
         
-            this.setDamping(true)
-            this.setDragX(0.85)
-            this.setBounce(1, 0.7)
+            // this.setDamping(true)
+            // this.setDragX(0.85)
+            // this.setBounce(1, 0.7)
             // this.setDragY(0.75)
 
             this.setTintFill(0xffffff);
@@ -162,21 +168,25 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
             // CONTEXT OF 'this' IS ACTUALLY 'game' SCENE
             // this.isHit = true
             this.scene.cameras.main.shake(100, 0.0025)
+
+
             // this.setVelocityY(-700)
             // this.setVelocity(200, -400)
             // this.setBounceY(0.7)
             // this.setBounce(0.85)
-            this.scene.time.delayedCall(this.vulnTime, this.recoverFromHit, null, this)
+
+            // this.scene.time.delayedCall(this.vulnTime, this.recoverFromHit, null, this)
         }
     }
     
     recoverFromHit ()
     {
         this.name = ''
-        this.setBounce(0)
-        this.setDragX(1)
+        this.setGravityY(GameOptions.playerGravity)
+        // this.setBounce(0)
+        // this.setDragX(1)
         // this.setDragY(1)
-        this.setDamping(false)
+        // this.setDamping(false)
         this.clearTint()
         // this.setVelocity(0)
         console.log(`DUMMY VELOCITY X : ${this.body.velocity.x}`)
