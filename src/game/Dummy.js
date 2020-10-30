@@ -38,6 +38,8 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.init_walkSpeed = 40
         this.walkSpeed = 60
         this.curr_walkSpeed = this.init_walkSpeed
+        this.maxHP = 3
+        this.currHP = this.maxHP
 
         this.setCollideWorldBounds(false)
         this.setBounce(0)
@@ -129,7 +131,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         if (!this.name && this.body.blocked.down) 
         {
             this.setVelocityX(this.curr_walkSpeed)
-            console.log('DUMMY can move')
+            // console.log('DUMMY can move')
         } 
         if (this.name && this.body.blocked.down)
         {
@@ -143,17 +145,20 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
     
     dummyTakeDamage (player)
     {
-        if (this.name)
-        {
-            return
-        }
-        else
-        {
+        // if (this.name)
+        // {
+        //     return
+        // }
+        // else
+        // {
             this.name = 'beenhit'
-            // console.log('DUMMY BEEN HIT BY PLAYER')
+            console.log('DUMMY BEEN HIT BY PLAYER')
             // console.log(`DUMMY >> ${dummy}`)
-            console.log(`PLAYER >> ${player}`)
+            // console.log(`PLAYER >> ${player}`)
 
+            // TAKE DAMAGE
+            this.currHP -= 1
+            // KNOCKBACK SETUP
             this.setGravityY(GameOptions.playerGravity / 2)
             let recoil = 100
             let xMult = 1
@@ -168,6 +173,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
             // this.setBounce(1, 0.7)
             // this.setDragY(0.75)
 
+            // SPRITE FLASH EFFECT
             this.setTintFill(0xffffff);
             this.scene.tweens.add({
                 targets: this,
@@ -182,6 +188,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
 
             // CONTEXT OF 'this' IS ACTUALLY 'game' SCENE
             // this.isHit = true
+            // CAMERA SHAKE
             this.scene.cameras.main.shake(100, 0.0025)
 
 
@@ -191,7 +198,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
             // this.setBounce(0.85)
 
             // this.scene.time.delayedCall(this.vulnTime, this.recoverFromHit, null, this)
-        }
+        // }
     }
     
     recoverFromHit ()
@@ -204,7 +211,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         // this.setDamping(false)
         this.clearTint()
         // this.setVelocity(0)
-        console.log(`DUMMY VELOCITY X : ${this.body.velocity.x}`)
-        console.log(`DUMMY VELOCITY Y : ${this.body.velocity.y}`)
+        // console.log(`DUMMY VELOCITY X : ${this.body.velocity.x}`)
+        // console.log(`DUMMY VELOCITY Y : ${this.body.velocity.y}`)
     }
 }

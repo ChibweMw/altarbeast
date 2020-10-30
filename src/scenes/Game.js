@@ -149,7 +149,7 @@ export default class Game extends Phaser.Scene
         })
 
         this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
-        this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
+        // this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
         this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
 
 
@@ -168,7 +168,15 @@ export default class Game extends Phaser.Scene
 
     dummyHurt(player, dummy)
     {
-        dummy.dummyTakeDamage(player)
+        if (dummy.name)
+        {
+            return
+        }
+        else
+        {
+            dummy.dummyTakeDamage(player)
+            // dummy.name = 'beenhit'
+        }
     }
 
     update ()
@@ -179,8 +187,16 @@ export default class Game extends Phaser.Scene
         this.player.update()
         // this.training_dummy.update()
         this.GROUP_training_dummy.getChildren().forEach(function (dummy) {
+            /** @type {Dummy} */
             dummy.update()
-        })
+
+            if (dummy.currHP <= 0)
+            {
+                console.log(`TOTALLY NOT ALIVE CUZ HP IS NOW ${dummy.currHP}`)
+                this.GROUP_training_dummy.killAndHide(dummy)
+                this.GROUP_training_dummy.remove(dummy)
+            }
+        }, this)
 
         // this.GROUP_training_dummy.runChildUpdate = true
     }
@@ -235,6 +251,7 @@ export default class Game extends Phaser.Scene
             newDummy = this.GROUP_POOL_training_dummy.getFirst()
             // this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
             this.training_dummy_CONTROLLER.setState('idle')
+            newDummy.currHP = newDummy.maxHP
             newDummy.x = x
             newDummy.y = y
             newDummy.setActive(true)

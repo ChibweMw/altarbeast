@@ -17,7 +17,7 @@ export default class Player_IDLE
     
     update ()
     {
-        console.log(`AI UPDATE: DUMMY > IDLE`) 
+        // console.log(`AI UPDATE: DUMMY > IDLE`) 
     }
 
 }
