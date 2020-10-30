@@ -149,7 +149,7 @@ export default class Game extends Phaser.Scene
         })
 
         this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
-        // this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
+        this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
         this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
 
 
@@ -168,15 +168,8 @@ export default class Game extends Phaser.Scene
 
     dummyHurt(player, dummy)
     {
-        if (dummy.name)
-        {
-            return
-        }
-        else
-        {
-            dummy.dummyTakeDamage(player)
-            // dummy.name = 'beenhit'
-        }
+        // dummy.dummyTakeDamage(player)
+        dummy.controlState.setState('take_damage')
     }
 
     update ()
@@ -227,13 +220,6 @@ export default class Game extends Phaser.Scene
             console.log(`TOGGLE TILE COLLISION DEBUG GRAPHICS ${this.DEBUG_isOVERLAY}`)
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.key_DEBUG_ADD_HP))
-        {
-            console.log(`ADD HP TO TOTAL HEALTH}`)
-            this.player.gained_HP = 3
-            this.player_CONTROLLER.setState('gain_health')
-        }
-
         if (Phaser.Input.Keyboard.JustDown(this.key_DEBUG_SPAWN_DUMMY))
         {
             console.log(`SPAWNING DUMMY`)
@@ -250,7 +236,10 @@ export default class Game extends Phaser.Scene
             console.log(`SPAWNED POOLED DUMMY`)
             newDummy = this.GROUP_POOL_training_dummy.getFirst()
             // this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
-            this.training_dummy_CONTROLLER.setState('idle')
+            newDummy.isHurt = false
+            let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
+            newDummy.setControlState(new_dummy_CONTROLLER)
+            newDummy.controlState.setState('idle')
             newDummy.currHP = newDummy.maxHP
             newDummy.x = x
             newDummy.y = y
@@ -262,8 +251,10 @@ export default class Game extends Phaser.Scene
         else{
             console.log(`SPAWNED NEW DUMMY`)
             newDummy = this.GROUP_training_dummy.get(x, y, 'dummy', 0)
-            this.training_dummy_CONTROLLER = new Ai_Controller(newDummy)
-            this.training_dummy_CONTROLLER.setState('idle')
+            newDummy.isHurt = false
+            let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
+            newDummy.setControlState(new_dummy_CONTROLLER)
+            new_dummy_CONTROLLER.setState('idle')
             // newDummy.enableBody(true, x, y, true, true)
 
             this.GROUP_training_dummy.add(newDummy)            

@@ -1,7 +1,7 @@
 import GameOptions from "../GameOptions.js"
 import Dummy from '../Dummy.js'
 
-export default class Player_MOVE_RIGHT
+export default class AI_MOVE_RIGHT
 {
     /** @param {Dummy} dummy*/
 
@@ -12,12 +12,18 @@ export default class Player_MOVE_RIGHT
 
     enter ()
     {
-        console.log(`AI: ENTER STATE >> DUMMY > MOVE RIGHT`)         
+        console.log(`AI: ENTER STATE >> DUMMY > MOVE RIGHT`)      
+        this.dummy.curr_walkSpeed = this.dummy.init_walkSpeed   
     }
     
     update ()
     {
         // console.log(`AI STATE: DUMMY > MOVE RIGHT`) 
+        this.dummy.setVelocityX(this.dummy.curr_walkSpeed)
+        if (this.dummy.body.blocked.right)
+        {
+            this.dummy.controlState.setState('move_left')
+        }
     }
 
 }

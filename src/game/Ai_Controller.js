@@ -1,10 +1,10 @@
 import GameOptions from '../game/GameOptions.js'
 
 import AI_IDLE from './states/ai_dummy_idle.js'
-import Player_MOVE_LEFT from './states/ai_dummy_move_left.js'
-import Player_MOVE_RIGHT from './states/ai_dummy_move_right.js'
-import Player_TAKE_DAMAGE from './states/ai_dummy_take_damage.js'
-import Player_DEATH_SEQUENCE from './states/ai_dummy_death_sequence.js'
+import AI_MOVE_LEFT from './states/ai_dummy_move_left.js'
+import AI_MOVE_RIGHT from './states/ai_dummy_move_right.js'
+import AI_TAKE_DAMAGE from './states/ai_dummy_take_damage.js'
+import AI_DEATH_SEQUENCE from './states/ai_dummy_death_sequence.js'
 
 import Enemy from './Dummy.js'
 
@@ -24,10 +24,10 @@ export default class Ai_Controller
 	{
 		this.states = {
             idle: new AI_IDLE(enemy),
-            move_left: new Player_MOVE_LEFT(enemy),
-            move_right: new Player_MOVE_RIGHT(enemy),
-            move_take_damage: new Player_TAKE_DAMAGE(enemy),
-            move_death_sequence: new Player_DEATH_SEQUENCE(enemy),
+            move_left: new AI_MOVE_LEFT(enemy),
+            move_right: new AI_MOVE_RIGHT(enemy),
+            take_damage: new AI_TAKE_DAMAGE(enemy),
+            death_sequence: new AI_DEATH_SEQUENCE(enemy),
 		}
 	}
 
