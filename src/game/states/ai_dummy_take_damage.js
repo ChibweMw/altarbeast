@@ -12,23 +12,28 @@ export default class AI_TAKE_DAMAGE
 
     enter ()
     {
-        console.log(`AI: ENTER STATE >> DUMMY > IDLE`)
+        console.log(`AI: ENTER STATE >> DUMMY > TAKE DAMAGE`)
         this.dummyTakeDamage()      
     }
     
     update()
     {
         // if (this.name && this.body.blocked.down)
-        if (this.dummy.isHurt && this.dummy.body.blocked.down)
+        if (this.dummy.isHurt && this.dummy.body.blocked.down && this.dummy.currHP > 0)
         {
-            // this.setVelocityX(this.curr_walkSpeed)
             this.recoverFromHit()
+        } else if (this.dummy.isHurt && this.dummy.body.blocked.down && this.dummy.currHP <= 0)
+        {
+            console.log('DUMMY DIE NOW')
+            // this.dummy.scene.GROUP_training_dummy.killAndHide(this.dummy)
+            // this.dummy.scene.GROUP_training_dummy.remove(this.dummy)
+            this.dummy.controlState.setState('death_sequence')
         }
     }
     
     dummyTakeDamage (player)
     {
-        if (this.isHurt)
+        if (this.dummy.isHurt)
         {
             return
         }
@@ -36,7 +41,7 @@ export default class AI_TAKE_DAMAGE
         {
             this.dummy.name = 'beenhit'
             this.dummy.isHurt = true
-            console.log('DUMMY BEEN HIT BY PLAYER')
+            // console.log('DUMMY BEEN HIT BY PLAYER')
 
             // TAKE DAMAGE
             this.dummy.currHP -= 1

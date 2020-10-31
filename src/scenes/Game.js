@@ -122,13 +122,22 @@ export default class Game extends Phaser.Scene
         
         this.physics.add.collider(this.player, this.layerStaticPlatform)
         
-        // ADD TRAINING DUMMY PREFAB && GROUPS!
-
-        // ADD ACTIVE AND INACTIVE GROUP
-
-        // ACTIVE GROUP
-
+        this.GROUP_AI_CONTROLLER = this.add.group({
+            classType: Ai_Controller,
+            maxSize: 10,
+            removeCallback: function (controller) {
+                controller.scene.GROUP_POOL_AI_CONTROLLER.add(controller)
+            }
+        })
         // INACTIVE GROUP
+        this.GROUP_POOL_AI_CONTROLLER = this.add.group({
+            removeCallback: function (controller) {
+                controller.scene.GROUP_AI_CONTROLLER.add(controller)
+            }
+        })
+        // ADD TRAINING DUMMY PREFAB && GROUPS!
+        // ADD ACTIVE AND INACTIVE GROUP
+        // ACTIVE GROUP
         this.GROUP_training_dummy = this.physics.add.group({
             classType: Dummy,
             max: 10,
@@ -141,7 +150,7 @@ export default class Game extends Phaser.Scene
                 dummy.scene.GROUP_POOL_training_dummy.add(dummy)
             }
         })
-
+        // INACTIVE GROUP
         this.GROUP_POOL_training_dummy = this.physics.add.group({
             removeCallback: function (dummy) {
                 dummy.scene.GROUP_training_dummy.add(dummy)
@@ -183,12 +192,12 @@ export default class Game extends Phaser.Scene
             /** @type {Dummy} */
             dummy.update()
 
-            if (dummy.currHP <= 0)
-            {
-                console.log(`TOTALLY NOT ALIVE CUZ HP IS NOW ${dummy.currHP}`)
-                this.GROUP_training_dummy.killAndHide(dummy)
-                this.GROUP_training_dummy.remove(dummy)
-            }
+            // if (dummy.currHP <= 0)
+            // {
+            //     console.log(`TOTALLY NOT ALIVE CUZ HP IS NOW ${dummy.currHP}`)
+            //     this.GROUP_training_dummy.killAndHide(dummy)
+            //     this.GROUP_training_dummy.remove(dummy)
+            // }
         }, this)
 
         // this.GROUP_training_dummy.runChildUpdate = true
@@ -223,7 +232,7 @@ export default class Game extends Phaser.Scene
         if (Phaser.Input.Keyboard.JustDown(this.key_DEBUG_SPAWN_DUMMY))
         {
             console.log(`SPAWNING DUMMY`)
-            this.spawnDummy(16 * 2, 16 * 1)
+            this.spawnDummy(16 * 2, 16 * 2)
         }
     }
     

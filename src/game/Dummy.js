@@ -38,31 +38,12 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.init_walkSpeed = 40
         this.walkSpeed = 60
         this.curr_walkSpeed = this.init_walkSpeed
-        this.maxHP = 3
+        this.maxHP = 1
         this.currHP = this.maxHP
         this.isHurt = false
 
         this.setCollideWorldBounds(false)
         this.setBounce(0)
-
-
-
-        // this.enemyGravity =  GameOptions.enemyGravity
-
-        // this.currentFrame
-        // this.currentAnimation
-        // this.moveSpeed
-        // this.hurtTime
-        // this.isAlive
-        // this.isInvincible
-
-        // this.onGround
-
-        // this.hurtBoxX
-        // this.hurtBoxY
-        // this.hurtBoxWidth
-        // this.hurtBoxHeight
-
         
     }
 
@@ -77,16 +58,6 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
     setAudioState(audioState)
     {
         this.audioState = audioState
-    }
-
-    activateDummy(x, y)
-    {
-        this.enableBody(true, x, y, true, true)
-    }
-
-    switchXDir()
-    {
-        this.curr_walkSpeed = -this.curr_walkSpeed
     }
 
     screenWrapX()
@@ -121,84 +92,8 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
     
     update()
     {
-        // console.log(`DUMMY VELOCITY Y : ${this.body.velocity.y}`)
-        // this.scene.training_dummy_CONTROLLER.update()
         this.controlState.update()
-        // this.setVelocityX(this.curr_walkSpeed)
-        // if (this.body.blocked.left || this.body.blocked.right) 
-        // {
-        //     this.switchXDir()  
-        // } //console.log(`DUMMY WALKSPEED >> ${this.curr_walkSpeed}`)
-        // if (!this.name && this.body.blocked.down) 
-        // if (!this.isHurt && this.body.blocked.down) 
-        // {
-        //     this.setVelocityX(this.curr_walkSpeed)
-        //     // console.log('DUMMY can move')
-        // } 
-        // if (this.name && this.body.blocked.down)
-        // if (this.isHurt && this.body.blocked.down)
-        // {
-        //     // this.setVelocityX(this.curr_walkSpeed)
-        //     this.recoverFromHit()
-        // }
-        
         this.screenWrapX()
         this.screenWrapY()
     }
-    
-    // dummyTakeDamage (player)
-    // {
-    //     if (this.isHurt)
-    //     {
-    //         return
-    //     }
-    //     else
-    //     {
-    //         this.name = 'beenhit'
-    //         this.isHurt = true
-    //         console.log('DUMMY BEEN HIT BY PLAYER')
-
-    //         // TAKE DAMAGE
-    //         this.currHP -= 1
-    //         // KNOCKBACK SETUP
-    //         this.setGravityY(GameOptions.playerGravity / 2)
-    //         let recoil = 100
-    //         let xMult = 1
-    //         let yMult = 2
-    //         let xVel = 0
-    //         player.body.x < this.body.x ? xVel = recoil * xMult : xVel = -recoil * xMult
-    //         let yVel = -recoil * yMult
-    //         this.setVelocity(xVel, yVel)
-
-    //         // SPRITE FLASH EFFECT
-    //         this.setTintFill(0xffffff);
-    //         this.scene.tweens.add({
-    //             targets: this,
-    //             // alpha: 0,
-    //             alpha: { from: 1, to: 0.5 },
-    //             // tint: 0xffffff,
-    //             duration: 50,
-    //             ease: 'Cubic.easeInOut',
-    //             yoyo: true,
-    //             repeat: 5,
-    //         })
-    //         // CAMERA SHAKE
-    //         this.scene.cameras.main.shake(100, 0.0025)
-    //     }
-    // }
-    
-    // recoverFromHit ()
-    // {
-    //     this.name = ''
-    //     this.isHurt = false
-    //     this.setGravityY(GameOptions.playerGravity)
-    //     // this.setBounce(0)
-    //     // this.setDragX(1)
-    //     // this.setDragY(1)
-    //     // this.setDamping(false)
-    //     this.clearTint()
-    //     // this.setVelocity(0)
-    //     // console.log(`DUMMY VELOCITY X : ${this.body.velocity.x}`)
-    //     // console.log(`DUMMY VELOCITY Y : ${this.body.velocity.y}`)
-    // }
 }

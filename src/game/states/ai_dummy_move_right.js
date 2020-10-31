@@ -12,7 +12,7 @@ export default class AI_MOVE_RIGHT
 
     enter ()
     {
-        console.log(`AI: ENTER STATE >> DUMMY > MOVE RIGHT`)      
+        // console.log(`AI: ENTER STATE >> DUMMY > MOVE RIGHT`)      
         this.dummy.curr_walkSpeed = this.dummy.init_walkSpeed   
     }
     

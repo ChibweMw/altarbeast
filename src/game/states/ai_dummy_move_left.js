@@ -12,7 +12,7 @@ export default class AI_MOVE_LEFT
 
     enter ()
     {
-        console.log(`AI: ENTER STATE >> DUMMY > IDLE`)
+        // console.log(`AI: ENTER STATE >> DUMMY > IDLE`)
         this.dummy.curr_walkSpeed = -this.dummy.curr_walkSpeed        
     }
     

@@ -44,7 +44,7 @@ export default class Ai_Controller
         }
         // console.log(`CURRENT STATE '${name}'`)
 
-        GameOptions.STATE_PLAYER_PREV = name
+        // GameOptions.STATE_PLAYER_PREV = name
 
         this.currentState = this.states[name]
         this.currentState.enter()
