@@ -160,19 +160,6 @@ export default class Game extends Phaser.Scene
         this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
         this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
         this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
-
-
-        // this.training_dummy = new Dummy(this, 16 * 2, 16 * 1, 'dummy', 0)
-        // this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
-        // this.training_dummy_CONTROLLER.setState('idle')
-
-        // this.physics.add.collider(this.training_dummy, this.layerStaticPlatform)
-        
-        // this.physics.add.overlap(this.player.hitBox, this.training_dummy, this.player.playerTakeDamage, null, this.player)
-        // this.physics.add.overlap(this.player.hurtBox, this.training_dummy, this.training_dummy.dummyTakeDamage, null, this.training_dummy)
-
-        // this.physics.add.collider(this.player.hurtBox, this.training_dummy, this.training_dummy.dummyTakeDamage, null, this.training_dummy)
-        // console.log(`GRAVITY ${this.physics.world.gravity.y}`)
     }
 
     dummyHurt(player, dummy)
@@ -191,16 +178,7 @@ export default class Game extends Phaser.Scene
         this.GROUP_training_dummy.getChildren().forEach(function (dummy) {
             /** @type {Dummy} */
             dummy.update()
-
-            // if (dummy.currHP <= 0)
-            // {
-            //     console.log(`TOTALLY NOT ALIVE CUZ HP IS NOW ${dummy.currHP}`)
-            //     this.GROUP_training_dummy.killAndHide(dummy)
-            //     this.GROUP_training_dummy.remove(dummy)
-            // }
         }, this)
-
-        // this.GROUP_training_dummy.runChildUpdate = true
     }
 
     gamePause ()
