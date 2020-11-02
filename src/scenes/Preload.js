@@ -230,6 +230,32 @@ export default class Preload extends Phaser.Scene
         }
         const anim_conf_oni = [ANIM_CNF_oni_idle, ANIM_CNF_oni_walk, ANIM_CNF_oni_jump, ANIM_CNF_oni_crouch, ANIM_CNF_attack_stand, ANIM_CNF_attack_crouch, ANIM_CNF_attack_jump, ANIM_CNF_attack_hurt, ANIM_CNF_attack_death]
         anim_conf_oni.forEach((animation) => {this.anims.create(animation)})
+
+        // VFX ANIMATIONS 
+        // this.load.spritesheet('fx-hit-block', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 0, endFrame: 2 })
+        // this.load.spritesheet('fx-hit-connect', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 10, endFrame: 12 })
+        // this.load.spritesheet('fx-hit-enemy-death', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 32, frameHeight: 32, startFrame: 5, endFrame: 9 })
+
+        const ANIM_CNF_VFX_BLOCK = {
+            key: 'anim-fx-hit-block',
+            frames: this.anims.generateFrameNumbers('fx-hit-block', { start: 0, end: 2, first: 0 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const ANIM_CNF_VFX_CONNECT = {
+            key: 'anim-fx-hit-connect',
+            frames: this.anims.generateFrameNumbers('fx-hit-connect', { start: 10, end: 12, first: 0 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const ANIM_CNF_VFX_ENEMY_DEATH = {
+            key: 'anim-fx-hit-enemy-death',
+            frames: this.anims.generateFrameNumbers('fx-hit-enemy-death', { start: 5, end: 9, first: 0 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const anim_conf_vfx = [ANIM_CNF_VFX_BLOCK, ANIM_CNF_VFX_CONNECT, ANIM_CNF_VFX_ENEMY_DEATH]
+        anim_conf_vfx.forEach((animation) => {this.anims.create(animation)})
     }
 
     complete () 

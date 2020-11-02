@@ -8,7 +8,9 @@ export default class AI_DEATH_SEQUENCE
     constructor (dummy)
     {
         this.dummy = dummy
+        this.anim_DeathPlayed = false
     }
+
 
     enter ()
     {
@@ -20,9 +22,23 @@ export default class AI_DEATH_SEQUENCE
     {
         if (this.dummy.isHurt && this.dummy.body.blocked.down)
         {
-            console.log(`AI STATE: DUMMY > DEATH SEQ`) 
-            this.dummy.scene.GROUP_training_dummy.killAndHide(this.dummy)
-            this.dummy.scene.GROUP_training_dummy.remove(this.dummy) 
+            if (!this.anim_DeathPlayed)
+            {
+                this.anim_DeathPlayed = true
+                this.dummy.play('anim-fx-hit-enemy-death')
+                this.dummy.setVelocityX(0)
+            }
+            if (this.dummy.anims.isPlaying && this.dummy.anims.currentAnim.key === 'anim-fx-hit-enemy-death')
+            {
+                // console.log(`DEATH ANIM ISPLAYING`) 
+                return
+            }
+            else
+            {
+                // console.log(`DEATH ANIM FINISHED`) 
+                this.dummy.scene.GROUP_training_dummy.killAndHide(this.dummy)
+                this.dummy.scene.GROUP_training_dummy.remove(this.dummy) 
+            }
         }
     }
 
@@ -64,7 +80,7 @@ export default class AI_DEATH_SEQUENCE
             })
             // CAMERA SHAKE
             this.dummy.scene.cameras.main.shake(100, 0.0025)
-            this.dummy.isHurt = false
+            // this.dummy.isHurt = false
         }
     }
 

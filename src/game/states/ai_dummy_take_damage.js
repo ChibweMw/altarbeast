@@ -12,7 +12,7 @@ export default class AI_TAKE_DAMAGE
 
     enter ()
     {
-        console.log(`AI: ENTER STATE >> DUMMY > TAKE DAMAGE`)
+        // console.log(`AI: ENTER STATE >> DUMMY > TAKE DAMAGE`)
         this.dummyTakeDamage()      
     }
     
@@ -31,7 +31,7 @@ export default class AI_TAKE_DAMAGE
         }
     }
     
-    dummyTakeDamage (player)
+    dummyTakeDamage (player, dummy)
     {
         if (this.dummy.isHurt)
         {
@@ -39,7 +39,6 @@ export default class AI_TAKE_DAMAGE
         }
         else
         {
-            this.dummy.name = 'beenhit'
             this.dummy.isHurt = true
             // console.log('DUMMY BEEN HIT BY PLAYER')
 
@@ -74,7 +73,6 @@ export default class AI_TAKE_DAMAGE
     
     recoverFromHit ()
     {
-        this.dummy.name = ''
         this.dummy.isHurt = false
         this.dummy.setGravityY(GameOptions.playerGravity)
         // this.dummy.clearTint()

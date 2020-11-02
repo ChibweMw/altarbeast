@@ -5,6 +5,7 @@ import Ai_Controller from '../game/Ai_Controller.js'
 import CONTROLS from '../game/Controls.js'
 
 import Dummy from '../game/Dummy.js'
+import VFX_COLLISION from '../game/VFX_Collision.js'
 import GameOptions from '../game/GameOptions.js'
 
 export default class Game extends Phaser.Scene
@@ -157,15 +158,35 @@ export default class Game extends Phaser.Scene
             }
         })
 
+        ///////////////////////////////////////////////
+
+        this.GROUP_VFX_HIT = this.physics.add.group({
+            classType: VFX_COLLISION,
+            max: 40,
+            maxSize: 40,
+            visible: false,
+            active: false,
+            removeCallback: function (vfx_hit) {
+                vfx_hit.scene.GROUP_POOL_VFX_HIT.add(vfx_hit)
+            }
+        })
+        // INACTIVE GROUP
+        this.GROUP_POOL_VFX_HIT = this.physics.add.group({
+            removeCallback: function (vfx_hit) {
+                vfx_hit.scene.GROUP_VFX_HIT.add(vfx_hit)
+            }
+        })
+
         this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
         this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
-        this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
+        // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
+        this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy)
     }
 
     dummyHurt(player, dummy)
     {
-        // dummy.dummyTakeDamage(player)
         dummy.controlState.setState('take_damage')
+        this.spawnHitVFX(dummy.body.x, dummy.body.y, 'fx-hit-connect')        
     }
 
     update ()
@@ -178,6 +199,21 @@ export default class Game extends Phaser.Scene
         this.GROUP_training_dummy.getChildren().forEach(function (dummy) {
             /** @type {Dummy} */
             dummy.update()
+        }, this)
+
+        this.GROUP_POOL_training_dummy.getChildren().forEach(function (dummy) {
+            /** @type {Dummy} */
+            dummy.update()
+        }, this)
+
+        this.GROUP_VFX_HIT.getChildren().forEach(function (vfx_hit) {
+            /** @type {VFX_COLLISION} */
+            vfx_hit.update()
+        }, this)
+
+        this.GROUP_POOL_VFX_HIT.getChildren().forEach(function (vfx_hit) {
+            /** @type {VFX_COLLISION} */
+            vfx_hit.update()
         }, this)
     }
 
@@ -209,7 +245,7 @@ export default class Game extends Phaser.Scene
 
         if (Phaser.Input.Keyboard.JustDown(this.key_DEBUG_SPAWN_DUMMY))
         {
-            console.log(`SPAWNING DUMMY`)
+            // console.log(`SPAWNING DUMMY`)
             this.spawnDummy(16 * 2, 16 * 2)
         }
     }
@@ -220,9 +256,10 @@ export default class Game extends Phaser.Scene
         let newDummy
         
         if(this.GROUP_POOL_training_dummy.getLength()){
-            console.log(`SPAWNED POOLED DUMMY`)
+            // console.log(`SPAWNED POOLED DUMMY`)
             newDummy = this.GROUP_POOL_training_dummy.getFirst()
             // this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
+            newDummy.setTexture('dummy')
             newDummy.isHurt = false
             let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
             newDummy.setControlState(new_dummy_CONTROLLER)
@@ -236,7 +273,7 @@ export default class Game extends Phaser.Scene
             this.GROUP_POOL_training_dummy.remove(newDummy)
         }
         else{
-            console.log(`SPAWNED NEW DUMMY`)
+            // console.log(`SPAWNED NEW DUMMY`)
             newDummy = this.GROUP_training_dummy.get(x, y, 'dummy', 0)
             newDummy.isHurt = false
             let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
@@ -245,6 +282,31 @@ export default class Game extends Phaser.Scene
             // newDummy.enableBody(true, x, y, true, true)
 
             this.GROUP_training_dummy.add(newDummy)            
+        }
+    }
+
+    spawnHitVFX(x, y, animation)
+    {
+        /** @type {Dummy} */
+        let newHitVFX
+        
+        if(this.GROUP_POOL_VFX_HIT.getLength()){
+            console.log(`SPAWNED POOLED hitVF`)
+            newHitVFX = this.GROUP_POOL_VFX_HIT.getFirst()
+            newHitVFX.x = x
+            newHitVFX.y = y
+            newHitVFX.play(`anim-${animation}`)
+            newHitVFX.setActive(true)
+            newHitVFX.setVisible(true)
+            
+            this.GROUP_POOL_VFX_HIT.remove(newHitVFX)
+        }
+        else{
+            console.log(`SPAWNED NEW hitVF`)
+            newHitVFX = this.GROUP_VFX_HIT.get(x, y, animation, 0)
+            newHitVFX.play(`anim-${animation}`)
+
+            this.GROUP_VFX_HIT.add(newHitVFX)            
         }
     }
 }

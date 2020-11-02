@@ -38,27 +38,43 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.init_walkSpeed = 40
         this.walkSpeed = 60
         this.curr_walkSpeed = this.init_walkSpeed
-        this.maxHP = 1
+        this.maxHP = 10
         this.currHP = this.maxHP
         this.isHurt = false
 
         this.setCollideWorldBounds(false)
         this.setBounce(0)
-        
+        this.setupOverlapEvents()
+    }
+
+    // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
+    setupOverlapEvents(){
+        this.on("overlapstart", function() {
+            console.log(">>>>> OVERLAP STARTO <<<<<")
+            this.controlState.setState('take_damage')
+            this.scene.spawnHitVFX(this.body.x, this.body.y, 'fx-hit-connect')        
+    
+            console.time("overlap")
+          })
+
+        this.on("overlapend", function() {
+            console.log(">>>>> OVERLAP ENDO <<<<<")
+            console.timeEnd("overlap")
+        })
     }
 
     setControlState(controlState)
     {
         this.controlState = controlState
     }
-    setAnimState(animState)
-    {
-        this.animState = animState
-    }
-    setAudioState(audioState)
-    {
-        this.audioState = audioState
-    }
+    // setAnimState(animState)
+    // {
+    //     this.animState = animState
+    // }
+    // setAudioState(audioState)
+    // {
+    //     this.audioState = audioState
+    // }
 
     screenWrapX()
     {
@@ -95,5 +111,22 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.controlState.update()
         this.screenWrapX()
         this.screenWrapY()
+
+        // Treat 'embedded' as 'touching' also
+        if (this.body.embedded) this.body.touching.none = false;
+
+        var touching = !this.body.touching.none;
+        var wasTouching = !this.body.wasTouching.none;
+
+        if (touching && !wasTouching) 
+        {
+            console.log('OVERLAP START')
+            this.emit("overlapstart")
+        }
+        else if (!touching && wasTouching) 
+        {
+            console.log('OVERLAP END')
+            this.emit("overlapend")
+        }
     }
 }
