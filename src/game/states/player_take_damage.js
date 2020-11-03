@@ -41,7 +41,7 @@ export default class Player_TAKE_DAMAGE
 
     update()
     {
-        console.log(`taking damage update`)
+        // console.log(`taking damage update`)
         if (this.player.body.blocked.down)
         {
             this.recovery()

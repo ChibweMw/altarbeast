@@ -24,7 +24,7 @@ export default class AI_TAKE_DAMAGE
             this.recoverFromHit()
         } else if (this.dummy.isHurt && this.dummy.body.blocked.down && this.dummy.currHP <= 0)
         {
-            console.log('DUMMY DIE NOW')
+            // console.log('DUMMY DIE NOW')
             // this.dummy.scene.GROUP_training_dummy.killAndHide(this.dummy)
             // this.dummy.scene.GROUP_training_dummy.remove(this.dummy)
             this.dummy.controlState.setState('death_sequence')

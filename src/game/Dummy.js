@@ -23,6 +23,15 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.scene.add.existing(this)
         this.scene.physics.add.existing(this)
         this.scene.physics.world.enable(this)
+        
+        this.hitBox = this.scene.add.zone(this.body.x, this.body.y, 16, 32)
+        this.scene.add.existing(this.hitBox)
+        this.scene.physics.world.enable(this.hitBox)
+        this.hitBox.setOrigin(0, 0)
+        this.hitBox.body.debugBodyColor = 0x00ff33
+        this.scene.physics.add.overlap(this.scene.player.hurtBox, this.hitBox)
+
+
         this.setGravityY(GameOptions.playerGravity)
 
 
@@ -67,14 +76,6 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
     {
         this.controlState = controlState
     }
-    // setAnimState(animState)
-    // {
-    //     this.animState = animState
-    // }
-    // setAudioState(audioState)
-    // {
-    //     this.audioState = audioState
-    // }
 
     screenWrapX()
     {
@@ -82,12 +83,12 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         if (this.body.x > this.scene.cameras.main.width - this.body.halfWidth)
         {
             
-            console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
+            // console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
             this.body.x = 0 - this.body.halfWidth
         } 
         else if (this.body.x < 0 - this.body.halfWidth)
         {
-            console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
+            // console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
             this.body.x = this.scene.cameras.main.width - this.body.halfWidth
         }   
     }
@@ -96,14 +97,19 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         if (this.body.y > this.scene.scale.height - this.body.halfHeight)
         {
             
-            console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
+            // console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
             this.body.y = 0 - this.body.halfHeight
         } 
         else if (this.body.y < 0 - this.body.halfHeight)
         {
-            console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
+            // console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
             this.body.y = this.scene.scale.height - this.body.halfHeight
         }
+    }
+
+    trackHitBox ()
+    {
+        this.hitBox.setPosition(this.body.x, this.body.y)
     }
     
     update()
@@ -111,12 +117,13 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.controlState.update()
         this.screenWrapX()
         this.screenWrapY()
+        this.trackHitBox()
 
         // Treat 'embedded' as 'touching' also
-        if (this.body.embedded) this.body.touching.none = false;
+        if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false
 
-        var touching = !this.body.touching.none;
-        var wasTouching = !this.body.wasTouching.none;
+        var touching = !this.hitBox.body.touching.none
+        var wasTouching = !this.hitBox.body.wasTouching.none
 
         if (touching && !wasTouching) 
         {

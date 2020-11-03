@@ -107,14 +107,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     {
         this.controlState = controlState
     }
-    setAnimState(animState)
-    {
-        this.animState = animState
-    }
-    setAudioState(audioState)
-    {
-        this.audioState = audioState
-    }
     
 
     update()
@@ -175,33 +167,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.hurtBox.body.debugShowBody = !this.hurtBox.body.checkCollision.none
     }
 
-    player_OnGround ()
-    {
-        this.jumpPressed = false  // probably put in a separate function
-        this.isJumping = false
-        this.jumpVelocity = 0
-        this.jumpCount = GameOptions.player_JumpCount
-        // console.log(`ON GROUND`)
-
-        this.playerAttack_Stand()
-        
-        if (!this.isAttacking)
-        {
-
-            if (this.scene.player_Cursors.down.isDown)
-            {
-                this.scene.player_CONTROLLER.setState('crouch')          
-            } else 
-            {
-                this.playerMovement_Standing()
-            }
-            this.playerJump()
-        } else
-        {
-            console.log('>>> STAND ATTACK PLAYING')
-            // console.log(`PLAYER BODY X ${this.body.x}`)
-        }
-    }
+    
 
     resetGravity ()
     {
@@ -209,93 +175,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.jumpPeakThreshold = -20
     }
     
-    player_InAir ()
-    {
-        this.playerAttack_Jump()
-        if (!this.isAttacking_AIR) this.playerJump()
-        
-        // if (this.body.velocity.y >= -16.67 && this.isJumping)
-        if (this.body.velocity.y >= this.jumpPeakThreshold && (this.isJumping || this.isAttacking_AIR))
-        {
-            // console.log(`REDUCE GRAVITY NOW`)
-            this.setGravityY(0)
-            // this.setVelocityY(0)
-            this.scene.time.delayedCall(this.jumpHangTime, this.resetGravity, null, this)
-        }
-        // console.log(`JUMP PRESSED ?? ${this.jumpPressed}`)
-        if (!this.isJumping && !this.isAttacking_AIR)
-        {
-            // console.log(`NEUTRAL FALL`)
-            this.scene.player_CONTROLLER.setState('idle')
-        } else if (!this.isAttacking_AIR && this.jumpPressed)
-        {
-            this.playerMovement_Standing()
-            this.playerJump()
-
-        }
-
-    }
-
-    playerJump ()
-    {
-        if (this.jumpCount > 0 && Phaser.Input.Keyboard.JustDown(this.scene.key_player_B))
-        {
-            // console.log('player jump')
-            this.scene.player_CONTROLLER.setState('jump')
-        }
-        
-    }
     
-    playerMovement_Standing ()
-    {
-        if (this.scene.player_Cursors.left.isDown)
-        {
-            this.scene.player_CONTROLLER.setState('left')
-        } else if (this.scene.player_Cursors.right.isDown)
-        {
-            this.scene.player_CONTROLLER.setState('right')            
-        } else
-        {
-            // this.isJumping ? console.log(`PLAYER IS JUMPING`) : console.log(`PLAYER >>> STANDING`)  
-            this.scene.player_CONTROLLER.setState('idle')
-        }
-    }
 
-    playerAttack_Stand ()
-    {
-        if (!this.isAttacking)
-        {
-            if (this.scene.player_Cursors.down.isDown && Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
-            {
-                // console.log('CROUCH ATTACK CONTROLS')
-                this.playerAttack_Crouch()
-            } else if (Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
-            {
-                // console.log('Stand ATTACK')
-                this.scene.player_CONTROLLER.setState('stand_atk_norm')
-                this.scene.time.delayedCall(this.atkActiveTime, this.deactivatePlayerHurtbox, null, this)
-            }
-        }
-    }
-    playerAttack_Crouch ()
-    {
-        // console.log('Crouch ATTACK')
-        this.scene.player_CONTROLLER.setState('crouch_atk_norm')
-        this.scene.time.delayedCall(this.atkActiveTime, this.deactivatePlayerHurtbox, null, this)
-    }
-    playerAttack_Jump ()
-    {
-        if ( (!this.body.blocked.down || !this.isAttacking_AIR) && Phaser.Input.Keyboard.JustDown(this.scene.key_player_A))
-        {
-            // console.log(`>>> IS ATTACKING AIR : ${this.isAttacking_AIR}`)
-            this.scene.player_CONTROLLER.setState('jump_atk_norm')
-            this.scene.time.delayedCall(this.atkActiveTime, this.deactivatePlayerHurtbox, null, this)
-        }
-    }
 
     playerTakeDamage (hitBox, dummy)
     {
-        // console.log(`TEST PLAYER HIT CHECK ${hitBox}`)
+        console.log(`TEST PLAYER HIT CHECK`)
         this.dmgTaken = dummy.atkPoints
         this.scene.player_CONTROLLER.setState('take_damage')
     }
