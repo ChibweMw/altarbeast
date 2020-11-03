@@ -14,6 +14,7 @@ export default class Player_TAKE_DAMAGE
     {
         console.log(`>> TAKING DAMAGE`)
         this.player.isHurt = true
+        this.player.scene.spawnHitVFX(this.player.hitBox.body.x, this.player.hitBox.body.y, 'fx-hit-connect')        
 
         this.player.setGravityY(GameOptions.playerGravity / 2)
 
@@ -35,6 +36,7 @@ export default class Player_TAKE_DAMAGE
         this.player.play('anim-oni-attack-hurt')
 
         this.player.dmgTaken = 0
+        
 
 
     }

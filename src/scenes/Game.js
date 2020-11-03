@@ -180,6 +180,7 @@ export default class Game extends Phaser.Scene
         this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
 
         // player hitbox vs dummy hurtbox >> dummy attacks player
+        // this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
         this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
         
         // player hurtbox vs dummy hitbox >> Player attacks dummy

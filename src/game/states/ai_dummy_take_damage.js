@@ -13,6 +13,7 @@ export default class AI_TAKE_DAMAGE
     enter ()
     {
         // console.log(`AI: ENTER STATE >> DUMMY > TAKE DAMAGE`)
+        this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y, 'fx-hit-connect')        
         this.dummyTakeDamage()      
     }
     

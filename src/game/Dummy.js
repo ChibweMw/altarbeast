@@ -47,7 +47,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.init_walkSpeed = 40
         this.walkSpeed = 60
         this.curr_walkSpeed = this.init_walkSpeed
-        this.maxHP = 10
+        this.maxHP = 3
         this.currHP = this.maxHP
         this.isHurt = false
 
@@ -59,16 +59,16 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
     // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
     setupOverlapEvents(){
         this.on("overlapstart", function() {
-            console.log(">>>>> OVERLAP STARTO <<<<<")
+            // console.log(">>>>> OVERLAP STARTO <<<<<")
             this.controlState.setState('take_damage')
-            this.scene.spawnHitVFX(this.body.x, this.body.y, 'fx-hit-connect')        
     
-            console.time("overlap")
+            // console.time("overlap")
           })
 
         this.on("overlapend", function() {
-            console.log(">>>>> OVERLAP ENDO <<<<<")
-            console.timeEnd("overlap")
+            return
+            // console.log(">>>>> OVERLAP ENDO <<<<<")
+            // console.timeEnd("overlap")
         })
     }
 
@@ -127,12 +127,12 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
 
         if (touching && !wasTouching) 
         {
-            console.log('OVERLAP START')
+            // console.log('OVERLAP START')
             this.emit("overlapstart")
         }
         else if (!touching && wasTouching) 
         {
-            console.log('OVERLAP END')
+            // console.log('OVERLAP END')
             this.emit("overlapend")
         }
     }

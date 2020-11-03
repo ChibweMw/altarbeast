@@ -101,12 +101,31 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         // this.debugBodyColor = 0x008000
 
         // this.scene.cameras.main.startFollow(this, true, 0.9, 1)
+        this.setupOverlapEvents()
+    }
+
+    // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
+    setupOverlapEvents(){
+        this.on("overlapstart", function() {
+            console.log(">>>>> OVERLAP STARTO <<<<<")
+            // this.controlState.setState('take_damage')
+            this.scene.player_CONTROLLER.setState('take_damage')
+
+    
+            console.time("overlap")
+          })
+
+        this.on("overlapend", function() {
+            console.log(">>>>> OVERLAP ENDO <<<<<")
+            console.timeEnd("overlap")
+        })
     }
 
     setControlState(controlState)
     {
         this.controlState = controlState
     }
+    
     
 
     update()
@@ -122,7 +141,28 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.screenWrapX()
         this.screenWrapY()
 
+        this.trackOverlapEvents()
         
+    }
+
+    trackOverlapEvents()
+    {
+        // Treat 'embedded' as 'touching' also
+        if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false
+
+        var touching = !this.hitBox.body.touching.none
+        var wasTouching = !this.hitBox.body.wasTouching.none
+
+        if (touching && !wasTouching) 
+        {
+            console.log('OVERLAP START')
+            this.emit("overlapstart")
+        }
+        else if (!touching && wasTouching) 
+        {
+            console.log('OVERLAP END')
+            this.emit("overlapend")
+        }
     }
 
     screenWrapX()
@@ -182,7 +222,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     {
         console.log(`TEST PLAYER HIT CHECK`)
         this.dmgTaken = dummy.atkPoints
-        this.scene.player_CONTROLLER.setState('take_damage')
+        // this.scene.player_CONTROLLER.setState('take_damage')
     }
 
     damageEnd ()
