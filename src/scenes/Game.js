@@ -99,8 +99,8 @@ export default class Game extends Phaser.Scene
         this.key_player_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
         this.key_player_B = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z)
         
-        // SCENE INITIALIZATION
-        this.scene.launch('ui')
+        // // SCENE INITIALIZATION
+        // this.scene.launch('ui', {playerHP: this.player.HP})
 
         //ADD MAP IN LAYERS
         this.map = this.make.tilemap({ key: 'level-arena-01', tileWidth: 16, tileHeight: 16 })
@@ -187,6 +187,9 @@ export default class Game extends Phaser.Scene
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy)
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy)
+
+        // SCENE INITIALIZATION
+        this.scene.launch('ui', {gameScene: this})
     }
 
     dummyHurt(player, dummy)
