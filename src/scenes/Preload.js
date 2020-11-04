@@ -232,10 +232,8 @@ export default class Preload extends Phaser.Scene
         anim_conf_oni.forEach((animation) => {this.anims.create(animation)})
 
         // VFX ANIMATIONS 
-        // this.load.spritesheet('fx-hit-block', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 0, endFrame: 2 })
-        // this.load.spritesheet('fx-hit-connect', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 10, endFrame: 12 })
-        // this.load.spritesheet('fx-hit-enemy-death', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 32, frameHeight: 32, startFrame: 5, endFrame: 9 })
 
+        // COMBAT
         const ANIM_CNF_VFX_BLOCK = {
             key: 'anim-fx-hit-block',
             frames: this.anims.generateFrameNumbers('fx-hit-block', { start: 0, end: 2, first: 0 }),
@@ -254,7 +252,24 @@ export default class Preload extends Phaser.Scene
             frameRate: anim_FramRate,
             repeat: 0
         }
-        const anim_conf_vfx = [ANIM_CNF_VFX_BLOCK, ANIM_CNF_VFX_CONNECT, ANIM_CNF_VFX_ENEMY_DEATH]
+
+        // PLATFORMING
+        // this.load.spritesheet('fx-player-jump', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 3, endFrame: 5 })
+        // this.load.spritesheet('fx-player-land', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 5, endFrame: 8 })
+
+        const ANIM_CNF_VFX_PLAYER_JUMP = {
+            key: 'anim-fx-player-jump',
+            frames: this.anims.generateFrameNumbers('fx-player-jump', { start: 3, end: 5, first: 0 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const ANIM_CNF_VFX_PLAYER_LAND = {
+            key: 'anim-fx-player-land',
+            frames: this.anims.generateFrameNumbers('fx-player-land', { start: 5, end: 8, first: 0 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
+        const anim_conf_vfx = [ANIM_CNF_VFX_BLOCK, ANIM_CNF_VFX_CONNECT, ANIM_CNF_VFX_ENEMY_DEATH, ANIM_CNF_VFX_PLAYER_JUMP, ANIM_CNF_VFX_PLAYER_LAND]
         anim_conf_vfx.forEach((animation) => {this.anims.create(animation)})
     }
 

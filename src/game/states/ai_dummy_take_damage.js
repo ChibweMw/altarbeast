@@ -8,6 +8,8 @@ export default class AI_TAKE_DAMAGE
     constructor (dummy)
     {
         this.dummy = dummy
+        /**@type {Phaser.Tweens.Tween} */
+        this.tween_sprite_flash = undefined
     }
 
     enter ()
@@ -56,17 +58,18 @@ export default class AI_TAKE_DAMAGE
             this.dummy.setVelocity(xVel, yVel)
 
             // SPRITE FLASH EFFECT
-            this.dummy.setTintFill(0xffffff);
-            this.dummy.scene.tweens.add({
-                targets: this.dummy,
-                // alpha: 0,
-                alpha: { from: 1, to: 0.5 },
-                // tint: 0xffffff,
-                duration: 50,
-                ease: 'Cubic.easeInOut',
-                yoyo: true,
-                repeat: 5,
-            })
+            // this.dummy.setTintFill(0xffffff);
+            // this.dummy.scene.tweens.add({
+            //     targets: this.dummy,
+            //     // alpha: 0,
+            //     alpha: { from: 1, to: 0.5 },
+            //     // tint: 0xffffff,
+            //     duration: 50,
+            //     ease: 'Cubic.easeInOut',
+            //     yoyo: true,
+            //     repeat: 5,
+            // })
+            this.spriteFlash()
             // CAMERA SHAKE
             this.dummy.scene.cameras.main.shake(100, 0.0025)
         }
@@ -76,8 +79,25 @@ export default class AI_TAKE_DAMAGE
     {
         this.dummy.isHurt = false
         this.dummy.setGravityY(GameOptions.playerGravity)
+        this.tween_sprite_flash.stop()
+        this.dummy.setAlpha(1)
         // this.dummy.clearTint()
         this.dummy.controlState.setState('idle')
     }
 
+    spriteFlash()
+    {
+        // SPRITE FLASH EFFECT
+        this.dummy.setTintFill(0xffffff);
+        this.tween_sprite_flash = this.dummy.scene.tweens.add({
+            targets: this.dummy,
+            // alpha: 0,
+            alpha: { from: 1, to: 0.5 },
+            // tint: 0xffffff,
+            duration: 50,
+            ease: 'Cubic.easeInOut',
+            yoyo: true,
+            repeat: 5,
+        })
+    }
 }

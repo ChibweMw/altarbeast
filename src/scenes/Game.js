@@ -47,6 +47,9 @@ export default class Game extends Phaser.Scene
     training_dummy
     training_dummy_CONTROLLER
     
+    /** @type {Phaser.Time.TimerEvent} */
+    TIMED_EVENT_ENEMY_SPAWN
+
     /** @type {Phaser.Tilemaps.Tilemap} */
     map
     tiles
@@ -54,6 +57,7 @@ export default class Game extends Phaser.Scene
     layerStaticPlatform
 
     rect
+
 
     init ()
     {
@@ -93,6 +97,8 @@ export default class Game extends Phaser.Scene
         this.key_DEBUG_ADD_HP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE)
 
         this.key_DEBUG_SPAWN_DUMMY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO)
+
+        this.createDebug()
         
         // PLAYER CONTROLS
         this.player_Cursors = this.input.keyboard.createCursorKeys()
@@ -162,8 +168,8 @@ export default class Game extends Phaser.Scene
 
         this.GROUP_VFX_HIT = this.physics.add.group({
             classType: VFX_COLLISION,
-            max: 40,
-            maxSize: 40,
+            max: 100,
+            maxSize: 100,
             visible: false,
             active: false,
             removeCallback: function (vfx_hit) {
@@ -188,8 +194,11 @@ export default class Game extends Phaser.Scene
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy)
 
-        // SCENE INITIALIZATION
+        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnDummy, args: [16 * 2, 16 * 2], callbackScope: this, repeat: -1})
+
+        // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})
+        
     }
 
     dummyHurt(player, dummy)
@@ -257,10 +266,24 @@ export default class Game extends Phaser.Scene
             // console.log(`SPAWNING DUMMY`)
             this.spawnDummy(16 * 2, 16 * 2)
         }
+
+        
+    }
+
+    createDebug() {
+        this.input.keyboard.on("keydown_ONE", () => {
+          if (!this.physics.world.drawDebug)
+            this.physics.world.createDebugGraphic()
+          this.physics.world.debugGraphic.visible = this.debug = !this.debug
+        })
     }
     
     spawnDummy(x, y)
     {
+        if (this.GROUP_training_dummy.countActive() >= this.GROUP_training_dummy.maxSize)
+        {
+            return
+        }
         /** @type {Dummy} */
         let newDummy
         
@@ -296,7 +319,11 @@ export default class Game extends Phaser.Scene
 
     spawnHitVFX(x, y, animation)
     {
-        /** @type {Dummy} */
+        if (this.GROUP_VFX_HIT.countActive() >= this.GROUP_VFX_HIT.maxSize)
+        {
+            return
+        }
+        /** @type {VFX_COLLISION} */
         let newHitVFX
         
         if(this.GROUP_POOL_VFX_HIT.getLength()){

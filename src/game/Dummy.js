@@ -47,7 +47,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.init_walkSpeed = 40
         this.walkSpeed = 60
         this.curr_walkSpeed = this.init_walkSpeed
-        this.maxHP = 3
+        this.maxHP = 1
         this.currHP = this.maxHP
         this.isHurt = false
 

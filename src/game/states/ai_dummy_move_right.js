@@ -24,6 +24,12 @@ export default class AI_MOVE_RIGHT
         {
             this.dummy.controlState.setState('move_left')
         }
+
+        if (!this.dummy.body.blocked.down)
+        {
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x - this.dummy.body.width, this.dummy.body.y + 14, 'fx-player-land')
+            this.dummy.controlState.setState('fall')
+        }
     }
 
 }
