@@ -12,7 +12,7 @@ export default class AI_IDLE
 
     enter ()
     {
-        console.log(`AI: ENTER STATE >> DUMMY > IDLE`)
+        // console.log(`AI: ENTER STATE >> DUMMY > IDLE`)
         this.dummy.clearTint()
 
         if (this.dummy.scene.player.body.position.x > this.dummy.body.position.x)

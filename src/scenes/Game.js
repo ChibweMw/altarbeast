@@ -66,7 +66,7 @@ export default class Game extends Phaser.Scene
     
     create()
     {
-        console.log('Game Scene Online')
+        // console.log('Game Scene Online')
 
         // width: 256,
         // height: 240,
@@ -194,7 +194,7 @@ export default class Game extends Phaser.Scene
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy)
 
-        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnDummy, args: [16 * 2, 16 * 2], callbackScope: this, repeat: -1})
+        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [16 * 2, 16 * 2], callbackScope: this, repeat: -1})
 
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})
@@ -239,7 +239,7 @@ export default class Game extends Phaser.Scene
     {
         if (Phaser.Input.Keyboard.JustDown(this.key_PAUSE))
         {
-            console.log('PAUSE BUTTON PRESSED')
+            // console.log('PAUSE BUTTON PRESSED')
             this.scene.pause()
             this.scene.run('pause')
         }
@@ -258,7 +258,7 @@ export default class Game extends Phaser.Scene
         {
             this.DEBUG_isOVERLAY = !this.DEBUG_isOVERLAY
             this.DEBUG_Overlay.visible = this.DEBUG_isOVERLAY
-            console.log(`TOGGLE TILE COLLISION DEBUG GRAPHICS ${this.DEBUG_isOVERLAY}`)
+            // console.log(`TOGGLE TILE COLLISION DEBUG GRAPHICS ${this.DEBUG_isOVERLAY}`)
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.key_DEBUG_SPAWN_DUMMY))
@@ -327,7 +327,7 @@ export default class Game extends Phaser.Scene
         let newHitVFX
         
         if(this.GROUP_POOL_VFX_HIT.getLength()){
-            console.log(`SPAWNED POOLED hitVF`)
+            // console.log(`SPAWNED POOLED hitVF`)
             newHitVFX = this.GROUP_POOL_VFX_HIT.getFirst()
             newHitVFX.x = x
             newHitVFX.y = y
@@ -338,7 +338,7 @@ export default class Game extends Phaser.Scene
             this.GROUP_POOL_VFX_HIT.remove(newHitVFX)
         }
         else{
-            console.log(`SPAWNED NEW hitVF`)
+            // console.log(`SPAWNED NEW hitVF`)
             newHitVFX = this.GROUP_VFX_HIT.get(x, y, animation, 0)
             newHitVFX.play(`anim-${animation}`)
 
