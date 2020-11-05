@@ -108,6 +108,7 @@ export default class Options extends Phaser.Scene
                     console.log('Volume Mute')
                     this.sound.mute = !this.sound.mute
                     this.txt_option_Mute.text = `Mute : ${this.sound.mute}`
+                    this.menuSprite_Cursor.playSound_Nav()
                 }
                 break
             case this.txt_closeOptions.text:
@@ -123,6 +124,8 @@ export default class Options extends Phaser.Scene
                     Phaser.Utils.Array.RotateLeft(gameOptions.global_volume_ranges)
                     this.sound.volume = gameOptions.global_volume_ranges[0]
                     this.txt_option_Volume.text = `Volume : ${this.sound.volume}`
+                    this.menuSprite_Cursor.playSound_Nav()
+
                 }
                 
                 if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_RIGHT))
@@ -130,6 +133,8 @@ export default class Options extends Phaser.Scene
                     Phaser.Utils.Array.RotateRight(gameOptions.global_volume_ranges)
                     this.sound.volume = gameOptions.global_volume_ranges[0]
                     this.txt_option_Volume.text = `Volume : ${this.sound.volume}`
+                    this.menuSprite_Cursor.playSound_Nav()
+
                 }
                 break
             default:

@@ -6,6 +6,7 @@ import CONTROLS from '../game/Controls.js'
 
 import Dummy from '../game/Dummy.js'
 import VFX_COLLISION from '../game/VFX_Collision.js'
+import Item_Base from '../game/Item_Base.js'
 import GameOptions from '../game/GameOptions.js'
 
 export default class Game extends Phaser.Scene
@@ -187,6 +188,29 @@ export default class Game extends Phaser.Scene
             }
         })
 
+        ///////////////////////////////////////////////
+
+        this.GROUP_ITEM = this.physics.add.group({
+            classType: Item_Base,
+            max: 100,
+            maxSize: 100,
+            visible: false,
+            active: false,
+            removeCallback: function (item) {
+                item.scene.GROUP_POOL_ITEM.add(item)
+            }
+        })
+        // INACTIVE GROUP
+        this.GROUP_POOL_ITEM = this.physics.add.group({
+            removeCallback: function (item) {
+                item.scene.GROUP_ITEM.add(item)
+            }
+        })
+
+
+        
+
+
         this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
 
         // player hitbox vs dummy hurtbox >> dummy attacks player
@@ -287,6 +311,7 @@ export default class Game extends Phaser.Scene
         })
     }
     
+    
     spawnDummy(x, y)
     {
         if (this.GROUP_training_dummy.countActive() >= this.GROUP_training_dummy.maxSize)
@@ -352,6 +377,35 @@ export default class Game extends Phaser.Scene
             newHitVFX.play(`anim-${animation}`)
 
             this.GROUP_VFX_HIT.add(newHitVFX)            
+        }
+    }
+
+    spawnItem(x, y, animation)
+    {
+        if (this.GROUP_ITEM.countActive() >= this.GROUP_ITEM.maxSize)
+        {
+            return
+        }
+        /** @type {Item_Base} */
+        let newItem
+        
+        if(this.GROUP_POOL_ITEM.getLength()){
+            // console.log(`SPAWNED POOLED hitVF`)
+            newItem = this.GROUP_POOL_ITEM.getFirst()
+            newItem.x = x
+            newItem.y = y
+            // newItem.play(`anim-${animation}`)
+            newItem.setActive(true)
+            newItem.setVisible(true)
+            
+            this.GROUP_POOL_ITEM.remove(newItem)
+        }
+        else{
+            // console.log(`SPAWNED NEW hitVF`)
+            newItem = this.GROUP_ITEM.get(x, y, animation, 0)
+            // newItem.play(`anim-${animation}`)
+
+            this.GROUP_ITEM.add(newItem)            
         }
     }
 }
