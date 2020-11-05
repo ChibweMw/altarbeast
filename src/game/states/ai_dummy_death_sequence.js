@@ -25,6 +25,7 @@ export default class AI_DEATH_SEQUENCE
             if (!this.anim_DeathPlayed)
             {
                 this.anim_DeathPlayed = true
+                this.dummy.scene.spawnItem(this.dummy.body.x, this.dummy.body.y, 'ui-health')
                 this.dummy.play('anim-fx-hit-enemy-death')
                 this.dummy.setVelocityX(0)
             }

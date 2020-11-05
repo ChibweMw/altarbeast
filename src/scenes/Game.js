@@ -236,7 +236,7 @@ export default class Game extends Phaser.Scene
         const SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
         const SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
 
-        // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [SPAWN_POINT_enemy_left.x, SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
+        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [SPAWN_POINT_enemy_left.x, SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
 
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})
@@ -249,8 +249,22 @@ export default class Game extends Phaser.Scene
         this.spawnHitVFX(dummy.body.x, dummy.body.y, 'fx-hit-connect')        
     }
 
+    /**
+     * 
+     * @param {Player} player 
+     * @param {Item_Base} item 
+     */
     itemPickup(player, item)
     {
+        if (item.tween_flicker) 
+        {
+            item.tween_flicker.stop()
+        }
+        if (item.tween_left_right_motion) 
+        {
+            item.tween_left_right_motion.stop()
+        }
+        item.setAlpha(1)
         this.GROUP_ITEM.killAndHide(item)
         this.GROUP_ITEM.remove(item)
     }
@@ -423,12 +437,16 @@ export default class Game extends Phaser.Scene
             // newItem.play(`anim-${animation}`)
             newItem.setActive(true)
             newItem.setVisible(true)
-            
+            newItem.readyToFlicker = true
+            newItem.canWaver = true
+            newItem.setAlpha(1)            
             this.GROUP_POOL_ITEM.remove(newItem)
         }
         else{
             // console.log(`SPAWNED NEW hitVF`)
             newItem = this.GROUP_ITEM.get(x, y, animation, 3)
+            newItem.readyToFlicker = true
+
             // newItem.play(`anim-${animation}`)
 
             this.GROUP_ITEM.add(newItem)            

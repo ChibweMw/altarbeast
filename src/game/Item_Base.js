@@ -18,6 +18,7 @@ export default class Item_Base extends Phaser.Physics.Arcade.Sprite
         this.setOrigin(0, 0)
         this.setActive(true)
         this.setVisible(true)
+        this.setAlpha(1)
 
         this.scene.add.existing(this)
         this.scene.physics.add.existing(this)
@@ -29,6 +30,14 @@ export default class Item_Base extends Phaser.Physics.Arcade.Sprite
 
         this.setDepth(7)
         this.controlState = undefined
+
+        /**@type {Phaser.Tweens.Tween} */
+        this.tween_flicker = undefined
+        /**@type {Phaser.Tweens.Tween} */
+        this.tween_left_right_motion = undefined
+
+        this.readyToFlicker = true
+        this.canWaver = true
     }
 
     setControlState(controlState)
@@ -39,29 +48,58 @@ export default class Item_Base extends Phaser.Physics.Arcade.Sprite
 
     tween_itemFlicker()
     {
+        console.log('FLICKER TIIIME')
         // flash with a tween
+        this.tween_flicker = this.scene.tweens.add({
+            targets: this,
+            // alpha: 0,
+            alpha: { from: 1, to: 0.25,  },
+            // tint: 0xffffff,
+            duration: 1000,
+            ease: 'Cubic.easeIn',
+            yoyo: false,
+            delay: 250,
+            repeat: 5,
+            onComplete: this.expiration,
+            callbackScope: this,
+        })
+    }
+
+    tween_fallWaver()
+    {
+        this.tween_left_right_motion = this.scene.tweens.add({
+            targets: this,
+            x: '-=32',
+            ease: 'Sine.easeInOut',
+            duration: 1000,
+            yoyo: true,
+            repeat: -1,
+            callbackScope: this
+        })
     }
 
     update()
     {
-        console.log('HAAAAAAAAAAAAAAAAAA')
-        if (this.body.velocity.y > 0)
+        if (this.canWaver && this.body.velocity.y > 0)
         {
-            this.setGravityY(GameOptions.playerGravity / 25)
+            this.canWaver = false
+            this.tween_fallWaver()
+            this.setGravityY(GameOptions.playerGravity / 100)
         }
-        // CALL TIMED KILL FUNCTION
 
-        // if (!this.anims.isPlaying)
-        // {
-        //     this.scene.GROUP_VFX_HIT.killAndHide(this)
-        //     this.scene.GROUP_VFX_HIT.remove(this) 
-        // }
+        if (this.readyToFlicker && this.body.blocked.down)
+        {
+            this.readyToFlicker = false
+            this.tween_left_right_motion.stop()
+            this.tween_itemFlicker()
+        }
     }
 
-    timedExpiration()
+    
+
+    expiration()
     {
-        // call item flicker tween
-        // this.tween_itemFlicker()
-        // clean up item when tween is completed using and onComplete callback
+        this.scene.GROUP_ITEM.killAndHide(this)
+        this.scene.GROUP_ITEM.remove(this)
     }
 }
