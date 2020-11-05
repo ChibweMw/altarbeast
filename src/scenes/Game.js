@@ -264,6 +264,7 @@ export default class Game extends Phaser.Scene
         {
             item.tween_left_right_motion.stop()
         }
+        this.spawnHitVFX(player.body.x, player.body.y, 'fx-hit-block')
         item.setAlpha(1)
         this.GROUP_ITEM.killAndHide(item)
         this.GROUP_ITEM.remove(item)

@@ -58,7 +58,7 @@ export default class Item_Base extends Phaser.Physics.Arcade.Sprite
             duration: 1000,
             ease: 'Cubic.easeIn',
             yoyo: false,
-            delay: 250,
+            delay: 100,
             repeat: 5,
             onComplete: this.expiration,
             callbackScope: this,
