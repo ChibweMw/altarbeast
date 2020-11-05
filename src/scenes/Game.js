@@ -75,7 +75,8 @@ export default class Game extends Phaser.Scene
         const width = this.scale.width
         const height = this.scale.height
         // this.cameras.main.setOrigin(0.5)
-        this.cameras.main.setViewport(((width - 256) / 2), 0, 256, 240)
+        // SHRINK GAME SCENE VIEWPORT TO MATCH OG CASTLEVANIA SCREEN RESOLUTION
+        // this.cameras.main.setViewport(((width - 256) / 2), 0, 256, 240)
 
         // SCENE OVERLAY GRAPHIC
 
@@ -194,7 +195,7 @@ export default class Game extends Phaser.Scene
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy)
 
-        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [16 * 2, 16 * 2], callbackScope: this, repeat: -1})
+        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [16 * 0, 16 * 8], callbackScope: this, repeat: -1})
 
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})
