@@ -116,9 +116,12 @@ export default class Game extends Phaser.Scene
         this.layerStaticPlatform = this.map.createStaticLayer('platform-solid-static', this.tiles, 0, 0)
         
         const layerPlatformDeco = this.map.createStaticLayer('platform-env-static', this.tiles, 0, 0).setDepth(-1)
+
+        const SPAWN_POINT_player = this.map.findObject("spawnpoints", obj => obj.name === "player-spawn-point")
         
         // ADD PLAYER
-        this.player = new Player(this, 16 * 11, 16 * 5, 'oni-idle', 0)
+        // this.player = new Player(this, 16 * 11, 16 * 5, 'oni-idle', 0)
+        this.player = new Player(this, SPAWN_POINT_player.x, SPAWN_POINT_player.y, 'oni-idle', 0)
         this.player_CONTROLLER = new Player_Controller(this.player)
         
         this.player_CONTROLLER.setState('idle')
@@ -195,7 +198,12 @@ export default class Game extends Phaser.Scene
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy)
 
-        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [16 * 0, 16 * 8], callbackScope: this, repeat: -1})
+        // SPAWN ENEMIES ON A TIMER
+        // SET ENEMY SPAWN POINT FIRST
+        const SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
+        const SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
+
+        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [SPAWN_POINT_enemy_left.x, SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
 
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})

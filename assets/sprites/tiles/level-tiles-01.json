@@ -3,8 +3,8 @@
     {
      "export":
         {
-         "format":"json",
-         "target":"level-tiles-01.json"
+         "format":"tmx",
+         "target":"level-tiles-01.tmx"
         }
     },
  "height":15,
@@ -37,9 +37,56 @@
          "width":25,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":4,
+         "name":"spawnpoints",
+         "objects":[
+                {
+                 "height":0,
+                 "id":3,
+                 "name":"enemy-spawn-left",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":0,
+                 "y":128
+                }, 
+                {
+                 "height":0,
+                 "id":4,
+                 "name":"enemy-spawn-right",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":384,
+                 "y":128
+                }, 
+                {
+                 "height":0,
+                 "id":5,
+                 "name":"player-spawn-point",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":192,
+                 "y":48
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":4,
- "nextobjectid":3,
+ "nextlayerid":6,
+ "nextobjectid":6,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",
