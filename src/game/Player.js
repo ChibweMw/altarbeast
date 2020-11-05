@@ -22,12 +22,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
         
 
-        this.hitBox = this.scene.add.zone(this.body.x, this.body.y, 16, 32)
+        this.hitBox = this.scene.add.zone(this.body.x + 4, this.body.y, 8, 32)
         this.scene.add.existing(this.hitBox)
         this.scene.physics.world.enable(this.hitBox)
-        this.hitBox.setOrigin(0, 1)
+        this.hitBox.setOrigin(0, 0)
 
-        this.hurtBox = this.scene.add.zone(this.body.x, this.body.y + 12, 48, 32)
+        this.hurtBox = this.scene.add.zone(this.body.x, this.body.y, 48, 32)
         this.scene.add.existing(this.hurtBox)
         this.scene.physics.world.enable(this.hurtBox)
         this.hurtBox.setOrigin(0, 0)
@@ -92,10 +92,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.setGravityY(this.playerGravity)
         // this.setCollideWorldBounds(true)
         this.setCollideWorldBounds(false)
-        this.setSize(16, 2)
-        this.setOffset(16, this.frame.realHeight - this.body.height)
+        this.setSize(16, 32)
+        this.setOffset(16, this.body.halfHeight)
         this.setFlipX(true)
-        this.setOrigin(0.5, 1)
+        this.setOrigin(0, 1)
 
         this.body.debugBodyColor = 0xfff999
         // this.debugBodyColor = 0x008000
@@ -198,12 +198,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     trackHitBox ()
     {
-        this.hitBox.setPosition(this.body.x, this.body.y + 2)
+        this.hitBox.setPosition(this.body.x + 4, this.body.y + 2)
     }
 
     trackHurtBox ()
     {
-        this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 42)
+        // this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 42)
+        this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 12)
         this.hurtBox.body.debugShowBody = !this.hurtBox.body.checkCollision.none
     }
 

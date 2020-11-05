@@ -7,6 +7,7 @@ import CONTROLS from '../game/Controls.js'
 import Dummy from '../game/Dummy.js'
 import VFX_COLLISION from '../game/VFX_Collision.js'
 import Item_Base from '../game/Item_Base.js'
+
 import GameOptions from '../game/GameOptions.js'
 
 export default class Game extends Phaser.Scene
@@ -171,7 +172,7 @@ export default class Game extends Phaser.Scene
 
         ///////////////////////////////////////////////
 
-        this.GROUP_VFX_HIT = this.physics.add.group({
+        this.GROUP_VFX_HIT = this.add.group({
             classType: VFX_COLLISION,
             max: 100,
             maxSize: 100,
@@ -182,7 +183,7 @@ export default class Game extends Phaser.Scene
             }
         })
         // INACTIVE GROUP
-        this.GROUP_POOL_VFX_HIT = this.physics.add.group({
+        this.GROUP_POOL_VFX_HIT = this.add.group({
             removeCallback: function (vfx_hit) {
                 vfx_hit.scene.GROUP_VFX_HIT.add(vfx_hit)
             }
@@ -192,8 +193,14 @@ export default class Game extends Phaser.Scene
 
         this.GROUP_ITEM = this.physics.add.group({
             classType: Item_Base,
-            max: 100,
-            maxSize: 100,
+            max: 10,
+            maxSize: 10,
+            allowGravity: true,
+            gravityY: GameOptions.playerGravity / 2,
+            velocityY: -550,
+            // accelerationY: -100,
+            allowDrag: true,
+            dragY: 1,
             visible: false,
             active: false,
             removeCallback: function (item) {
@@ -212,14 +219,16 @@ export default class Game extends Phaser.Scene
 
 
         this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
+        this.physics.add.collider(this.GROUP_ITEM, this.layerStaticPlatform)
 
         // player hitbox vs dummy hurtbox >> dummy attacks player
         // this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
         this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
+        this.physics.add.overlap(this.player, this.GROUP_ITEM, this.itemPickup, null, this)
         
         // player hurtbox vs dummy hitbox >> Player attacks dummy
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy)
-        // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.dummyHurt, null, this)
+        // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy, this.itemPickup, null, this)
         // this.physics.add.overlap(this.player.hurtBox, this.GROUP_training_dummy)
 
         // SPAWN ENEMIES ON A TIMER
@@ -227,7 +236,7 @@ export default class Game extends Phaser.Scene
         const SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
         const SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
 
-        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [SPAWN_POINT_enemy_left.x, SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
+        // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [SPAWN_POINT_enemy_left.x, SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
 
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})
@@ -238,6 +247,12 @@ export default class Game extends Phaser.Scene
     {
         dummy.controlState.setState('take_damage')
         this.spawnHitVFX(dummy.body.x, dummy.body.y, 'fx-hit-connect')        
+    }
+
+    itemPickup(player, item)
+    {
+        this.GROUP_ITEM.killAndHide(item)
+        this.GROUP_ITEM.remove(item)
     }
 
     update ()
@@ -252,20 +267,30 @@ export default class Game extends Phaser.Scene
             dummy.update()
         }, this)
 
-        this.GROUP_POOL_training_dummy.getChildren().forEach(function (dummy) {
-            /** @type {Dummy} */
-            dummy.update()
-        }, this)
+        // this.GROUP_POOL_training_dummy.getChildren().forEach(function (dummy) {
+        //     /** @type {Dummy} */
+        //     dummy.update()
+        // }, this)
 
         this.GROUP_VFX_HIT.getChildren().forEach(function (vfx_hit) {
             /** @type {VFX_COLLISION} */
             vfx_hit.update()
         }, this)
 
-        this.GROUP_POOL_VFX_HIT.getChildren().forEach(function (vfx_hit) {
-            /** @type {VFX_COLLISION} */
-            vfx_hit.update()
+        // this.GROUP_POOL_VFX_HIT.getChildren().forEach(function (vfx_hit) {
+        //     /** @type {VFX_COLLISION} */
+        //     vfx_hit.update()
+        // }, this)
+
+        this.GROUP_ITEM.getChildren().forEach(function (item) {
+            /** @type {Item_Base} */
+            item.update()
         }, this)
+
+        // this.GROUP_POOL_ITEM.getChildren().forEach(function (item) {
+        //     /** @type {Item_Base} */
+        //     item.update()
+        // }, this)
     }
 
     gamePause ()
@@ -297,7 +322,8 @@ export default class Game extends Phaser.Scene
         if (Phaser.Input.Keyboard.JustDown(this.key_DEBUG_SPAWN_DUMMY))
         {
             // console.log(`SPAWNING DUMMY`)
-            this.spawnDummy(16 * 2, 16 * 2)
+            // this.spawnDummy(16 * 2, 16 * 2)
+            this.spawnItem(16 * 8, 16 * 8, 'ui-health')
         }
 
         
@@ -373,7 +399,7 @@ export default class Game extends Phaser.Scene
         }
         else{
             // console.log(`SPAWNED NEW hitVF`)
-            newHitVFX = this.GROUP_VFX_HIT.get(x, y, animation, 0)
+            newHitVFX = this.GROUP_VFX_HIT.get(x, y, animation)
             newHitVFX.play(`anim-${animation}`)
 
             this.GROUP_VFX_HIT.add(newHitVFX)            
@@ -402,7 +428,7 @@ export default class Game extends Phaser.Scene
         }
         else{
             // console.log(`SPAWNED NEW hitVF`)
-            newItem = this.GROUP_ITEM.get(x, y, animation, 0)
+            newItem = this.GROUP_ITEM.get(x, y, animation, 3)
             // newItem.play(`anim-${animation}`)
 
             this.GROUP_ITEM.add(newItem)            

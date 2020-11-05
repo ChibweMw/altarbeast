@@ -1,7 +1,6 @@
 import GameOptions from './GameOptions.js'
 import Game from '../scenes/Game.js'
 
-
 export default class Item_Base extends Phaser.Physics.Arcade.Sprite 
 {
     /**
@@ -14,126 +13,55 @@ export default class Item_Base extends Phaser.Physics.Arcade.Sprite
     constructor(scene, x, y, texture, frame)
     {
         super(scene, x, y, texture, frame)
-
+        
         this.scene = scene
         this.setOrigin(0, 0)
         this.setActive(true)
         this.setVisible(true)
-        
+
         this.scene.add.existing(this)
         this.scene.physics.add.existing(this)
         this.scene.physics.world.enable(this)
-        
-        this.hitBox = this.scene.add.zone(this.body.x, this.body.y, 16, 32)
-        this.scene.add.existing(this.hitBox)
-        this.scene.physics.world.enable(this.hitBox)
-        this.hitBox.setOrigin(0, 0)
-        this.hitBox.body.debugBodyColor = 0x00ff33
-        this.scene.physics.add.overlap(this.scene.player.hurtBox, this.hitBox)
 
-
-        this.setGravityY(GameOptions.playerGravity)
-
-
-        this.controlState = undefined
-        this.animState = undefined
-        this.audioState = undefined
-
-        this.atkPoints = 1
-
-
-        this.vulnTime = 500
-
-        this.init_walkSpeed = 50
-        this.walkSpeed = 60
-        this.curr_walkSpeed = this.init_walkSpeed
-        this.maxHP = 1
-        this.currHP = this.maxHP
-        this.isHurt = false
+        // this.setGravityY(GameOptions.playerGravity / 10)
 
         this.setCollideWorldBounds(false)
-        this.setBounce(0)
-        this.setupOverlapEvents()
-    }
 
-    // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
-    setupOverlapEvents(){
-        this.on("overlapstart", function() {
-            // console.log(">>>>> OVERLAP STARTO <<<<<")
-            this.controlState.setState('take_damage')
-    
-            // console.time("overlap")
-          })
-
-        this.on("overlapend", function() {
-            return
-            // console.log(">>>>> OVERLAP ENDO <<<<<")
-            // console.timeEnd("overlap")
-        })
+        this.setDepth(7)
+        this.controlState = undefined
     }
 
     setControlState(controlState)
     {
         this.controlState = controlState
+
     }
 
-    screenWrapX()
+    tween_itemFlicker()
     {
-        // if (this.body.x > this.scene.scale.width - this.body.halfWidth)
-        if (this.body.x > this.scene.cameras.main.width - this.body.halfWidth)
-        {
-            
-            // console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
-            this.body.x = 0 - this.body.halfWidth
-        } 
-        else if (this.body.x < 0 - this.body.halfWidth)
-        {
-            // console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
-            this.body.x = this.scene.cameras.main.width - this.body.halfWidth
-        }   
-    }
-    screenWrapY()
-    {
-        if (this.body.y > this.scene.scale.height - this.body.halfHeight)
-        {
-            
-            // console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
-            this.body.y = 0 - this.body.halfHeight
-        } 
-        else if (this.body.y < 0 - this.body.halfHeight)
-        {
-            // console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
-            this.body.y = this.scene.scale.height - this.body.halfHeight
-        }
+        // flash with a tween
     }
 
-    trackHitBox ()
-    {
-        this.hitBox.setPosition(this.body.x, this.body.y)
-    }
-    
     update()
     {
-        this.controlState.update()
-        this.screenWrapX()
-        this.screenWrapY()
-        this.trackHitBox()
-
-        // Treat 'embedded' as 'touching' also
-        if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false
-
-        var touching = !this.hitBox.body.touching.none
-        var wasTouching = !this.hitBox.body.wasTouching.none
-
-        if (touching && !wasTouching) 
+        console.log('HAAAAAAAAAAAAAAAAAA')
+        if (this.body.velocity.y > 0)
         {
-            // console.log('OVERLAP START')
-            this.emit("overlapstart")
+            this.setGravityY(GameOptions.playerGravity / 25)
         }
-        else if (!touching && wasTouching) 
-        {
-            // console.log('OVERLAP END')
-            this.emit("overlapend")
-        }
+        // CALL TIMED KILL FUNCTION
+
+        // if (!this.anims.isPlaying)
+        // {
+        //     this.scene.GROUP_VFX_HIT.killAndHide(this)
+        //     this.scene.GROUP_VFX_HIT.remove(this) 
+        // }
+    }
+
+    timedExpiration()
+    {
+        // call item flicker tween
+        // this.tween_itemFlicker()
+        // clean up item when tween is completed using and onComplete callback
     }
 }
