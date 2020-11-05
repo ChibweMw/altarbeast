@@ -246,7 +246,7 @@ export default class Game extends Phaser.Scene
 
     gamePause ()
     {
-        if (Phaser.Input.Keyboard.JustDown(this.key_PAUSE))
+        if (Phaser.Input.Keyboard.JustUp(this.key_PAUSE))
         {
             // console.log('PAUSE BUTTON PRESSED')
             this.scene.pause()

@@ -10,6 +10,7 @@ export default class Pause extends Phaser.Scene
     }
 
     key_CONFIRM
+    key_UNPAUSE
     key_uiCursor_UP
     key_uiCursor_DOWN
 
@@ -63,6 +64,9 @@ export default class Pause extends Phaser.Scene
 
         // SCENE CONTROLS - UnPause, Up/Down navigation
         this.key_CONFIRM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
+        //key_UNPAUSE
+        this.key_UNPAUSE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P)
+
         this.key_uiCursor_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
         this.key_uiCursor_DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
 
@@ -76,7 +80,7 @@ export default class Pause extends Phaser.Scene
 
     uiConfirm()
     {
-        if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+        if (Phaser.Input.Keyboard.JustUp(this.key_CONFIRM) || (Phaser.Input.Keyboard.JustUp(this.key_UNPAUSE) && gameOptions.UI_cursorTarget === this.sceneResumeText.text))
         {
             switch (gameOptions.UI_cursorTarget)
             {
