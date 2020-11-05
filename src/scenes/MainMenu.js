@@ -65,14 +65,14 @@ export default class MainMenu extends Phaser.Scene
         switch (gameOptions.UI_cursorTarget)
         {
             case this.menuText_Start.text:
-                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+                if (Phaser.Input.Keyboard.JustUp(this.key_CONFIRM))
                 {
                     console.log('Got to Game Scene')
                     this.scene.start('game')
                 }
                 break
             case this.menuText_Options.text:
-                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+                if (Phaser.Input.Keyboard.JustUp(this.key_CONFIRM))
                 {
                     console.log(`Go to OPTIONS SCENE`)
                     gameOptions.scene_prev = this.scene.key

@@ -75,7 +75,7 @@ export default class Options extends Phaser.Scene
         
         this.uiSettingControl()
 
-        if (Phaser.Input.Keyboard.JustDown(this.key_CANCEL))
+        if (Phaser.Input.Keyboard.JustUp(this.key_CANCEL))
         {
             this.scene.stop()
             this.scene.wake(gameOptions.scene_prev)
@@ -103,7 +103,7 @@ export default class Options extends Phaser.Scene
         switch (gameOptions.UI_cursorTarget)
         {
             case this.txt_option_Mute.text:
-                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+                if (Phaser.Input.Keyboard.JustUp(this.key_CONFIRM))
                 {
                     console.log('Volume Mute')
                     this.sound.mute = !this.sound.mute
@@ -111,7 +111,7 @@ export default class Options extends Phaser.Scene
                 }
                 break
             case this.txt_closeOptions.text:
-                if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+                if (Phaser.Input.Keyboard.JustUp(this.key_CONFIRM))
                 {
                     this.scene.stop()
                     this.scene.wake(gameOptions.scene_prev)
