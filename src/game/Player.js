@@ -72,22 +72,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
         this.startFallY = undefined
         this.endFallY = undefined
-
+        
+        this.isAlive = true
         // this.currentFrame
         // this.currentAnimation
-        // this.isAlive
         // this.isInvincible
-        // this.canControl
-        // this.canCombo
-        // this.canAttack
-        // this.usingAbility
-
-        // this.onGround
-
-        // this.hurtBoxX
-        // this.hurtBoxY
-        // this.hurtBoxWidth
-        // this.hurtBoxHeight  
 
         this.setGravityY(this.playerGravity)
         // this.setCollideWorldBounds(true)

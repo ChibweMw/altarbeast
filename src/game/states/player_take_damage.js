@@ -15,7 +15,7 @@ export default class Player_TAKE_DAMAGE
 
     enter ()
     {
-        console.log(`>> TAKING DAMAGE`)
+        // console.log(`>> TAKING DAMAGE`)
         this.player.isHurt = true
         this.spriteFlash()
         this.player.scene.spawnHitVFX(this.player.hitBox.body.x, this.player.hitBox.body.y, 'fx-hit-connect')        
@@ -31,10 +31,10 @@ export default class Player_TAKE_DAMAGE
         this.player.setVelocityY(this.player.jumpVelocity)
 
         // HP CALC
-        console.log(`>> Player HP : ${this.player.HP}`)
+        // console.log(`>> Player HP : ${this.player.HP}`)
         this.player.HP -= this.player.dmgTaken
-        console.log(`>> Damage DAMAGE : ${this.player.dmgTaken}`)
-        console.log(`>> Player HP : ${this.player.HP}`)
+        // console.log(`>> Damage DAMAGE : ${this.player.dmgTaken}`)
+        // console.log(`>> Player HP : ${this.player.HP}`)
         
         this.player.play('anim-oni-attack-hurt')
         
@@ -50,19 +50,27 @@ export default class Player_TAKE_DAMAGE
 
     update()
     {
-        // console.log(`taking damage update`)
-        if (this.player.body.blocked.down)
+        // if (this.player.body.blocked.down)
+        // {
+        //     this.recovery()
+        // }
+        if (this.player.isHurt && this.player.body.blocked.down && this.player.HP > 0)
         {
             this.recovery()
+        } else if (this.player.isHurt && this.player.body.blocked.down && this.player.HP <= 0)
+        {
+            console.log(`PLAYER DEATH SEQUENCE`)
+            this.player.scene.player_CONTROLLER.setState('death')
         }
-        // this.recovery()
     }
     
     recovery()
     {
         this.player.clearTint()
         this.tween_sprite_flash.stop()
+        this.player.isHurt = false
         this.player.setAlpha(1)
+        this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
         this.player.scene.player_CONTROLLER.setState('idle')
     }
     

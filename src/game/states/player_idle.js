@@ -18,7 +18,6 @@ export default class Player_Idle
          * This resetting should be moved to an 'exit' function for further separation of concerns
          */
         this.player.jumpCount = GameOptions.player_JumpCount
-        // this.player.isHurt = true
         this.player.setGravityY(GameOptions.playerGravity)
 
         

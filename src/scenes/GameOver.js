@@ -53,7 +53,7 @@ export default class GameOver extends Phaser.Scene
 
     update()
     {
-        if (Phaser.Input.Keyboard.JustDown(this.key_CONFIRM))
+        if (Phaser.Input.Keyboard.JustUp(this.key_CONFIRM))
         {
             switch (this.UI_cursorTarget.text)
             {
@@ -70,12 +70,12 @@ export default class GameOver extends Phaser.Scene
             }
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_UP))
+        if (Phaser.Input.Keyboard.JustUp(this.key_uiCursor_UP))
         {
             Phaser.Utils.Array.RotateRight(this.menuItems)
         }
         
-        if (Phaser.Input.Keyboard.JustDown(this.key_uiCursor_DOWN))
+        if (Phaser.Input.Keyboard.JustUp(this.key_uiCursor_DOWN))
         {
             Phaser.Utils.Array.RotateLeft(this.menuItems)
         }

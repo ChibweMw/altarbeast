@@ -60,10 +60,12 @@ export default class Game extends Phaser.Scene
 
     rect
 
+    isGameOver = false
 
     init ()
     {
         this.DEBUG_isOVERLAY = false
+        this.isGameOver = false
     }
     
     create()
@@ -214,10 +216,6 @@ export default class Game extends Phaser.Scene
             }
         })
 
-
-        
-
-
         this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
         this.physics.add.collider(this.GROUP_ITEM, this.layerStaticPlatform)
 
@@ -271,10 +269,22 @@ export default class Game extends Phaser.Scene
         GameOptions.playerScore += 100
     }
 
+    gameOverSeq()
+    {
+        this.scene.launch('gameover')
+    }
+
     update ()
     {
         this.gamePause()
         this.DEBUG_KEY_CONTROLS()
+
+        if (!this.player.isAlive && !this.isGameOver)
+        {
+            this.isGameOver = true
+            this.time.delayedCall(250, this.gameOverSeq, null, this)            // this.gameOverSeq()
+        }
+
 
         this.player.update()
         // this.training_dummy.update()
