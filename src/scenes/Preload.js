@@ -14,7 +14,7 @@ export default class Preload extends Phaser.Scene
         
         // UI
         this.load.spritesheet('ui-cursor', '../../assets/sprites/UI/UI.png', { frameWidth: 16, frameHeight: 16, startFrame: 0, endFrame: 1 })
-        this.load.spritesheet('ui-health', '../../assets/sprites/UI/UI.png', { frameWidth: 16, frameHeight: 16, startFrame: 3, endFrame: 3 })
+        this.load.spritesheet('ui-health', '../../assets/sprites/UI/UI.png', { frameWidth: 16, frameHeight: 16, startFrame: 4, endFrame: 6 })
         this.load.spritesheet('ui-mp', '../../assets/sprites/UI/UI.png', { frameWidth: 16, frameHeight: 16, startFrame: 3, endFrame: 3 })
         this.load.spritesheet('ui-sw-axe', '../../assets/sprites/UI/UI.png', { frameWidth: 16, frameHeight: 16, startFrame: 2, endFrame: 2 })
         

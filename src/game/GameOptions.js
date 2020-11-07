@@ -11,4 +11,9 @@ export default gameOptions =
     player_JumpCount: 1,
     player_walkSpeed: 80,
     STATE_PLAYER_PREV: '',
+    playerStartHP: 5,
+    playerMinHP: 0,
+    playerMaxHP: 5,
+    playerScore: 0,
+    // playerScore_High: 0 
 }

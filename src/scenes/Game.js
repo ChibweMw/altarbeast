@@ -243,11 +243,11 @@ export default class Game extends Phaser.Scene
         
     }
 
-    dummyHurt(player, dummy)
-    {
-        dummy.controlState.setState('take_damage')
-        this.spawnHitVFX(dummy.body.x, dummy.body.y, 'fx-hit-connect')        
-    }
+    // dummyHurt(player, dummy)
+    // {
+    //     dummy.controlState.setState('take_damage')
+    //     this.spawnHitVFX(dummy.body.x, dummy.body.y, 'fx-hit-connect')        
+    // }
 
     /**
      * 
@@ -268,6 +268,7 @@ export default class Game extends Phaser.Scene
         item.setAlpha(1)
         this.GROUP_ITEM.killAndHide(item)
         this.GROUP_ITEM.remove(item)
+        GameOptions.playerScore += 100
     }
 
     update ()

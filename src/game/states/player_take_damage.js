@@ -37,7 +37,11 @@ export default class Player_TAKE_DAMAGE
         console.log(`>> Player HP : ${this.player.HP}`)
         
         this.player.play('anim-oni-attack-hurt')
-
+        
+        if (this.player.HP < 0)
+        {
+            this.player.HP = 0
+        }
         this.player.dmgTaken = 0
         
 
