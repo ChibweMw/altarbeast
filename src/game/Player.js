@@ -54,7 +54,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.jumpVelocity = 0
         this.atkActiveTime = 300
         this.HP = GameOptions.playerStartHP
-        this.AP = 3
+        this.AP = GameOptions.playerStartAP
         this.gained_HP = 0
         this.dmgTaken = 0
         this.isHurt = false

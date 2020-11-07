@@ -14,6 +14,9 @@ export default gameOptions =
     playerStartHP: 5,
     playerMinHP: 0,
     playerMaxHP: 5,
+    playerStartAP: 3,
+    playerMinAP: 1,
+    playerMaxAP: 5,
     playerScore: 0,
     // playerScore_High: 0 
 }
