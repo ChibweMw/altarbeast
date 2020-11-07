@@ -55,11 +55,11 @@ export default class Item_Base extends Phaser.Physics.Arcade.Sprite
             // alpha: 0,
             alpha: { from: 1, to: 0.25,  },
             // tint: 0xffffff,
-            duration: 1000,
+            duration: 250,
             ease: 'Cubic.easeIn',
             yoyo: false,
-            delay: 100,
-            repeat: 5,
+            delay: 50,
+            repeat: 3,
             onComplete: this.expiration,
             callbackScope: this,
         })
@@ -90,6 +90,7 @@ export default class Item_Base extends Phaser.Physics.Arcade.Sprite
         if (this.readyToFlicker && this.body.blocked.down)
         {
             this.readyToFlicker = false
+            this.scene.spawnHitVFX(this.body.x, this.body.y, 'fx-player-jump')
             this.tween_left_right_motion.stop()
             this.tween_itemFlicker()
         }

@@ -30,7 +30,7 @@ export default class UI extends Phaser.Scene
         this.ui_health_empty = this.add.tileSprite(ui_player_hp_x, ui_player_hp_y, 16 * this.data.gameScene.player.HP, 16, 'ui-health', 6).setOrigin(ui_player_hp_origin_x, ui_player_hp_origin_y)
         this.ui_health_full = this.add.tileSprite(this.ui_health_empty.x - this.ui_health_empty.width / 2, ui_player_hp_y, 16 * this.data.gameScene.player.HP, 16, 'ui-health', 4).setOrigin(0, ui_player_hp_origin_y)
         
-        this.ui_ap = this.add.tileSprite(ui_player_hp_x, ui_player_hp_y - 16, 16 * this.data.gameScene.player.AP, 16, 'ui-health', 2).setOrigin(ui_player_hp_origin_x, ui_player_hp_origin_y)
+        // this.ui_ap = this.add.tileSprite(ui_player_hp_x, ui_player_hp_y - 16, 16 * this.data.gameScene.player.AP, 16, 'ui-health', 2).setOrigin(ui_player_hp_origin_x, ui_player_hp_origin_y)
     }
 
     update()
@@ -38,5 +38,6 @@ export default class UI extends Phaser.Scene
         // this.playerHPText.setText(`${this.data.gameScene.player.HP}`)
         this.scoreText.setText(`${GameOptions.playerScore}`)
         this.ui_health_full.width = 16 * this.data.gameScene.player.HP
+        // this.ui_ap.width = 16 * this.data.gameScene.player.AP
     }
 }
