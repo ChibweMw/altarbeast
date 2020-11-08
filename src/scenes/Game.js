@@ -62,10 +62,14 @@ export default class Game extends Phaser.Scene
 
     isGameOver = false
 
+    SPAWN_POINT_enemy_left 
+    SPAWN_POINT_enemy_right
+
     init ()
     {
         this.DEBUG_isOVERLAY = false
         this.isGameOver = false
+        GameOptions.playerScore = 0
     }
     
     create()
@@ -231,10 +235,10 @@ export default class Game extends Phaser.Scene
 
         // SPAWN ENEMIES ON A TIMER
         // SET ENEMY SPAWN POINT FIRST
-        const SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
-        const SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
+        this.SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
+        this.SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
 
-        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [SPAWN_POINT_enemy_left.x, SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
+        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
 
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})
@@ -366,6 +370,11 @@ export default class Game extends Phaser.Scene
     
     spawnDummy(x, y)
     {
+        if (this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0) 
+        {
+            x = this.SPAWN_POINT_enemy_right.x
+            y = this.SPAWN_POINT_enemy_right.y
+        }
         if (this.GROUP_training_dummy.countActive() >= this.GROUP_training_dummy.maxSize)
         {
             return
