@@ -1,10 +1,12 @@
 import Player from '../game/Player.js'
 import Player_Controller from '../game/Player_Controller.js'
 import Ai_Controller from '../game/Ai_Controller.js'
+import Ai_Hopper_Fish_Controller from '../game/AI_Hopper_Fish_Controller.js'
 
 import CONTROLS from '../game/Controls.js'
 
 import Dummy from '../game/Dummy.js'
+import Hopper from '../game/Hopper_Fish.js'
 import VFX_COLLISION from '../game/VFX_Collision.js'
 import Item_Base from '../game/Item_Base.js'
 
@@ -48,9 +50,15 @@ export default class Game extends Phaser.Scene
     /** @type {Dummy} */
     training_dummy
     training_dummy_CONTROLLER
+
+    /** @type {Hopper} */
+    training_hopper
+    training_hopper_CONTROLLER
     
     /** @type {Phaser.Time.TimerEvent} */
     TIMED_EVENT_ENEMY_SPAWN
+    /** @type {Phaser.Time.TimerEvent} */
+    TIMED_EVENT_ENEMY_SPAWN_Hoper
 
     /** @type {Phaser.Tilemaps.Tilemap} */
     map
@@ -178,6 +186,27 @@ export default class Game extends Phaser.Scene
 
         ///////////////////////////////////////////////
 
+        this.GROUP_hopFish = this.physics.add.group({
+            classType: Hopper,
+            max: 10,
+            maxSize: 10,
+            allowGravity: true,
+            visible: false,
+            active: false,
+            gravityY: GameOptions.playerGravity,
+            removeCallback: function (hopfish) {
+                hopfish.scene.GROUP_POOL_hopFish.add(hopfish)
+            }
+        })
+        // INACTIVE GROUP
+        this.GROUP_POOL_hopFish = this.physics.add.group({
+            removeCallback: function (hopfish) {
+                hopfish.scene.GROUP_hopFish.add(hopfish)
+            }
+        })
+
+        ///////////////////////////////////////////////
+
         this.GROUP_VFX_HIT = this.add.group({
             classType: VFX_COLLISION,
             max: 100,
@@ -221,11 +250,14 @@ export default class Game extends Phaser.Scene
         })
 
         this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
+        this.physics.add.collider(this.GROUP_hopFish, this.layerStaticPlatform)
         this.physics.add.collider(this.GROUP_ITEM, this.layerStaticPlatform)
 
         // player hitbox vs dummy hurtbox >> dummy attacks player
         // this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
+        // PLAYER COLLISIONS AND OVERLAPS
         this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
+        this.physics.add.overlap(this.player.hitBox, this.GROUP_hopFish, this.player.playerTakeDamage, null, this.player)
         this.physics.add.overlap(this.player, this.GROUP_ITEM, this.itemPickup, null, this)
         
         // player hurtbox vs dummy hitbox >> Player attacks dummy
@@ -239,6 +271,7 @@ export default class Game extends Phaser.Scene
         this.SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
 
         this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
+        this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 4000, callback: this.spawnHopper, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
 
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})
@@ -295,6 +328,11 @@ export default class Game extends Phaser.Scene
         this.GROUP_training_dummy.getChildren().forEach(function (dummy) {
             /** @type {Dummy} */
             dummy.update()
+        }, this)
+
+        this.GROUP_hopFish.getChildren().forEach(function (hopper) {
+            /** @type {Hopper} */
+            hopper.update()
         }, this)
 
         // this.GROUP_POOL_training_dummy.getChildren().forEach(function (dummy) {
@@ -409,6 +447,57 @@ export default class Game extends Phaser.Scene
             // newDummy.enableBody(true, x, y, true, true)
 
             this.GROUP_training_dummy.add(newDummy)            
+        }
+    }
+
+    spawnHopper(x, y)
+    {
+        if (this.TIMED_EVENT_ENEMY_SPAWN_Hoper.repeatCount % 2 === 0) 
+        {
+            x = this.SPAWN_POINT_enemy_right.x
+            y = this.SPAWN_POINT_enemy_right.y
+        }
+        if (this.GROUP_hopFish.countActive() >= this.GROUP_hopFish.maxSize)
+        {
+            return
+        }
+        /** @type {Hopper} */
+        let newHopfish
+        
+        if(this.GROUP_POOL_hopFish.getLength()){
+            // console.log(`SPAWNED POOLED DUMMY`)
+            newHopfish = this.GROUP_POOL_hopFish.getFirst()
+            // this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
+            newHopfish.setTexture('enemy-fish', 2)
+            newHopfish.clearTint()
+            newHopfish.isHurt = false
+            let new_hopFish_CONTROLLER = new Ai_Hopper_Fish_Controller(newHopfish)
+            newHopfish.setControlState(new_hopFish_CONTROLLER)
+            // newHopfish.controlState.setState('idle')
+            this.TIMED_EVENT_ENEMY_SPAWN_Hoper.repeatCount % 2 === 0 ? new_hopFish_CONTROLLER.setState('move_left') : new_hopFish_CONTROLLER.setState('move_right')
+            newHopfish.currHP = newHopfish.maxHP
+            newHopfish.x = x
+            newHopfish.y = y
+            newHopfish.setActive(true)
+            newHopfish.setVisible(true)
+            
+            this.GROUP_POOL_hopFish.remove(newHopfish)
+        }
+        else{
+            // console.log(`SPAWNED NEW enemy-fish`)
+            newHopfish = this.GROUP_hopFish.get(x, y, 'enemy-fish', 2)
+            newHopfish.isHurt = false
+            let new_hopFish_CONTROLLER = new Ai_Hopper_Fish_Controller(newHopfish)
+            newHopfish.setControlState(new_hopFish_CONTROLLER)
+            // new_hopFish_CONTROLLER.setState('idle')
+            this.TIMED_EVENT_ENEMY_SPAWN_Hoper.repeatCount % 2 === 0 ? new_hopFish_CONTROLLER.setState('move_left') : new_hopFish_CONTROLLER.setState('move_right')
+            // {
+            //     x = this.SPAWN_POINT_enemy_right.x
+            //     y = this.SPAWN_POINT_enemy_right.y
+            // }
+            // newHopfish.enableBody(true, x, y, true, true)
+
+            this.GROUP_hopFish.add(newHopfish)            
         }
     }
 
