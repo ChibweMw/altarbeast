@@ -270,8 +270,8 @@ export default class Game extends Phaser.Scene
         this.SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
         this.SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
 
-        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 2500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
-        this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 4000, callback: this.spawnHopper, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
+        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
+        this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 2500, callback: this.spawnHopper, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
 
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})
@@ -425,10 +425,12 @@ export default class Game extends Phaser.Scene
             newDummy = this.GROUP_POOL_training_dummy.getFirst()
             // this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
             newDummy.setTexture('dummy')
+            newDummy.clearTint()
             newDummy.isHurt = false
             let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
             newDummy.setControlState(new_dummy_CONTROLLER)
-            newDummy.controlState.setState('idle')
+            // newDummy.controlState.setState('idle')
+            this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? new_dummy_CONTROLLER.setState('move_left') : new_dummy_CONTROLLER.setState('move_right')
             newDummy.currHP = newDummy.maxHP
             newDummy.x = x
             newDummy.y = y
@@ -443,7 +445,8 @@ export default class Game extends Phaser.Scene
             newDummy.isHurt = false
             let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
             newDummy.setControlState(new_dummy_CONTROLLER)
-            new_dummy_CONTROLLER.setState('idle')
+            // new_dummy_CONTROLLER.setState('idle')
+            this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? new_dummy_CONTROLLER.setState('move_left') : new_dummy_CONTROLLER.setState('move_right')
             // newDummy.enableBody(true, x, y, true, true)
 
             this.GROUP_training_dummy.add(newDummy)            
@@ -474,6 +477,7 @@ export default class Game extends Phaser.Scene
             let new_hopFish_CONTROLLER = new Ai_Hopper_Fish_Controller(newHopfish)
             newHopfish.setControlState(new_hopFish_CONTROLLER)
             // newHopfish.controlState.setState('idle')
+            newHopfish.curr_walkSpeed = newHopfish.init_walkSpeed
             this.TIMED_EVENT_ENEMY_SPAWN_Hoper.repeatCount % 2 === 0 ? new_hopFish_CONTROLLER.setState('move_left') : new_hopFish_CONTROLLER.setState('move_right')
             newHopfish.currHP = newHopfish.maxHP
             newHopfish.x = x
