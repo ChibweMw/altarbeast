@@ -11,6 +11,7 @@ import VFX_COLLISION from '../game/VFX_Collision.js'
 import Item_Base from '../game/Item_Base.js'
 
 import GameOptions from '../game/GameOptions.js'
+import cnf_dummy from '../game/prefab_configs/cnf_dummy.js'
 
 export default class Game extends Phaser.Scene
 {
@@ -427,7 +428,7 @@ export default class Game extends Phaser.Scene
             newDummy.setTexture('dummy')
             newDummy.clearTint()
             newDummy.isHurt = false
-            let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
+            let new_dummy_CONTROLLER = new Ai_Controller(newDummy) // do we need this??
             newDummy.setControlState(new_dummy_CONTROLLER)
             // newDummy.controlState.setState('idle')
             this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? new_dummy_CONTROLLER.setState('move_left') : new_dummy_CONTROLLER.setState('move_right')
@@ -443,6 +444,10 @@ export default class Game extends Phaser.Scene
             // console.log(`SPAWNED NEW DUMMY`)
             newDummy = this.GROUP_training_dummy.get(x, y, 'dummy', 0)
             newDummy.isHurt = false
+            // newDummy.setDataEnabled()
+            newDummy.setData({"states": cnf_dummy})
+            let dummyStates = newDummy.getData('states')
+            // console.log(`These are the dummy states >> ${dummyStates.idle}`)
             let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
             newDummy.setControlState(new_dummy_CONTROLLER)
             // new_dummy_CONTROLLER.setState('idle')
