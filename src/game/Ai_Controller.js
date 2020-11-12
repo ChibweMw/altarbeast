@@ -15,12 +15,12 @@ export default class Ai_Controller
 	states
 	/** @type {{ enter: () => void; update?: () => void }} */
 	currentState
-	/**@type {Enemy}*/
+	// /**@type {Enemy}*/
 	enemy
 
-	/**
-	 * @param {Enemy} enemy 
-	 */
+	// /**
+	//  * @param {Enemy} enemy 
+	//  */
 	constructor(enemy)
 	{
         this.states = {}
@@ -46,7 +46,7 @@ export default class Ai_Controller
 	 */
 	setState(name)
 	{
-        console.log(`ENTRIES >>> '${Object.entries(this.states)}'`)
+        // console.log(`ENTRIES >>> '${Object.entries(this.states)}'`)
         if (this.currentState === this.states[name])
         {
             return

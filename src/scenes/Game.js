@@ -13,6 +13,7 @@ import Item_Base from '../game/Item_Base.js'
 import GameOptions from '../game/GameOptions.js'
 import cnf_dummy from '../game/prefab_configs/cnf_dummy.js'
 import cnf_hopperFish from '../game/prefab_configs/cnf_hopperFish.js'
+import cnf_player_states from '../game/prefab_configs/cnf_player_states.js'
 
 export default class Game extends Phaser.Scene
 {
@@ -140,7 +141,9 @@ export default class Game extends Phaser.Scene
         // ADD PLAYER
         // this.player = new Player(this, 16 * 11, 16 * 5, 'oni-idle', 0)
         this.player = new Player(this, SPAWN_POINT_player.x, SPAWN_POINT_player.y, 'oni-idle', 0)
-        this.player_CONTROLLER = new Player_Controller(this.player)
+        this.player.setData({"states": cnf_player_states})
+        // this.player_CONTROLLER = new Player_Controller(this.player)
+        this.player_CONTROLLER = new Ai_Controller(this.player)
         
         this.player_CONTROLLER.setState('idle')
         // this.player_CONTROLLER.setState('STATE_UNHURT') // STATE_UNHURT
