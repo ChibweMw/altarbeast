@@ -47,26 +47,26 @@ export default class Player_Idle
         {
             if (this.player.scene.player_Cursors.left.isDown)
             {
-                this.player.scene.player_CONTROLLER.setState('left')
+                this.player.controlState.setState('left')
             } else if (this.player.scene.player_Cursors.right.isDown)
             {
-                this.player.scene.player_CONTROLLER.setState('right')            
+                this.player.controlState.setState('right')            
             } else
             {
                 // this.isJumping ? console.log(`PLAYER IS JUMPING`) : console.log(`PLAYER >>> STANDING`)  
-                // this.player.scene.player_CONTROLLER.setState('idle')
+                // this.player.controlState.setState('idle')
                 this.player.play('anim-oni-idle', true)
             }
 
             if (this.player.scene.player_Cursors.down.isDown)
             {
-                this.player.scene.player_CONTROLLER.setState('crouch')            
+                this.player.controlState.setState('crouch')            
             } 
             this.normalAttack()
             this.jump()
         } else if (!this.player.body.blocked.down)
         {
-            this.player.scene.player_CONTROLLER.setState('fall')                        
+            this.player.controlState.setState('fall')                        
         }
 
 
@@ -78,7 +78,7 @@ export default class Player_Idle
         if (Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_A))
         {
             // console.log('Stand ATTACK')
-            this.player.scene.player_CONTROLLER.setState('stand_atk_norm')
+            this.player.controlState.setState('stand_atk_norm')
             this.player.scene.time.delayedCall(this.player.atkActiveTime, this.player.deactivatePlayerHurtbox, null, this.player)
         }
     }
@@ -97,7 +97,7 @@ export default class Player_Idle
                 this.player.setFlipX(true)
                 this.player.walkSpeed = GameOptions.player_walkSpeed
             } 
-            this.player.scene.player_CONTROLLER.setState('jump')
+            this.player.controlState.setState('jump')
         }
 
     }

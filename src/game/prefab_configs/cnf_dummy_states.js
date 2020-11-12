@@ -6,9 +6,9 @@ import AI_MOVE_RIGHT from "../states/ai_dummy_move_right.js";
 import AI_TAKE_DAMAGE from "../states/ai_dummy_take_damage.js";
 
 
-let cnf_dummy
+let cnf_dummy_states
 
-export default cnf_dummy = 
+export default cnf_dummy_states = 
 {
     idle: AI_IDLE,
     move_left: AI_MOVE_LEFT,

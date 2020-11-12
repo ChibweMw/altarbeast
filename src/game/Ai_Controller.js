@@ -16,16 +16,16 @@ export default class Ai_Controller
 	/** @type {{ enter: () => void; update?: () => void }} */
 	currentState
 	// /**@type {Enemy}*/
-	enemy
+	prefab
 
 	// /**
-	//  * @param {Enemy} enemy 
+	//  * @param {Enemy} prefab 
 	//  */
-	constructor(enemy)
+	constructor(prefab)
 	{
         this.states = {}
-        this.statesList = enemy.getData('states')
-        this.setPossibleStates(enemy, this.statesList)
+        this.statesList = prefab.getData('states')
+        this.setPossibleStates(prefab, this.statesList)
     }
     
     setPossibleStates (prefab, stateList)

@@ -35,7 +35,8 @@ export default class Player_ATTACK_CROUCHING
             return
         } else
         {
-            this.player.scene.player_CONTROLLER.setState('crouch')
+            // this.player.scene.player_CONTROLLER.setState('crouch')
+            this.player.controlState.setState('crouch')
         }
     }
 }

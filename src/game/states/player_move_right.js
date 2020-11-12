@@ -32,19 +32,19 @@ export default class Player_MOVE_RIGHT
         {
             if (this.player.scene.player_Cursors.left.isDown)
             {
-                this.player.scene.player_CONTROLLER.setState('left')
+                this.player.controlState.setState('left')
             } else if (this.player.scene.player_Cursors.right.isDown)
             {
                 this.player.walkSpeed = GameOptions.player_walkSpeed
                 this.player.play('anim-oni-walk', true)
             } else {
                 // this.isJumping ? console.log(`PLAYER IS JUMPING`) : console.log(`PLAYER >>> STANDING`)  
-                this.player.scene.player_CONTROLLER.setState('idle')
+                this.player.controlState.setState('idle')
             }
 
             if (this.player.scene.player_Cursors.down.isDown)
             {
-                this.player.scene.player_CONTROLLER.setState('crouch')            
+                this.player.controlState.setState('crouch')            
             } 
 
             this.normalAttack()
@@ -55,7 +55,7 @@ export default class Player_MOVE_RIGHT
         {
             this.player.walkSpeed = 0
 
-            this.player.scene.player_CONTROLLER.setState('fall')                        
+            this.player.controlState.setState('fall')                        
         }
 
     }
@@ -65,7 +65,7 @@ export default class Player_MOVE_RIGHT
         if (Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_A))
         {
             // console.log('Stand ATTACK')
-            this.player.scene.player_CONTROLLER.setState('stand_atk_norm')
+            this.player.controlState.setState('stand_atk_norm')
             this.player.scene.time.delayedCall(this.player.atkActiveTime, this.player.deactivatePlayerHurtbox, null, this.player)
         }
     }
@@ -76,7 +76,7 @@ export default class Player_MOVE_RIGHT
         if (this.player.jumpCount > 0 && (this.player.jumpPressed || Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_B)) )
         {
             // console.log('player jump')
-            this.player.scene.player_CONTROLLER.setState('jump')
+            this.player.controlState.setState('jump')
         }
 
     }

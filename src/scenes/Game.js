@@ -11,9 +11,13 @@ import VFX_COLLISION from '../game/VFX_Collision.js'
 import Item_Base from '../game/Item_Base.js'
 
 import GameOptions from '../game/GameOptions.js'
-import cnf_dummy from '../game/prefab_configs/cnf_dummy.js'
-import cnf_hopperFish from '../game/prefab_configs/cnf_hopperFish.js'
+import cnf_dummy_states from '../game/prefab_configs/cnf_dummy_states.js'
+import cnf_hopperFish_states from '../game/prefab_configs/cnf_hopperFish_states.js'
 import cnf_player_states from '../game/prefab_configs/cnf_player_states.js'
+import cnf_dummy_group from '../game/prefab_configs/cnf_dummy_group.js'
+import cnf_hopperFish_group from '../game/prefab_configs/cnf_hopperFish_group.js'
+import cnf_vfx_collision_group from '../game/prefab_configs/cnf_vfx_collision_group.js'
+import cnf_item_base_group from '../game/prefab_configs/cnf_item_base_group.js'
 
 export default class Game extends Phaser.Scene
 {
@@ -144,8 +148,10 @@ export default class Game extends Phaser.Scene
         this.player.setData({"states": cnf_player_states})
         // this.player_CONTROLLER = new Player_Controller(this.player)
         this.player_CONTROLLER = new Ai_Controller(this.player)
+        this.player.setControlState(this.player_CONTROLLER)
         
-        this.player_CONTROLLER.setState('idle')
+        // this.player_CONTROLLER.setState('idle')
+        this.player.controlState.setState('idle')
         // this.player_CONTROLLER.setState('STATE_UNHURT') // STATE_UNHURT
         
         this.layerStaticPlatform.setCollision([4, 3, 2, 1, 10, 11, 12], true)
@@ -170,89 +176,97 @@ export default class Game extends Phaser.Scene
         // ADD TRAINING DUMMY PREFAB && GROUPS!
         // ADD ACTIVE AND INACTIVE GROUP
         // ACTIVE GROUP
-        this.GROUP_training_dummy = this.physics.add.group({
-            classType: Dummy,
-            max: 10,
-            maxSize: 10,
-            allowGravity: true,
-            visible: false,
-            active: false,
-            gravityY: GameOptions.playerGravity,
-            removeCallback: function (dummy) {
-                dummy.scene.GROUP_POOL_training_dummy.add(dummy)
-            }
-        })
+        // this.GROUP_training_dummy = this.physics.add.group({
+        //     classType: Dummy,
+        //     max: 10,
+        //     maxSize: 10,
+        //     allowGravity: true,
+        //     visible: false,
+        //     active: false,
+        //     gravityY: GameOptions.playerGravity,
+        //     removeCallback: function (dummy) {
+        //         dummy.scene.GROUP_POOL_training_dummy.add(dummy)
+        //     }
+        // })
+        this.GROUP_training_dummy = this.physics.add.group(cnf_dummy_group.group_cnf)
         // INACTIVE GROUP
-        this.GROUP_POOL_training_dummy = this.physics.add.group({
-            removeCallback: function (dummy) {
-                dummy.scene.GROUP_training_dummy.add(dummy)
-            }
-        })
+        // this.GROUP_POOL_training_dummy = this.physics.add.group({
+        //     removeCallback: function (dummy) {
+        //         dummy.scene.GROUP_training_dummy.add(dummy)
+        //     }
+        // })
+        this.GROUP_POOL_training_dummy = this.physics.add.group(cnf_dummy_group.pool_cnf)
 
         ///////////////////////////////////////////////
 
-        this.GROUP_hopFish = this.physics.add.group({
-            classType: Hopper,
-            max: 10,
-            maxSize: 10,
-            allowGravity: true,
-            visible: false,
-            active: false,
-            gravityY: GameOptions.playerGravity,
-            removeCallback: function (hopfish) {
-                hopfish.scene.GROUP_POOL_hopFish.add(hopfish)
-            }
-        })
+        // this.GROUP_hopFish = this.physics.add.group({
+        //     classType: Hopper,
+        //     max: 10,
+        //     maxSize: 10,
+        //     allowGravity: true,
+        //     visible: false,
+        //     active: false,
+        //     gravityY: GameOptions.playerGravity,
+        //     removeCallback: function (hopfish) {
+        //         hopfish.scene.GROUP_POOL_hopFish.add(hopfish)
+        //     }
+        // })
+        this.GROUP_hopFish = this.physics.add.group(cnf_hopperFish_group.group_cnf)
         // INACTIVE GROUP
-        this.GROUP_POOL_hopFish = this.physics.add.group({
-            removeCallback: function (hopfish) {
-                hopfish.scene.GROUP_hopFish.add(hopfish)
-            }
-        })
+        // this.GROUP_POOL_hopFish = this.physics.add.group({
+        //     removeCallback: function (hopfish) {
+        //         hopfish.scene.GROUP_hopFish.add(hopfish)
+        //     }
+        // })
+        this.GROUP_POOL_hopFish = this.physics.add.group(cnf_hopperFish_group.pool_cnf)
 
         ///////////////////////////////////////////////
 
-        this.GROUP_VFX_HIT = this.add.group({
-            classType: VFX_COLLISION,
-            max: 100,
-            maxSize: 100,
-            visible: false,
-            active: false,
-            removeCallback: function (vfx_hit) {
-                vfx_hit.scene.GROUP_POOL_VFX_HIT.add(vfx_hit)
-            }
-        })
+        // this.GROUP_VFX_HIT = this.add.group({
+        //     classType: VFX_COLLISION,
+        //     max: 100,
+        //     maxSize: 100,
+        //     visible: false,
+        //     active: false,
+        //     removeCallback: function (vfx_hit) {
+        //         vfx_hit.scene.GROUP_POOL_VFX_HIT.add(vfx_hit)
+        //     }
+        // })
+        this.GROUP_VFX_HIT = this.add.group(cnf_vfx_collision_group.group_cnf)
         // INACTIVE GROUP
-        this.GROUP_POOL_VFX_HIT = this.add.group({
-            removeCallback: function (vfx_hit) {
-                vfx_hit.scene.GROUP_VFX_HIT.add(vfx_hit)
-            }
-        })
+        // this.GROUP_POOL_VFX_HIT = this.add.group({
+        //     removeCallback: function (vfx_hit) {
+        //         vfx_hit.scene.GROUP_VFX_HIT.add(vfx_hit)
+        //     }
+        // })
+        this.GROUP_POOL_VFX_HIT = this.add.group(cnf_vfx_collision_group.pool_cnf)
 
         ///////////////////////////////////////////////
 
-        this.GROUP_ITEM = this.physics.add.group({
-            classType: Item_Base,
-            max: 10,
-            maxSize: 10,
-            allowGravity: true,
-            gravityY: GameOptions.playerGravity / 2,
-            velocityY: -550,
-            // accelerationY: -100,
-            allowDrag: true,
-            dragY: 1,
-            visible: false,
-            active: false,
-            removeCallback: function (item) {
-                item.scene.GROUP_POOL_ITEM.add(item)
-            }
-        })
+        // this.GROUP_ITEM = this.physics.add.group({
+        //     classType: Item_Base,
+        //     max: 10,
+        //     maxSize: 10,
+        //     allowGravity: true,
+        //     gravityY: GameOptions.playerGravity / 2,
+        //     velocityY: -550,
+        //     // accelerationY: -100,
+        //     allowDrag: true,
+        //     dragY: 1,
+        //     visible: false,
+        //     active: false,
+        //     removeCallback: function (item) {
+        //         item.scene.GROUP_POOL_ITEM.add(item)
+        //     }
+        // })
+        this.GROUP_ITEM = this.physics.add.group(cnf_item_base_group.group_cnf)
         // INACTIVE GROUP
-        this.GROUP_POOL_ITEM = this.physics.add.group({
-            removeCallback: function (item) {
-                item.scene.GROUP_ITEM.add(item)
-            }
-        })
+        // this.GROUP_POOL_ITEM = this.physics.add.group({
+        //     removeCallback: function (item) {
+        //         item.scene.GROUP_ITEM.add(item)
+        //     }
+        // })
+        this.GROUP_POOL_ITEM = this.physics.add.group(cnf_item_base_group.pool_cnf)
 
         this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
         this.physics.add.collider(this.GROUP_hopFish, this.layerStaticPlatform)
@@ -368,7 +382,7 @@ export default class Game extends Phaser.Scene
 
     gamePause ()
     {
-        if (Phaser.Input.Keyboard.JustUp(this.key_PAUSE))
+        if (!this.isGameOver && Phaser.Input.Keyboard.JustUp(this.key_PAUSE))
         {
             // console.log('PAUSE BUTTON PRESSED')
             this.scene.pause()
@@ -432,10 +446,10 @@ export default class Game extends Phaser.Scene
             newDummy.setTexture('dummy')
             newDummy.clearTint()
             newDummy.isHurt = false
-            let new_dummy_CONTROLLER = new Ai_Controller(newDummy) // do we need this??
-            newDummy.setControlState(new_dummy_CONTROLLER)
+            // let new_dummy_CONTROLLER = new Ai_Controller(newDummy) // do we need this??
+            // newDummy.setControlState(new_dummy_CONTROLLER)
             // newDummy.controlState.setState('idle')
-            this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? new_dummy_CONTROLLER.setState('move_left') : new_dummy_CONTROLLER.setState('move_right')
+            this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? newDummy.controlState.setState('move_left') : newDummy.controlState.setState('move_right')
             newDummy.currHP = newDummy.maxHP
             newDummy.x = x
             newDummy.y = y
@@ -449,7 +463,7 @@ export default class Game extends Phaser.Scene
             newDummy = this.GROUP_training_dummy.get(x, y, 'dummy', 0)
             newDummy.isHurt = false
             // newDummy.setDataEnabled()
-            newDummy.setData({"states": cnf_dummy})
+            newDummy.setData({"states": cnf_dummy_states})
             // let dummyStates = newDummy.getData('states')
             // console.log(`These are the dummy states >> ${dummyStates.idle}`)
             let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
@@ -483,13 +497,13 @@ export default class Game extends Phaser.Scene
             newHopfish.setTexture('enemy-fish', 2)
             newHopfish.clearTint()
             newHopfish.isHurt = false
-            newHopfish.setData({"states": cnf_hopperFish})
+            // newHopfish.setData({"states": cnf_hopperFish})
             // let new_hopFish_CONTROLLER = new Ai_Hopper_Fish_Controller(newHopfish)
-            let new_hopFish_CONTROLLER = new Ai_Controller(newHopfish)
-            newHopfish.setControlState(new_hopFish_CONTROLLER)
+            // let new_hopFish_CONTROLLER = new Ai_Controller(newHopfish)
+            // newHopfish.setControlState(new_hopFish_CONTROLLER)
             // newHopfish.controlState.setState('idle')
             newHopfish.curr_walkSpeed = newHopfish.init_walkSpeed
-            this.TIMED_EVENT_ENEMY_SPAWN_Hoper.repeatCount % 2 === 0 ? new_hopFish_CONTROLLER.setState('move_left') : new_hopFish_CONTROLLER.setState('move_right')
+            this.TIMED_EVENT_ENEMY_SPAWN_Hoper.repeatCount % 2 === 0 ? newHopfish.controlState.setState('move_left') : newHopfish.controlState.setState('move_right')
             newHopfish.currHP = newHopfish.maxHP
             newHopfish.x = x
             newHopfish.y = y
@@ -502,7 +516,9 @@ export default class Game extends Phaser.Scene
             // console.log(`SPAWNED NEW enemy-fish`)
             newHopfish = this.GROUP_hopFish.get(x, y, 'enemy-fish', 2)
             newHopfish.isHurt = false
-            let new_hopFish_CONTROLLER = new Ai_Hopper_Fish_Controller(newHopfish)
+            newHopfish.setData({"states": cnf_hopperFish_states})
+            // let new_hopFish_CONTROLLER = new Ai_Hopper_Fish_Controller(newHopfish)
+            let new_hopFish_CONTROLLER = new Ai_Controller(newHopfish)
             newHopfish.setControlState(new_hopFish_CONTROLLER)
             // new_hopFish_CONTROLLER.setState('idle')
             this.TIMED_EVENT_ENEMY_SPAWN_Hoper.repeatCount % 2 === 0 ? new_hopFish_CONTROLLER.setState('move_left') : new_hopFish_CONTROLLER.setState('move_right')

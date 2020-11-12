@@ -26,7 +26,7 @@ export default class Player_Crouch
             this.player.play('anim-oni-crouch')            
         } else 
         {
-            this.player.scene.player_CONTROLLER.setState('idle')
+            this.player.controlState.setState('idle')
         }
 
         this.crouchAttack()

@@ -52,11 +52,11 @@ export default class Player_ATTACK_JUMPING
 
             if (!this.player.body.blocked.down)
             {
-                this.player.scene.player_CONTROLLER.setState('fall')
+                this.player.controlState.setState('fall')
             } else
             {
                 // PLACE CHECK FOR JUMP BUTTON HERE
-                this.player.scene.player_CONTROLLER.setState('idle')
+                this.player.controlState.setState('idle')
             }
         }
     }

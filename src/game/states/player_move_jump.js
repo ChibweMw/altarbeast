@@ -43,14 +43,14 @@ export default class Player_MOVE_JUMP
                 // // this.player.setVelocityY(0)
                 // this.player.scene.time.delayedCall(this.player.jumpHangTime, this.player.resetGravity, null, this.player)
                 
-                this.player.scene.player_CONTROLLER.setState('fall')
+                this.player.controlState.setState('fall')
             }
             this.airAttack()
             return
         } else 
         {
             // PLACE CHECK FOR JUMP BUTTON HERE
-            this.player.scene.player_CONTROLLER.setState('idle')
+            this.player.controlState.setState('idle')
         }
         
     }
@@ -60,7 +60,7 @@ export default class Player_MOVE_JUMP
         if (Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_A))
         {
             // console.log(`>>> IS ATTACKING AIR : ${this.player.isAttacking_AIR}`)
-            this.player.scene.player_CONTROLLER.setState('jump_atk_norm')
+            this.player.controlState.setState('jump_atk_norm')
             this.player.scene.time.delayedCall(this.player.atkActiveTime, this.player.deactivatePlayerHurtbox, null, this.player)
         }
     }

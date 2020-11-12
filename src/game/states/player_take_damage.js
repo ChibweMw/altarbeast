@@ -60,7 +60,7 @@ export default class Player_TAKE_DAMAGE
         } else if (this.player.isHurt && this.player.body.blocked.down && this.player.HP <= 0)
         {
             console.log(`PLAYER DEATH SEQUENCE`)
-            this.player.scene.player_CONTROLLER.setState('death')
+            this.player.controlState.setState('death')
         }
     }
     
@@ -71,7 +71,7 @@ export default class Player_TAKE_DAMAGE
         this.player.isHurt = false
         this.player.setAlpha(1)
         this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
-        this.player.scene.player_CONTROLLER.setState('idle')
+        this.player.controlState.setState('idle')
     }
     
 

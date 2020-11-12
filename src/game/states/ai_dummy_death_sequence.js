@@ -14,7 +14,8 @@ export default class AI_DEATH_SEQUENCE
 
     enter ()
     {
-        // console.log(`AI: ENTER STATE >> DUMMY > DEATH SEQ`)       
+        // console.log(`AI: ENTER STATE >> DUMMY > DEATH SEQ`)      
+        this.anim_DeathPlayed = false 
         this.dummyTakeDamage()
     }
     

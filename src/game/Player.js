@@ -119,13 +119,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     update()
     {
+        this.controlState.update()
         this.trackHitBox()
         this.trackHurtBox()
 
         // console.log(`JUMP COUNT '${this.jumpCount}'`)
         // console.log(`IS JUMPING '${this.isJumping}'`)
         this.setVelocityX(this.walkSpeed)
-        this.scene.player_CONTROLLER.update()
+        // this.scene.player_CONTROLLER.update()
         
         this.screenWrapX()
         this.screenWrapY()

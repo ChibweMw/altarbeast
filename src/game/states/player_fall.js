@@ -33,7 +33,7 @@ export default class Player_FALL
                 // this.player.setVelocityY(0)
                 this.player.scene.time.delayedCall(this.player.jumpHangTime, this.player.resetGravity, null, this.player)
                 
-                this.player.scene.player_CONTROLLER.setState('fall')
+                this.player.controlState.setState('fall')
             }
             
             this.jump()
@@ -43,7 +43,7 @@ export default class Player_FALL
         {
             // PLACE CHECK FOR JUMP BUTTON HERE
             this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-land')
-            this.player.scene.player_CONTROLLER.setState('idle')
+            this.player.controlState.setState('idle')
         }
         
     }
@@ -60,7 +60,7 @@ export default class Player_FALL
                 this.player.walkSpeed = GameOptions.player_walkSpeed
             } 
             // console.log('player jump')
-            this.player.scene.player_CONTROLLER.setState('jump')
+            this.player.controlState.setState('jump')
         } else  if (this.player.jumpCount <= 0 && Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_B))
         {
             console.log(`JUMPPRESSED DURING FALL`)
@@ -81,7 +81,7 @@ export default class Player_FALL
         if (Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_A))
         {
             // console.log(`>>> IS ATTACKING AIR : ${this.player.isAttacking_AIR}`)
-            this.player.scene.player_CONTROLLER.setState('jump_atk_norm')
+            this.player.controlState.setState('jump_atk_norm')
             this.player.scene.time.delayedCall(this.player.atkActiveTime, this.player.deactivatePlayerHurtbox, null, this.player)
         }
     }

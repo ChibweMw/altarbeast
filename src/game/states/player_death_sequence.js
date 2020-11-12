@@ -23,8 +23,8 @@ export default class PLAYER_DEATH_SEQUENCE
     
     update ()
     {
-        this.player.setVelocityX(0)
-
+        // this.player.setVelocityX(0)
+        this.player.walkSpeed = 0
         if (this.player.isHurt && this.player.body.blocked.down)
         {
             if (!this.anim_DeathPlayed)
