@@ -6,8 +6,8 @@ import AI_MOVE_LEFT from "../states/ai_hopper_fish_move_left.js"
 import AI_MOVE_RIGHT from "../states/ai_hopper_fish_move_right.js"
 import AI_TAKE_DAMAGE from "../states/ai_hopper_fish_take_damage.js"
 
-let cnf_hopperfish
-export default cnf_hopperfish =
+let cnf_hopperfish_states
+export default cnf_hopperfish_states =
 {
     idle: AI_IDLE,
     move_left: AI_MOVE_LEFT,

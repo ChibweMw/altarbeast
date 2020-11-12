@@ -17,7 +17,7 @@ export default cnf_item_base_group =
         allowDrag: true,
         dragY: 1,
         visible: false,
-        active: false,
+        runChildUpdate: true,
         removeCallback: function (item) {
             item.scene.GROUP_POOL_ITEM.add(item)
         }

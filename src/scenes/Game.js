@@ -79,7 +79,9 @@ export default class Game extends Phaser.Scene
 
     SPAWN_POINT_enemy_left 
     SPAWN_POINT_enemy_right
-
+    
+    prefabGroups = [cnf_dummy_group, cnf_hopperFish_group, cnf_vfx_collision_group, cnf_item_base_group]
+    
     init ()
     {
         this.DEBUG_isOVERLAY = false
@@ -188,89 +190,97 @@ export default class Game extends Phaser.Scene
         //         dummy.scene.GROUP_POOL_training_dummy.add(dummy)
         //     }
         // })
-        this.GROUP_training_dummy = this.physics.add.group(cnf_dummy_group.group_cnf)
-        // INACTIVE GROUP
-        // this.GROUP_POOL_training_dummy = this.physics.add.group({
-        //     removeCallback: function (dummy) {
-        //         dummy.scene.GROUP_training_dummy.add(dummy)
-        //     }
-        // })
-        this.GROUP_POOL_training_dummy = this.physics.add.group(cnf_dummy_group.pool_cnf)
 
-        ///////////////////////////////////////////////
+        
+        // this.GROUP_training_dummy = this.physics.add.group(cnf_dummy_group.group_cnf)
+        // // INACTIVE GROUP
+        // // this.GROUP_POOL_training_dummy = this.physics.add.group({
+            // //     removeCallback: function (dummy) {
+                // //         dummy.scene.GROUP_training_dummy.add(dummy)
+                // //     }
+                // // })
+                // this.GROUP_POOL_training_dummy = this.physics.add.group(cnf_dummy_group.pool_cnf)
+                
+                // ///////////////////////////////////////////////
+                
+                // // this.GROUP_hopFish = this.physics.add.group({
+                    // //     classType: Hopper,
+                    // //     max: 10,
+                    // //     maxSize: 10,
+                    // //     allowGravity: true,
+                    // //     visible: false,
+                    // //     active: false,
+                    // //     gravityY: GameOptions.playerGravity,
+                    // //     removeCallback: function (hopfish) {
+                        // //         hopfish.scene.GROUP_POOL_hopFish.add(hopfish)
+                        // //     }
+                        // // })
+                        // this.GROUP_hopFish = this.physics.add.group(cnf_hopperFish_group.group_cnf)
+                        // // INACTIVE GROUP
+                        // // this.GROUP_POOL_hopFish = this.physics.add.group({
+                            // //     removeCallback: function (hopfish) {
+        // //         hopfish.scene.GROUP_hopFish.add(hopfish)
+        // //     }
+        // // })
+        // this.GROUP_POOL_hopFish = this.physics.add.group(cnf_hopperFish_group.pool_cnf)
+        
+        // ///////////////////////////////////////////////
 
-        // this.GROUP_hopFish = this.physics.add.group({
-        //     classType: Hopper,
-        //     max: 10,
-        //     maxSize: 10,
-        //     allowGravity: true,
-        //     visible: false,
-        //     active: false,
-        //     gravityY: GameOptions.playerGravity,
-        //     removeCallback: function (hopfish) {
-        //         hopfish.scene.GROUP_POOL_hopFish.add(hopfish)
-        //     }
-        // })
-        this.GROUP_hopFish = this.physics.add.group(cnf_hopperFish_group.group_cnf)
-        // INACTIVE GROUP
-        // this.GROUP_POOL_hopFish = this.physics.add.group({
-        //     removeCallback: function (hopfish) {
-        //         hopfish.scene.GROUP_hopFish.add(hopfish)
-        //     }
-        // })
-        this.GROUP_POOL_hopFish = this.physics.add.group(cnf_hopperFish_group.pool_cnf)
+        // // this.GROUP_VFX_HIT = this.add.group({
+        // //     classType: VFX_COLLISION,
+        // //     max: 100,
+        // //     maxSize: 100,
+        // //     visible: false,
+        // //     active: false,
+        // //     removeCallback: function (vfx_hit) {
+        // //         vfx_hit.scene.GROUP_POOL_VFX_HIT.add(vfx_hit)
+        // //     }
+        // // })
+        // this.GROUP_VFX_HIT = this.add.group(cnf_vfx_collision_group.group_cnf)
+        // // INACTIVE GROUP
+        // // this.GROUP_POOL_VFX_HIT = this.add.group({
+        // //     removeCallback: function (vfx_hit) {
+        // //         vfx_hit.scene.GROUP_VFX_HIT.add(vfx_hit)
+        // //     }
+        // // })
+        // this.GROUP_POOL_VFX_HIT = this.add.group(cnf_vfx_collision_group.pool_cnf)
 
-        ///////////////////////////////////////////////
+        // ///////////////////////////////////////////////
 
-        // this.GROUP_VFX_HIT = this.add.group({
-        //     classType: VFX_COLLISION,
-        //     max: 100,
-        //     maxSize: 100,
-        //     visible: false,
-        //     active: false,
-        //     removeCallback: function (vfx_hit) {
-        //         vfx_hit.scene.GROUP_POOL_VFX_HIT.add(vfx_hit)
-        //     }
-        // })
-        this.GROUP_VFX_HIT = this.add.group(cnf_vfx_collision_group.group_cnf)
-        // INACTIVE GROUP
-        // this.GROUP_POOL_VFX_HIT = this.add.group({
-        //     removeCallback: function (vfx_hit) {
-        //         vfx_hit.scene.GROUP_VFX_HIT.add(vfx_hit)
-        //     }
-        // })
-        this.GROUP_POOL_VFX_HIT = this.add.group(cnf_vfx_collision_group.pool_cnf)
+        // // this.GROUP_ITEM = this.physics.add.group({
+        // //     classType: Item_Base,
+        // //     max: 10,
+        // //     maxSize: 10,
+        // //     allowGravity: true,
+        // //     gravityY: GameOptions.playerGravity / 2,
+        // //     velocityY: -550,
+        // //     // accelerationY: -100,
+        // //     allowDrag: true,
+        // //     dragY: 1,
+        // //     visible: false,
+        // //     active: false,
+        // //     removeCallback: function (item) {
+        // //         item.scene.GROUP_POOL_ITEM.add(item)
+        // //     }
+        // // })
+        // this.GROUP_ITEM = this.physics.add.group(cnf_item_base_group.group_cnf)
+        // // INACTIVE GROUP
+        // // this.GROUP_POOL_ITEM = this.physics.add.group({
+        // //     removeCallback: function (item) {
+        // //         item.scene.GROUP_ITEM.add(item)
+        // //     }
+        // // })
+        // this.GROUP_POOL_ITEM = this.physics.add.group(cnf_item_base_group.pool_cnf)
 
-        ///////////////////////////////////////////////
+        this.prefabGroups.forEach((pref_group) => {
+            this[pref_group.group_name] = this.physics.add.group(pref_group.group_cnf)
+            this[pref_group.pool_name] = this.physics.add.group(pref_group.pool_cnf)            
+            this.physics.add.collider(this[pref_group.group_name], this.layerStaticPlatform)
+        })
 
-        // this.GROUP_ITEM = this.physics.add.group({
-        //     classType: Item_Base,
-        //     max: 10,
-        //     maxSize: 10,
-        //     allowGravity: true,
-        //     gravityY: GameOptions.playerGravity / 2,
-        //     velocityY: -550,
-        //     // accelerationY: -100,
-        //     allowDrag: true,
-        //     dragY: 1,
-        //     visible: false,
-        //     active: false,
-        //     removeCallback: function (item) {
-        //         item.scene.GROUP_POOL_ITEM.add(item)
-        //     }
-        // })
-        this.GROUP_ITEM = this.physics.add.group(cnf_item_base_group.group_cnf)
-        // INACTIVE GROUP
-        // this.GROUP_POOL_ITEM = this.physics.add.group({
-        //     removeCallback: function (item) {
-        //         item.scene.GROUP_ITEM.add(item)
-        //     }
-        // })
-        this.GROUP_POOL_ITEM = this.physics.add.group(cnf_item_base_group.pool_cnf)
-
-        this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
-        this.physics.add.collider(this.GROUP_hopFish, this.layerStaticPlatform)
-        this.physics.add.collider(this.GROUP_ITEM, this.layerStaticPlatform)
+        // this.physics.add.collider(this.GROUP_training_dummy, this.layerStaticPlatform)
+        // this.physics.add.collider(this.GROUP_hopFish, this.layerStaticPlatform)
+        // this.physics.add.collider(this.GROUP_ITEM, this.layerStaticPlatform)
 
         // player hitbox vs dummy hurtbox >> dummy attacks player
         // this.physics.add.overlap(this.player.hitBox, this.GROUP_training_dummy, this.player.playerTakeDamage, null, this.player)
@@ -344,35 +354,35 @@ export default class Game extends Phaser.Scene
 
         this.player.update()
         // this.training_dummy.update()
-        this.GROUP_training_dummy.getChildren().forEach(function (dummy) {
-            /** @type {Dummy} */
-            dummy.update()
-        }, this)
-
-        this.GROUP_hopFish.getChildren().forEach(function (hopper) {
-            /** @type {Hopper} */
-            hopper.update()
-        }, this)
-
-        // this.GROUP_POOL_training_dummy.getChildren().forEach(function (dummy) {
+        // this.GROUP_training_dummy.getChildren().forEach(function (dummy) {
         //     /** @type {Dummy} */
         //     dummy.update()
         // }, this)
 
-        this.GROUP_VFX_HIT.getChildren().forEach(function (vfx_hit) {
-            /** @type {VFX_COLLISION} */
-            vfx_hit.update()
-        }, this)
+        // this.GROUP_hopFish.getChildren().forEach(function (hopper) {
+        //     /** @type {Hopper} */
+        //     hopper.update()
+        // }, this)
 
-        // this.GROUP_POOL_VFX_HIT.getChildren().forEach(function (vfx_hit) {
+        // // this.GROUP_POOL_training_dummy.getChildren().forEach(function (dummy) {
+        // //     /** @type {Dummy} */
+        // //     dummy.update()
+        // // }, this)
+
+        // this.GROUP_VFX_HIT.getChildren().forEach(function (vfx_hit) {
         //     /** @type {VFX_COLLISION} */
         //     vfx_hit.update()
         // }, this)
 
-        this.GROUP_ITEM.getChildren().forEach(function (item) {
-            /** @type {Item_Base} */
-            item.update()
-        }, this)
+        // // this.GROUP_POOL_VFX_HIT.getChildren().forEach(function (vfx_hit) {
+        // //     /** @type {VFX_COLLISION} */
+        // //     vfx_hit.update()
+        // // }, this)
+
+        // this.GROUP_ITEM.getChildren().forEach(function (item) {
+        //     /** @type {Item_Base} */
+        //     item.update()
+        // }, this)
 
         // this.GROUP_POOL_ITEM.getChildren().forEach(function (item) {
         //     /** @type {Item_Base} */
@@ -461,6 +471,7 @@ export default class Game extends Phaser.Scene
         else{
             // console.log(`SPAWNED NEW DUMMY`)
             newDummy = this.GROUP_training_dummy.get(x, y, 'dummy', 0)
+            // newDummy = this.GROUP_training_dummy.get(x, y)
             newDummy.isHurt = false
             // newDummy.setDataEnabled()
             newDummy.setData({"states": cnf_dummy_states})
@@ -469,7 +480,7 @@ export default class Game extends Phaser.Scene
             let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
             newDummy.setControlState(new_dummy_CONTROLLER)
             // new_dummy_CONTROLLER.setState('idle')
-            this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? new_dummy_CONTROLLER.setState('move_left') : new_dummy_CONTROLLER.setState('move_right')
+            this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? newDummy.controlState.setState('move_left') : newDummy.controlState.setState('move_right')
             // newDummy.enableBody(true, x, y, true, true)
 
             this.GROUP_training_dummy.add(newDummy)            

@@ -12,7 +12,7 @@ export default cnf_hopperFish_group =
         maxSize: 10,
         allowGravity: true,
         visible: false,
-        active: false,
+        runChildUpdate: true,
         gravityY: GameOptions.playerGravity,
         removeCallback: function (hopfish) {
             hopfish.scene.GROUP_POOL_hopFish.add(hopfish)

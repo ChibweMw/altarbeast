@@ -10,7 +10,7 @@ export default cnf_vfx_collision_group =
         max: 100,
         maxSize: 100,
         visible: false,
-        active: false,
+        runChildUpdate: true,
         removeCallback: function (vfx_hit) {
             vfx_hit.scene.GROUP_POOL_VFX_HIT.add(vfx_hit)
         }
