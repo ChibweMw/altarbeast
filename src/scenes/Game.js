@@ -12,6 +12,7 @@ import Item_Base from '../game/Item_Base.js'
 
 import GameOptions from '../game/GameOptions.js'
 import cnf_dummy from '../game/prefab_configs/cnf_dummy.js'
+import cnf_hopperFish from '../game/prefab_configs/cnf_hopperFish.js'
 
 export default class Game extends Phaser.Scene
 {
@@ -446,7 +447,7 @@ export default class Game extends Phaser.Scene
             newDummy.isHurt = false
             // newDummy.setDataEnabled()
             newDummy.setData({"states": cnf_dummy})
-            let dummyStates = newDummy.getData('states')
+            // let dummyStates = newDummy.getData('states')
             // console.log(`These are the dummy states >> ${dummyStates.idle}`)
             let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
             newDummy.setControlState(new_dummy_CONTROLLER)
@@ -479,7 +480,9 @@ export default class Game extends Phaser.Scene
             newHopfish.setTexture('enemy-fish', 2)
             newHopfish.clearTint()
             newHopfish.isHurt = false
-            let new_hopFish_CONTROLLER = new Ai_Hopper_Fish_Controller(newHopfish)
+            newHopfish.setData({"states": cnf_hopperFish})
+            // let new_hopFish_CONTROLLER = new Ai_Hopper_Fish_Controller(newHopfish)
+            let new_hopFish_CONTROLLER = new Ai_Controller(newHopfish)
             newHopfish.setControlState(new_hopFish_CONTROLLER)
             // newHopfish.controlState.setState('idle')
             newHopfish.curr_walkSpeed = newHopfish.init_walkSpeed
