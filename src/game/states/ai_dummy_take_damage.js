@@ -10,13 +10,37 @@ export default class AI_TAKE_DAMAGE
         this.dummy = dummy
         /**@type {Phaser.Tweens.Tween} */
         this.tween_sprite_flash = undefined
+        this.particleTimerEvent = null
     }
 
     enter ()
     {
         // console.log(`AI: ENTER STATE >> DUMMY > TAKE DAMAGE`)
         this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y, 'fx-hit-connect')        
-        this.dummyTakeDamage()      
+        this.spawnParticle()      
+        this.dummyTakeDamage()  
+        this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
+    
+    }
+
+    spawnParticle()
+    {
+        // PLAY WITH RANDOMIZATION OF VFX PLACEMENT
+        // FEELS STIFF AND UNIFORM
+        if (this.dummy.body.velocity.x > 0) 
+        {
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(16, 18), this.dummy.body.y, 'fx-hit-connect')
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+        } else
+        {
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(8, 10), this.dummy.body.y, 'fx-hit-connect')
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+        }
+        // this.dummy.body.velocity.x > 0 ? this.dummy.scene.spawnHitVFX(this.dummy.body.x + 18, this.dummy.body.y, 'fx-hit-block') : this.dummy.scene.spawnHitVFX(this.dummy.body.x - 10, this.dummy.body.y, 'fx-hit-block')
+        // this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y - 8, 'fx-hit-connect')        
+        // this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y + 8, 'fx-hit-connect')        
     }
     
     update()
@@ -30,6 +54,7 @@ export default class AI_TAKE_DAMAGE
             // console.log('DUMMY DIE NOW')
             // this.dummy.scene.GROUP_training_dummy.killAndHide(this.dummy)
             // this.dummy.scene.GROUP_training_dummy.remove(this.dummy)
+            this.particleTimerEvent.destroy()
             this.dummy.controlState.setState('death_sequence')
         }
 
@@ -88,6 +113,7 @@ export default class AI_TAKE_DAMAGE
     {
         this.dummy.isHurt = false
         this.dummy.setGravityY(GameOptions.playerGravity)
+        this.particleTimerEvent.destroy()
         this.dummy.setDamping(false)
         this.dummy.setDrag(1)
         this.tween_sprite_flash.stop()

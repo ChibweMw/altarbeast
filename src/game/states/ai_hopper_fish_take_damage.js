@@ -19,14 +19,28 @@ export default class AI_TAKE_DAMAGE
         this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y, 'fx-hit-connect')  
         this.spawnParticle()      
         this.dummyTakeDamage()  
-        // this.particleTimerEvent = null
         this.particleTimerEvent = this.hopper.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
     
     }
 
     spawnParticle()
     {
-        this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y, 'fx-hit-block')        
+        // PLAY WITH RANDOMIZATION OF VFX PLACEMENT
+        // FEELS STIFF AND UNIFORM
+        // this.hopper.body.velocity.x > 0 ? this.hopper.scene.spawnHitVFX(this.hopper.body.x + 18, this.hopper.body.y, 'fx-hit-connect') : this.hopper.scene.spawnHitVFX(this.hopper.body.x - 10, this.hopper.body.y, 'fx-hit-connect')
+        // this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y + 4, 'fx-hit-block')        
+        // this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y - 4, 'fx-hit-block')   
+        if (this.hopper.body.velocity.x > 0) 
+        {
+            this.hopper.scene.spawnHitVFX(this.hopper.body.x + Phaser.Math.RND.integerInRange(16, 18), this.hopper.body.y, 'fx-hit-connect')
+            this.hopper.scene.spawnHitVFX(this.hopper.body.x + Phaser.Math.RND.integerInRange(10, 18), this.hopper.body.y - Phaser.Math.RND.integerInRange(0, 8), 'fx-hit-block')        
+            this.hopper.scene.spawnHitVFX(this.hopper.body.x + Phaser.Math.RND.integerInRange(10, 18), this.hopper.body.y + Phaser.Math.RND.integerInRange(0, 8), 'fx-hit-block')        
+        } else
+        {
+            this.hopper.scene.spawnHitVFX(this.hopper.body.x - Phaser.Math.RND.integerInRange(8, 10), this.hopper.body.y, 'fx-hit-connect')
+            this.hopper.scene.spawnHitVFX(this.hopper.body.x - Phaser.Math.RND.integerInRange(0, 8), this.hopper.body.y - Phaser.Math.RND.integerInRange(0, 8), 'fx-hit-block')        
+            this.hopper.scene.spawnHitVFX(this.hopper.body.x - Phaser.Math.RND.integerInRange(0, 8), this.hopper.body.y + Phaser.Math.RND.integerInRange(0, 8), 'fx-hit-block')        
+        }     
     }
     
     update()
