@@ -32,6 +32,12 @@ export default class AI_TAKE_DAMAGE
             // this.dummy.scene.GROUP_training_dummy.remove(this.dummy)
             this.dummy.controlState.setState('death_sequence')
         }
+
+        if (this.dummy.body.velocity.y < 0 && !this.dummy.body.blocked.down)
+        {
+            this.dummy.setGravityY(GameOptions.playerGravity * 2)
+            this.dummy.setDrag(0.875)
+        }
     }
     
     dummyTakeDamage (player, dummy)
@@ -49,13 +55,16 @@ export default class AI_TAKE_DAMAGE
             this.dummy.currHP -= 1
             // KNOCKBACK SETUP
             this.dummy.setGravityY(GameOptions.playerGravity / 2)
-            let recoil = 100
-            let xMult = 1
-            let yMult = 2
+            let recoil = 450
+            let xMult = 1.8
+            let yMult = 1.6
             let xVel = 0
             this.dummy.scene.player.body.x < this.dummy.body.x ? xVel = recoil * xMult : xVel = -recoil * xMult
             let yVel = -recoil * yMult
             this.dummy.setVelocity(xVel, yVel)
+
+            this.dummy.setDamping(true)
+            this.dummy.setDrag(0.6)
 
             // SPRITE FLASH EFFECT
             // this.dummy.setTintFill(0xffffff);
@@ -79,6 +88,8 @@ export default class AI_TAKE_DAMAGE
     {
         this.dummy.isHurt = false
         this.dummy.setGravityY(GameOptions.playerGravity)
+        this.dummy.setDamping(false)
+        this.dummy.setDrag(1)
         this.tween_sprite_flash.stop()
         this.dummy.setAlpha(1)
         // this.dummy.clearTint()

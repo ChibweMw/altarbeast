@@ -21,11 +21,14 @@ export default cnf_dummy_group =
         bounceY: 0,
         removeCallback: function (dummy) {
             dummy.scene.GROUP_POOL_training_dummy.add(dummy)
+            // dummy.data.values.props.pool.add(dummy)
         }
     },
     pool_cnf: {
         removeCallback: function (dummy) {
             dummy.scene.GROUP_training_dummy.add(dummy)
+            // dummy.data.values.props.group.add(dummy)
+            
         }
     },
     states: cnf_dummy_states,
@@ -35,6 +38,13 @@ export default cnf_dummy_group =
         testProp: 'THIS IS A TEST PROPERTY',
         maxHP: 1,
         isHurt: false,
-
+        group: null,
+        pool: null
+        // TO ADD
+        // KNOCKBACK STATS
+        // MOVEMENT
+        // ANIMATIONS
+        // COMBAT STATS
+        // 
     }
 }

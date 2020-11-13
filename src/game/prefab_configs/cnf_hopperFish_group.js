@@ -29,6 +29,9 @@ export default cnf_hopperFish_group =
     key: 'enemy-fish',
     frame: 2,
     props: {
-        testProp: 'THIS IS A TEST PROPERTY'
+        testProp: 'THIS IS A TEST PROPERTY',
+        maxHP: 1,
+        isHurt: false,
+        group: null
     }
 }

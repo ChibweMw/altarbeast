@@ -38,8 +38,10 @@ export default class AI_DEATH_SEQUENCE
             else
             {
                 // console.log(`DEATH ANIM FINISHED`) 
-                this.dummy.scene.GROUP_training_dummy.killAndHide(this.dummy)
-                this.dummy.scene.GROUP_training_dummy.remove(this.dummy) 
+                // this.dummy.scene.GROUP_training_dummy.killAndHide(this.dummy)
+                // this.dummy.scene.GROUP_training_dummy.remove(this.dummy) 
+                this.dummy.data.values.props.group.killAndHide(this.dummy)
+                this.dummy.data.values.props.group.remove(this.dummy) 
             }
         }
     }

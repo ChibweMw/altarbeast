@@ -38,8 +38,10 @@ export default class AI_DEATH_SEQUENCE
             else
             {
                 // console.log(`DEATH ANIM FINISHED`) 
-                this.hopper.scene.GROUP_hopFish.killAndHide(this.hopper)
-                this.hopper.scene.GROUP_hopFish.remove(this.hopper) 
+                // this.hopper.scene.GROUP_hopFish.killAndHide(this.hopper)
+                // this.hopper.scene.GROUP_hopFish.remove(this.hopper) 
+                this.hopper.data.values.props.group.killAndHide(this.hopper)
+                this.hopper.data.values.props.group.remove(this.hopper) 
             }
         }
     }

@@ -10,13 +10,23 @@ export default class AI_TAKE_DAMAGE
         this.hopper = hopper
         /**@type {Phaser.Tweens.Tween} */
         this.tween_sprite_flash = undefined
+        this.particleTimerEvent = null
     }
 
     enter ()
     {
         // console.log(`AI: ENTER STATE >> DUMMY > TAKE DAMAGE`)
-        this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y, 'fx-hit-connect')        
-        this.dummyTakeDamage()      
+        this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y, 'fx-hit-connect')  
+        this.spawnParticle()      
+        this.dummyTakeDamage()  
+        // this.particleTimerEvent = null
+        this.particleTimerEvent = this.hopper.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
+    
+    }
+
+    spawnParticle()
+    {
+        this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y, 'fx-hit-block')        
     }
     
     update()
@@ -28,7 +38,14 @@ export default class AI_TAKE_DAMAGE
         } else if (this.hopper.isHurt && this.hopper.body.blocked.down && this.hopper.currHP <= 0)
         {
             // console.log('DUMMY DIE NOW')
+            this.particleTimerEvent.destroy()
             this.hopper.controlState.setState('death_sequence')
+        }
+
+        if (this.hopper.body.velocity.y < 0 && !this.hopper.body.blocked.down)
+        {
+            this.hopper.setGravityY(GameOptions.playerGravity * 2)
+            this.hopper.setDrag(0.875)
         }
     }
     
@@ -47,13 +64,17 @@ export default class AI_TAKE_DAMAGE
             this.hopper.currHP -= 1
             // KNOCKBACK SETUP
             this.hopper.setGravityY(GameOptions.playerGravity / 2)
-            let recoil = 100
-            let xMult = 1
-            let yMult = 2
+            let recoil = 450
+            let xMult = 1.8
+            let yMult = 1.6
             let xVel = 0
             this.hopper.scene.player.body.x < this.hopper.body.x ? xVel = recoil * xMult : xVel = -recoil * xMult
             let yVel = -recoil * yMult
             this.hopper.setVelocity(xVel, yVel)
+
+            this.hopper.setDamping(true)
+            this.hopper.setDrag(0.8)
+
 
             // SPRITE FLASH EFFECT
             // this.hopper.setTintFill(0xffffff);
@@ -77,6 +98,9 @@ export default class AI_TAKE_DAMAGE
     {
         this.hopper.isHurt = false
         this.hopper.setGravityY(GameOptions.playerGravity)
+        this.hopper.setDamping(false)
+        this.hopper.setDrag(1)
+        this.particleTimerEvent.destroy()
         this.tween_sprite_flash.stop()
         this.hopper.setAlpha(1)
         // this.hopper.clearTint()
