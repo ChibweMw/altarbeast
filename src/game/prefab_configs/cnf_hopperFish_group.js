@@ -1,5 +1,6 @@
 import GameOptions from "../GameOptions.js"
 import Hopper from "../Hopper_Fish.js"
+import cnf_hopperFish_states from "./cnf_hopperFish_states.js"
 
 let cnf_hopperFish_group
 export default cnf_hopperFish_group = 
@@ -11,7 +12,8 @@ export default cnf_hopperFish_group =
         max: 10,
         maxSize: 10,
         allowGravity: true,
-        visible: false,
+        visible: true,
+        active: true,
         runChildUpdate: true,
         gravityY: GameOptions.playerGravity,
         removeCallback: function (hopfish) {
@@ -22,5 +24,11 @@ export default cnf_hopperFish_group =
         removeCallback: function (hopfish) {
             hopfish.scene.GROUP_hopFish.add(hopfish)
         }
+    },
+    states: cnf_hopperFish_states,
+    key: 'enemy-fish',
+    frame: 2,
+    props: {
+        testProp: 'THIS IS A TEST PROPERTY'
     }
 }

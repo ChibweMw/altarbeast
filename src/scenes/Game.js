@@ -162,19 +162,19 @@ export default class Game extends Phaser.Scene
         
         this.physics.add.collider(this.player, this.layerStaticPlatform)
         
-        this.GROUP_AI_CONTROLLER = this.add.group({
-            classType: Ai_Controller,
-            maxSize: 10,
-            removeCallback: function (controller) {
-                controller.scene.GROUP_POOL_AI_CONTROLLER.add(controller)
-            }
-        })
-        // INACTIVE GROUP
-        this.GROUP_POOL_AI_CONTROLLER = this.add.group({
-            removeCallback: function (controller) {
-                controller.scene.GROUP_AI_CONTROLLER.add(controller)
-            }
-        })
+        // this.GROUP_AI_CONTROLLER = this.add.group({
+        //     classType: Ai_Controller,
+        //     maxSize: 10,
+        //     removeCallback: function (controller) {
+        //         controller.scene.GROUP_POOL_AI_CONTROLLER.add(controller)
+        //     }
+        // })
+        // // INACTIVE GROUP
+        // this.GROUP_POOL_AI_CONTROLLER = this.add.group({
+        //     removeCallback: function (controller) {
+        //         controller.scene.GROUP_AI_CONTROLLER.add(controller)
+        //     }
+        // })
         // ADD TRAINING DUMMY PREFAB && GROUPS!
         // ADD ACTIVE AND INACTIVE GROUP
         // ACTIVE GROUP
@@ -274,6 +274,25 @@ export default class Game extends Phaser.Scene
 
         this.prefabGroups.forEach((pref_group) => {
             this[pref_group.group_name] = this.physics.add.group(pref_group.group_cnf)
+            // CREATE A GROUP
+            // ASSIGN PROPS TO CHILDREN
+            // this[pref_group.group_name].getChildren().forEach(function (prefab) {
+            //     // Object.assign(prefab, pref_group.props)
+            //     prefab.setData({"props": pref_group.props })
+            // }, this)
+            // if (pref_group.props){
+            //     // console.log(`>>>>>> ${Object.entries(pref_group.props)}`)
+
+                
+            // }
+
+            // this.GROUP_training_dummy.getChildren().forEach(function (dummy) {
+            //     /** @type {Dummy} */
+            //     dummy.update()
+            // }, this)
+            // for (const [propName, propVal] of Object.entries(newGroup)) {
+            //     prefab[propName] = propVal
+            // }
             this[pref_group.pool_name] = this.physics.add.group(pref_group.pool_cnf)            
             this.physics.add.collider(this[pref_group.group_name], this.layerStaticPlatform)
         })
@@ -299,8 +318,10 @@ export default class Game extends Phaser.Scene
         this.SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
         this.SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
 
-        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
-        this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 2500, callback: this.spawnHopper, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
+        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_dummy_group], callbackScope: this, repeat: -1})
+        this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 2750, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group], callbackScope: this, repeat: -1})
+        // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
+        // this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 2500, callback: this.spawnHopper, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
 
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})
@@ -433,6 +454,42 @@ export default class Game extends Phaser.Scene
           this.physics.world.debugGraphic.visible = this.debug = !this.debug
         })
     }
+
+    spawnEnemy(x, y, pref_group)
+    {
+        console.log(`USING GENERIC ENEMY SPAWNER!!!!!!!!!!!!!!!!!!!!!!!`)
+        if (this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0) 
+        {
+            x = this.SPAWN_POINT_enemy_right.x
+            y = this.SPAWN_POINT_enemy_right.y
+        }
+        if (this[pref_group.group_name].countActive() >= this[pref_group.group_name].maxSize)
+        {
+            return
+        }
+        // /** @type {Dummy} */
+        let newEnemy
+        
+        if(this[pref_group.pool_name].getLength()){
+            newEnemy = this[pref_group.pool_name].getFirst()
+            newEnemy.controlState.setState('init')
+            newEnemy.x = x
+            newEnemy.y = y
+            newEnemy.setActive(true)
+            newEnemy.setVisible(true)
+            
+            this[pref_group.pool_name].remove(newEnemy)
+        }
+        else{
+            newEnemy = this[pref_group.group_name].get(x, y, pref_group.key, pref_group.frame)
+            newEnemy.setData({ "props": pref_group.props, "states": pref_group.states })
+            let new_newEnemy_CONTROLLER = new Ai_Controller(newEnemy)
+            newEnemy.setControlState(new_newEnemy_CONTROLLER)
+            newEnemy.controlState.setState('init')
+
+            this[pref_group.group_name].add(newEnemy)            
+        }
+    }
     
     
     spawnDummy(x, y)
@@ -453,14 +510,16 @@ export default class Game extends Phaser.Scene
             // console.log(`SPAWNED POOLED DUMMY`)
             newDummy = this.GROUP_POOL_training_dummy.getFirst()
             // this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
-            newDummy.setTexture('dummy')
-            newDummy.clearTint()
-            newDummy.isHurt = false
+            // newDummy.setTexture('dummy')
+            // newDummy.clearTint()
+            // newDummy.isHurt = false
             // let new_dummy_CONTROLLER = new Ai_Controller(newDummy) // do we need this??
             // newDummy.setControlState(new_dummy_CONTROLLER)
-            // newDummy.controlState.setState('idle')
-            this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? newDummy.controlState.setState('move_left') : newDummy.controlState.setState('move_right')
-            newDummy.currHP = newDummy.maxHP
+            newDummy.controlState.setState('init')
+            
+            // this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? newDummy.controlState.setState('move_left') : newDummy.controlState.setState('move_right')
+            
+            // newDummy.currHP = newDummy.maxHP
             newDummy.x = x
             newDummy.y = y
             newDummy.setActive(true)
@@ -470,17 +529,20 @@ export default class Game extends Phaser.Scene
         }
         else{
             // console.log(`SPAWNED NEW DUMMY`)
-            newDummy = this.GROUP_training_dummy.get(x, y, 'dummy', 0)
+            // newDummy = this.GROUP_training_dummy.get(x, y, 'dummy', 0)
+            newDummy = this.GROUP_training_dummy.get(x, y, cnf_dummy_group.key, cnf_dummy_group.frame)
             // newDummy = this.GROUP_training_dummy.get(x, y)
-            newDummy.isHurt = false
+            // newDummy.isHurt = false
             // newDummy.setDataEnabled()
-            newDummy.setData({"states": cnf_dummy_states})
+            newDummy.setData({ "props": cnf_dummy_group.props, "states": cnf_dummy_group.states })
             // let dummyStates = newDummy.getData('states')
             // console.log(`These are the dummy states >> ${dummyStates.idle}`)
             let new_dummy_CONTROLLER = new Ai_Controller(newDummy)
             newDummy.setControlState(new_dummy_CONTROLLER)
-            // new_dummy_CONTROLLER.setState('idle')
-            this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? newDummy.controlState.setState('move_left') : newDummy.controlState.setState('move_right')
+            newDummy.controlState.setState('init')
+            
+            // this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? newDummy.controlState.setState('move_left') : newDummy.controlState.setState('move_right')
+            
             // newDummy.enableBody(true, x, y, true, true)
 
             this.GROUP_training_dummy.add(newDummy)            
@@ -505,17 +567,17 @@ export default class Game extends Phaser.Scene
             // console.log(`SPAWNED POOLED DUMMY`)
             newHopfish = this.GROUP_POOL_hopFish.getFirst()
             // this.training_dummy_CONTROLLER = new Ai_Controller(this.training_dummy)
-            newHopfish.setTexture('enemy-fish', 2)
-            newHopfish.clearTint()
-            newHopfish.isHurt = false
+            // newHopfish.setTexture('enemy-fish', 2)
+            // newHopfish.clearTint()
+            // newHopfish.isHurt = false
             // newHopfish.setData({"states": cnf_hopperFish})
             // let new_hopFish_CONTROLLER = new Ai_Hopper_Fish_Controller(newHopfish)
             // let new_hopFish_CONTROLLER = new Ai_Controller(newHopfish)
             // newHopfish.setControlState(new_hopFish_CONTROLLER)
-            // newHopfish.controlState.setState('idle')
-            newHopfish.curr_walkSpeed = newHopfish.init_walkSpeed
-            this.TIMED_EVENT_ENEMY_SPAWN_Hoper.repeatCount % 2 === 0 ? newHopfish.controlState.setState('move_left') : newHopfish.controlState.setState('move_right')
-            newHopfish.currHP = newHopfish.maxHP
+            newHopfish.controlState.setState('init')
+            // newHopfish.curr_walkSpeed = newHopfish.init_walkSpeed
+            // this.TIMED_EVENT_ENEMY_SPAWN_Hoper.repeatCount % 2 === 0 ? newHopfish.controlState.setState('move_left') : newHopfish.controlState.setState('move_right')
+            // newHopfish.currHP = newHopfish.maxHP
             newHopfish.x = x
             newHopfish.y = y
             newHopfish.setActive(true)
@@ -525,14 +587,14 @@ export default class Game extends Phaser.Scene
         }
         else{
             // console.log(`SPAWNED NEW enemy-fish`)
-            newHopfish = this.GROUP_hopFish.get(x, y, 'enemy-fish', 2)
-            newHopfish.isHurt = false
-            newHopfish.setData({"states": cnf_hopperFish_states})
+            newHopfish = this.GROUP_hopFish.get(x, y, cnf_hopperFish_group.key, cnf_hopperFish_group.frame)
+            // newHopfish.isHurt = false
+            newHopfish.setData({"states": cnf_hopperFish_group.states})
             // let new_hopFish_CONTROLLER = new Ai_Hopper_Fish_Controller(newHopfish)
             let new_hopFish_CONTROLLER = new Ai_Controller(newHopfish)
             newHopfish.setControlState(new_hopFish_CONTROLLER)
-            // new_hopFish_CONTROLLER.setState('idle')
-            this.TIMED_EVENT_ENEMY_SPAWN_Hoper.repeatCount % 2 === 0 ? new_hopFish_CONTROLLER.setState('move_left') : new_hopFish_CONTROLLER.setState('move_right')
+            newHopfish.controlState.setState('init')
+            // this.TIMED_EVENT_ENEMY_SPAWN_Hoper.repeatCount % 2 === 0 ? new_hopFish_CONTROLLER.setState('move_left') : new_hopFish_CONTROLLER.setState('move_right')
             // {
             //     x = this.SPAWN_POINT_enemy_right.x
             //     y = this.SPAWN_POINT_enemy_right.y

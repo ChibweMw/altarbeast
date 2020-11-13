@@ -17,8 +17,8 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
 
         this.scene = scene
         this.setOrigin(0, 0)
-        this.setActive(true)
-        this.setVisible(true)
+        // this.setActive(true)
+        // this.setVisible(true)
         
         this.scene.add.existing(this)
         this.scene.physics.add.existing(this)
@@ -32,7 +32,7 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.scene.physics.add.overlap(this.scene.player.hurtBox, this.hitBox)
 
 
-        this.setGravityY(GameOptions.playerGravity)
+        // this.setGravityY(GameOptions.playerGravity)
 
 
         this.controlState = undefined
@@ -40,8 +40,6 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.audioState = undefined
 
         this.atkPoints = 1
-
-
         this.vulnTime = 500
 
         this.init_walkSpeed = 100
@@ -51,8 +49,9 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.currHP = this.maxHP
         this.isHurt = false
 
-        this.setCollideWorldBounds(false)
-        this.setBounce(0)
+        // this.setCollideWorldBounds(false)
+        // this.setBounce(0)
+
         this.setupOverlapEvents()
     }
 

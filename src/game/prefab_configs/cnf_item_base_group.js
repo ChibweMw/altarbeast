@@ -26,5 +26,8 @@ export default cnf_item_base_group =
         removeCallback: function (item) {
             item.scene.GROUP_ITEM.add(item)
         }
+    },
+    props: {
+        testProp: 'THIS IS A TEST PROPERTY'
     }
 }

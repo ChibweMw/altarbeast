@@ -19,5 +19,8 @@ export default cnf_vfx_collision_group =
         removeCallback: function (vfx_hit) {
             vfx_hit.scene.GROUP_VFX_HIT.add(vfx_hit)
         }
+    },
+    props: {
+        testProp: 'THIS IS A TEST PROPERTY'
     }
 }

@@ -96,17 +96,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
     setupOverlapEvents(){
         this.on("overlapstart", function() {
-            console.log(">>>>> OVERLAP STARTO <<<<<")
+            // console.log(">>>>> OVERLAP STARTO <<<<<")
             // this.controlState.setState('take_damage')
             this.scene.player_CONTROLLER.setState('take_damage')
 
     
-            console.time("overlap")
+            // console.time("overlap")
           })
 
         this.on("overlapend", function() {
-            console.log(">>>>> OVERLAP ENDO <<<<<")
-            console.timeEnd("overlap")
+            // console.log(">>>>> OVERLAP ENDO <<<<<")
+            // console.timeEnd("overlap")
         })
     }
 
@@ -145,12 +145,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
         if (touching && !wasTouching) 
         {
-            console.log('OVERLAP START')
+            // console.log('OVERLAP START')
             this.emit("overlapstart")
         }
         else if (!touching && wasTouching) 
         {
-            console.log('OVERLAP END')
+            // console.log('OVERLAP END')
             this.emit("overlapend")
         }
     }
@@ -162,12 +162,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         if (this.body.x > this.scene.cameras.main.width - this.body.halfWidth)
         {
             
-            console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
+            // console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
             this.body.x = 0 - this.body.halfWidth
         } 
         else if (this.body.x < 0 - this.body.halfWidth)
         {
-            console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
+            // console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
             this.body.x = this.scene.cameras.main.width - this.body.halfWidth
         }  
     }
@@ -176,12 +176,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         if (this.body.y > this.scene.scale.height - this.body.halfHeight)
         {
             
-            console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
+            // console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
             this.body.y = 0 - this.body.halfHeight
         } 
         else if (this.body.y < 0 - this.body.halfHeight)
         {
-            console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
+            // console.log(`>> SCREEN WRAP >> LEFT TO RIGHT`)
             this.body.y = this.scene.scale.height - this.body.halfHeight
         }
     }
@@ -211,7 +211,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     playerTakeDamage (hitBox, dummy)
     {
-        console.log(`TEST PLAYER HIT CHECK`)
+        // console.log(`TEST PLAYER HIT CHECK`)
         this.dmgTaken = dummy.atkPoints
         // this.scene.player_CONTROLLER.setState('take_damage')
     }

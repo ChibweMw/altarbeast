@@ -9,14 +9,16 @@ export default cnf_dummy_group =
     pool_name: 'GROUP_POOL_training_dummy',
     group_cnf: {
         classType: Dummy,
-        // key: 'dummy',
-        // frame: 0,
         max: 10,
         maxSize: 10,
         allowGravity: true,
-        visible: false,
+        visible: true,
+        active: true,
         runChildUpdate: true,
         gravityY: GameOptions.playerGravity,
+        collideWorldBounds: false,
+        bounceX: 0,
+        bounceY: 0,
         removeCallback: function (dummy) {
             dummy.scene.GROUP_POOL_training_dummy.add(dummy)
         }
@@ -26,5 +28,13 @@ export default cnf_dummy_group =
             dummy.scene.GROUP_training_dummy.add(dummy)
         }
     },
-    states: cnf_dummy_states
+    states: cnf_dummy_states,
+    key: 'dummy',
+    frame: 0,
+    props: {
+        testProp: 'THIS IS A TEST PROPERTY',
+        maxHP: 1,
+        isHurt: false,
+
+    }
 }
