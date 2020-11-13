@@ -18,16 +18,27 @@ export default class AI_TAKE_DAMAGE
         // console.log(`AI: ENTER STATE >> DUMMY > TAKE DAMAGE`)
         // this.dummy.setTintFill(0xffffff)
         this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y, 'fx-hit-connect')        
-        this.spawnParticle()      
-        this.dummyTakeDamage()  
-        this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
+        this.spawnParticle() 
+        // this.dummyTakeDamage()  
+        // this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
+        this.dummy.scene.physics.pause()  
+        this.dummy.scene.time.delayedCall(75, this.unFreze, null, this)     
+    }
     
+    unFreze()
+    {
+        this.dummy.scene.physics.resume()
+        this.dummyTakeDamage()  
+
+        // this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
     }
 
     spawnParticle()
     {
         // PLAY WITH RANDOMIZATION OF VFX PLACEMENT
         // FEELS STIFF AND UNIFORM
+             
+
         if (this.dummy.body.velocity.x > 0) 
         {
             this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(16, 18), this.dummy.body.y, 'fx-hit-connect')
@@ -47,6 +58,8 @@ export default class AI_TAKE_DAMAGE
     update()
     {
         // if (this.name && this.body.blocked.down)
+        // this.dummy.scene.physics.resume()
+
         if (this.dummy.isHurt && this.dummy.body.blocked.down && this.dummy.currHP > 0)
         {
             this.recoverFromHit()
@@ -77,7 +90,7 @@ export default class AI_TAKE_DAMAGE
         {
             this.dummy.isHurt = true
             // console.log('DUMMY BEEN HIT BY PLAYER')
-
+            this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1}) 
             // TAKE DAMAGE
             this.dummy.currHP -= 1
             // KNOCKBACK SETUP
@@ -107,7 +120,7 @@ export default class AI_TAKE_DAMAGE
             // })
             this.spriteFlash()
             // CAMERA SHAKE
-            this.dummy.scene.cameras.main.shake(100, 0.0025)
+            this.dummy.scene.cameras.main.shake(100, 0.0025, true)
         }
     }
     

@@ -18,9 +18,18 @@ export default class AI_TAKE_DAMAGE
         // console.log(`AI: ENTER STATE >> DUMMY > TAKE DAMAGE`)
         this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y, 'fx-hit-connect')  
         this.spawnParticle()      
+        // this.dummyTakeDamage()  
+        // this.particleTimerEvent = this.hopper.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
+        this.hopper.scene.physics.pause()  
+        this.hopper.scene.time.delayedCall(75, this.unFreze, null, this)
+    }
+
+    unFreze()
+    {
+        this.hopper.scene.physics.resume()
         this.dummyTakeDamage()  
-        this.particleTimerEvent = this.hopper.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
-    
+
+        // this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
     }
 
     spawnParticle()
@@ -74,7 +83,7 @@ export default class AI_TAKE_DAMAGE
         {
             this.hopper.isHurt = true
             // console.log('DUMMY BEEN HIT BY PLAYER')
-
+            this.particleTimerEvent = this.hopper.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1}) 
             // TAKE DAMAGE
             this.hopper.currHP -= 1
             // KNOCKBACK SETUP
@@ -105,7 +114,7 @@ export default class AI_TAKE_DAMAGE
             // })
             this.spriteFlash()
             // CAMERA SHAKE
-            this.hopper.scene.cameras.main.shake(100, 0.0025)
+            this.hopper.scene.cameras.main.shake(100, 0.0025, true)
         }
     }
     

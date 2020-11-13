@@ -16,10 +16,64 @@ export default class Player_TAKE_DAMAGE
     enter ()
     {
         // console.log(`>> TAKING DAMAGE`)
+        // this.player.isHurt = true
+        this.player.scene.spawnHitVFX(this.player.hitBox.body.x, this.player.hitBox.body.y, 'fx-hit-connect')    
+        this.player.play('anim-oni-attack-hurt')
+        
+        
+        // this.spriteFlash()
+
+        // // KNOCK BACK
+        // this.player.setGravityY(GameOptions.playerGravity / 2)
+        // let hurtForce_X = this.player.flipX ? this.player.hurtForce : -this.player.hurtForce
+        // let hurtForce_Y = this.player.hurtForce
+        // let xMult = 1
+        // let yMult = 2
+        // this.player.walkSpeed = hurtForce_X *xMult
+        // this.player.jumpVelocity = hurtForce_Y * yMult
+        // this.player.setVelocityY(this.player.jumpVelocity)
+        
+        // this.knockBack()
+        
+        // HP CALC
+        // console.log(`>> Player HP : ${this.player.HP}`)
+        // this.player.HP -= this.player.dmgTaken
+        // // console.log(`>> Damage DAMAGE : ${this.player.dmgTaken}`)
+        // // console.log(`>> Player HP : ${this.player.HP}`)
+        
+        
+        // if (this.player.HP < 0)
+        // {
+        //     this.player.HP = 0
+        // }
+        // this.player.dmgTaken = 0
+        this.handleDamage()
+        this.player.scene.physics.pause()  
+        this.player.scene.time.delayedCall(95, this.unFreze, null, this)
+    }
+
+    unFreze()
+    {
+        this.player.scene.physics.resume()
         this.player.isHurt = true
         this.spriteFlash()
-        this.player.scene.spawnHitVFX(this.player.hitBox.body.x, this.player.hitBox.body.y, 'fx-hit-connect')        
+        this.knockBack()  
+        // this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
+    }
 
+    handleDamage()
+    {
+        this.player.HP -= this.player.dmgTaken
+        
+        if (this.player.HP < 0)
+        {
+            this.player.HP = 0
+        }
+        this.player.dmgTaken = 0
+    }
+
+    knockBack ()
+    {
         // KNOCK BACK
         this.player.setGravityY(GameOptions.playerGravity / 2)
         let hurtForce_X = this.player.flipX ? this.player.hurtForce : -this.player.hurtForce
@@ -29,23 +83,6 @@ export default class Player_TAKE_DAMAGE
         this.player.walkSpeed = hurtForce_X *xMult
         this.player.jumpVelocity = hurtForce_Y * yMult
         this.player.setVelocityY(this.player.jumpVelocity)
-
-        // HP CALC
-        // console.log(`>> Player HP : ${this.player.HP}`)
-        this.player.HP -= this.player.dmgTaken
-        // console.log(`>> Damage DAMAGE : ${this.player.dmgTaken}`)
-        // console.log(`>> Player HP : ${this.player.HP}`)
-        
-        this.player.play('anim-oni-attack-hurt')
-        
-        if (this.player.HP < 0)
-        {
-            this.player.HP = 0
-        }
-        this.player.dmgTaken = 0
-        
-
-
     }
 
     update()
