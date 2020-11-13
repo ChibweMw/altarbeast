@@ -53,6 +53,7 @@ export default class AI_TAKE_DAMAGE
         {
             // console.log('DUMMY DIE NOW')
             this.particleTimerEvent.destroy()
+            this.hopper.clearTint()
             this.hopper.controlState.setState('death_sequence')
         }
 
@@ -78,7 +79,7 @@ export default class AI_TAKE_DAMAGE
             this.hopper.currHP -= 1
             // KNOCKBACK SETUP
             this.hopper.setGravityY(GameOptions.playerGravity / 2)
-            let recoil = 450
+            let recoil = 400
             let xMult = 1.8
             let yMult = 1.6
             let xVel = 0

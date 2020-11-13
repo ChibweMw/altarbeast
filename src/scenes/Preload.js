@@ -233,23 +233,24 @@ export default class Preload extends Phaser.Scene
 
         // VFX ANIMATIONS 
 
+        const anim_vfx_FrameRate = 10
         // COMBAT
         const ANIM_CNF_VFX_BLOCK = {
             key: 'anim-fx-hit-block',
             frames: this.anims.generateFrameNumbers('fx-hit-block', { start: 0, end: 2, first: 0 }),
-            frameRate: anim_FramRate,
+            frameRate: anim_vfx_FrameRate,
             repeat: 0
         }
         const ANIM_CNF_VFX_CONNECT = {
             key: 'anim-fx-hit-connect',
             frames: this.anims.generateFrameNumbers('fx-hit-connect', { start: 10, end: 12, first: 0 }),
-            frameRate: anim_FramRate,
+            frameRate: anim_vfx_FrameRate,
             repeat: 0
         }
         const ANIM_CNF_VFX_ENEMY_DEATH = {
             key: 'anim-fx-hit-enemy-death',
             frames: this.anims.generateFrameNumbers('fx-hit-enemy-death', { start: 5, end: 9, first: 0 }),
-            frameRate: anim_FramRate,
+            frameRate: anim_vfx_FrameRate,
             repeat: 0
         }
 

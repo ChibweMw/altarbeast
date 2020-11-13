@@ -16,6 +16,7 @@ export default class AI_TAKE_DAMAGE
     enter ()
     {
         // console.log(`AI: ENTER STATE >> DUMMY > TAKE DAMAGE`)
+        // this.dummy.setTintFill(0xffffff)
         this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y, 'fx-hit-connect')        
         this.spawnParticle()      
         this.dummyTakeDamage()  
@@ -54,6 +55,7 @@ export default class AI_TAKE_DAMAGE
             // console.log('DUMMY DIE NOW')
             // this.dummy.scene.GROUP_training_dummy.killAndHide(this.dummy)
             // this.dummy.scene.GROUP_training_dummy.remove(this.dummy)
+            this.dummy.clearTint()
             this.particleTimerEvent.destroy()
             this.dummy.controlState.setState('death_sequence')
         }
@@ -80,9 +82,9 @@ export default class AI_TAKE_DAMAGE
             this.dummy.currHP -= 1
             // KNOCKBACK SETUP
             this.dummy.setGravityY(GameOptions.playerGravity / 2)
-            let recoil = 450
+            let recoil = 400
             let xMult = 1.8
-            let yMult = 1.6
+            let yMult = 2
             let xVel = 0
             this.dummy.scene.player.body.x < this.dummy.body.x ? xVel = recoil * xMult : xVel = -recoil * xMult
             let yVel = -recoil * yMult
@@ -125,7 +127,8 @@ export default class AI_TAKE_DAMAGE
     spriteFlash()
     {
         // SPRITE FLASH EFFECT
-        this.dummy.setTintFill(0xffffff);
+        this.dummy.setTintFill(0xffffff)
+        // this.dummy.setTint(0xffffff)
         this.tween_sprite_flash = this.dummy.scene.tweens.add({
             targets: this.dummy,
             // alpha: 0,
