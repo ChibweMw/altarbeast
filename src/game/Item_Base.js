@@ -48,7 +48,7 @@ export default class Item_Base extends Phaser.Physics.Arcade.Sprite
 
     tween_itemFlicker()
     {
-        console.log('FLICKER TIIIME')
+        // console.log('FLICKER TIIIME')
         // flash with a tween
         this.tween_flicker = this.scene.tweens.add({
             targets: this,
@@ -90,7 +90,9 @@ export default class Item_Base extends Phaser.Physics.Arcade.Sprite
         if (this.readyToFlicker && this.body.blocked.down)
         {
             this.readyToFlicker = false
-            this.scene.spawnHitVFX(this.body.x, this.body.y, 'fx-player-jump')
+            
+            // this.scene.spawnHitVFX(this.body.x, this.body.y, 'fx-player-jump')
+            
             this.tween_left_right_motion.stop()
             this.tween_itemFlicker()
         }

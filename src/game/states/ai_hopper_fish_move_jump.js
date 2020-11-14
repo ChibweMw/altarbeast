@@ -28,7 +28,7 @@ export default class AI_IDLE_MOVE_JUMP
         }
         if (this.hopper.body.blocked.down)
         {
-            this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y + 16, 'fx-player-land')
+            // this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y + 16, 'fx-player-land')
             // this.hopper.controlState.setState('idle')
             this.hopper.controlState.setState('jump')
         }  

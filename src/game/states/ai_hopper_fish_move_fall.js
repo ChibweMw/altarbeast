@@ -15,6 +15,11 @@ export default class AI_IDLE_MOVE_FALL
         this.hopper.setGravityY(GameOptions.playerGravity / 1.25)
 
     }
+
+    toJump()
+    {
+        this.hopper.controlState.setState('jump')
+    }
     
     update ()
     {
@@ -24,8 +29,12 @@ export default class AI_IDLE_MOVE_FALL
         {
             // this.hopper.body.velocity.x > 0 ? this.hopper.controlState.setState('move_right') : this.hopper.controlState.setState('move_left')
             // this.hopper.curr_walkSpeed < 0 ? this.hopper.controlState.setState('move_left') : this.hopper.controlState.setState('move_right')
-            this.hopper.controlState.setState('jump')
-            this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y, 'fx-player-land')
+            // this.hopper.controlState.setState('jump')
+            
+            // this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y, 'fx-player-land')
+            
+            // this.hopper.scene.time.delayedCall(100, this.toJump,null, this)
+            this.hopper.controlState.setState('idle')
             // this.hopper.controlState.setState('idle')
         }  
         

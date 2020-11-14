@@ -33,7 +33,7 @@ export default class AI_MOVE_LEFT
 
         if (!this.hopper.body.blocked.down)
         {
-            this.hopper.scene.spawnHitVFX(this.hopper.body.x + this.hopper.body.width, this.hopper.body.y, 'fx-player-land')
+            // this.hopper.scene.spawnHitVFX(this.hopper.body.x + this.hopper.body.width, this.hopper.body.y, 'fx-player-land')
             this.hopper.controlState.setState('fall')
         }
 

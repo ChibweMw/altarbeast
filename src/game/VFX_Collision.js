@@ -33,10 +33,11 @@ export default class VFX_COLLISION extends Phaser.GameObjects.Sprite
 
     update()
     {
-        if (!this.anims.isPlaying)
-        {
-            this.scene.GROUP_VFX_HIT.killAndHide(this)
-            this.scene.GROUP_VFX_HIT.remove(this) 
-        }
+        this.controlState.update()
+        // if (!this.anims.isPlaying)
+        // {
+        //     this.scene.GROUP_VFX_HIT.killAndHide(this)
+        //     this.scene.GROUP_VFX_HIT.remove(this) 
+        // }
     }
 }

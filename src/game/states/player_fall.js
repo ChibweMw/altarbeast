@@ -42,7 +42,7 @@ export default class Player_FALL
         } else 
         {
             // PLACE CHECK FOR JUMP BUTTON HERE
-            this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-land')
+            // this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-land')
             this.player.controlState.setState('idle')
         }
         

@@ -1,5 +1,6 @@
 import GameOptions from "../GameOptions.js"
 import Dummy from '../Dummy.js'
+import cnf_vfx_collision_group from "../prefab_configs/cnf_vfx_collision_group.js"
 
 export default class AI_TAKE_DAMAGE
 {
@@ -15,9 +16,10 @@ export default class AI_TAKE_DAMAGE
 
     enter ()
     {
-        // console.log(`AI: ENTER STATE >> DUMMY > TAKE DAMAGE`)
+        console.log(`AI: ENTER STATE >> DUMMY > TAKE DAMAGE`)
         // this.dummy.setTintFill(0xffffff)
-        this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y, 'fx-hit-connect')        
+        // this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y, 'fx-hit-connect')        
+        this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y, cnf_vfx_collision_group)        
         this.spawnParticle() 
         // this.dummyTakeDamage()  
         // this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
@@ -37,19 +39,30 @@ export default class AI_TAKE_DAMAGE
     {
         // PLAY WITH RANDOMIZATION OF VFX PLACEMENT
         // FEELS STIFF AND UNIFORM
-             
-
+    
         if (this.dummy.body.velocity.x > 0) 
         {
-            this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(16, 18), this.dummy.body.y, 'fx-hit-connect')
-            this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
-            this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(16, 18), this.dummy.body.y, cnf_vfx_collision_group)
+            // this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+            // this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
         } else
         {
-            this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(8, 10), this.dummy.body.y, 'fx-hit-connect')
-            this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
-            this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(8, 10), this.dummy.body.y, cnf_vfx_collision_group)
+            // this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+            // this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
         }
+
+        // if (this.dummy.body.velocity.x > 0) 
+        // {
+        //     this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(16, 18), this.dummy.body.y, 'fx-hit-connect')
+        //     this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+        //     this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+        // } else
+        // {
+        //     this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(8, 10), this.dummy.body.y, 'fx-hit-connect')
+        //     this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+        //     this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+        // }
         // this.dummy.body.velocity.x > 0 ? this.dummy.scene.spawnHitVFX(this.dummy.body.x + 18, this.dummy.body.y, 'fx-hit-block') : this.dummy.scene.spawnHitVFX(this.dummy.body.x - 10, this.dummy.body.y, 'fx-hit-block')
         // this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y - 8, 'fx-hit-connect')        
         // this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y + 8, 'fx-hit-connect')        
@@ -90,21 +103,21 @@ export default class AI_TAKE_DAMAGE
         {
             this.dummy.isHurt = true
             // console.log('DUMMY BEEN HIT BY PLAYER')
-            this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1}) 
+            this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 90, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1}) 
             // TAKE DAMAGE
             this.dummy.currHP -= 1
             // KNOCKBACK SETUP
             this.dummy.setGravityY(GameOptions.playerGravity / 2)
-            let recoil = 400
-            let xMult = 1.8
-            let yMult = 2
+            let recoil = 150
+            let xMult = 4.5
+            let yMult = 5
             let xVel = 0
             this.dummy.scene.player.body.x < this.dummy.body.x ? xVel = recoil * xMult : xVel = -recoil * xMult
             let yVel = -recoil * yMult
             this.dummy.setVelocity(xVel, yVel)
 
             this.dummy.setDamping(true)
-            this.dummy.setDrag(0.6)
+            this.dummy.setDrag(0.8)
 
             // SPRITE FLASH EFFECT
             // this.dummy.setTintFill(0xffffff);

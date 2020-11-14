@@ -1,5 +1,6 @@
 import GameOptions from "../GameOptions.js"
 import Dummy from '../Dummy.js'
+import cnf_vfx_decal_group from "../prefab_configs/cnf_vfx_decal_group.js"
 
 export default class AI_DEATH_SEQUENCE
 {
@@ -17,6 +18,7 @@ export default class AI_DEATH_SEQUENCE
         // console.log(`AI: ENTER STATE >> DUMMY > DEATH SEQ`)      
         this.anim_DeathPlayed = false 
         this.dummyTakeDamage()
+
     }
     
     update ()
@@ -29,6 +31,8 @@ export default class AI_DEATH_SEQUENCE
                 this.dummy.scene.spawnItem(this.dummy.body.x, this.dummy.body.y, 'ui-health')
                 this.dummy.play('anim-fx-hit-enemy-death')
                 this.dummy.setVelocityX(0)
+                // this.dummy.scene.spawnHitVFX(this.dummy.body.x + 16, this.dummy.body.y, 'fx-hit-enemy-death')        
+                this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y, cnf_vfx_decal_group)        
             }
             if (this.dummy.anims.isPlaying && this.dummy.anims.currentAnim.key === 'anim-fx-hit-enemy-death')
             {

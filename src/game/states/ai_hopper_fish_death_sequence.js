@@ -1,5 +1,6 @@
 import GameOptions from "../GameOptions.js"
 import Hopper from '../Hopper_Fish.js'
+import cnf_vfx_decal_group from "../prefab_configs/cnf_vfx_decal_group.js"
 
 export default class AI_DEATH_SEQUENCE
 {
@@ -29,6 +30,9 @@ export default class AI_DEATH_SEQUENCE
                 this.hopper.scene.spawnItem(this.hopper.body.x, this.hopper.body.y, 'ui-health')
                 this.hopper.play('anim-fx-hit-enemy-death')
                 this.hopper.setVelocityX(0)
+                // this.hopper.scene.spawnHitVFX(this.hopper.body.x + 16, this.hopper.body.y - 16, 'fx-hit-enemy-death')  
+                // this.hopper.scene.spawnHitVFX(this.hopper.body.x - 16, this.hopper.body.y, 'fx-hit-enemy-death')  
+                this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y, cnf_vfx_decal_group)  
             }
             if (this.hopper.anims.isPlaying && this.hopper.anims.currentAnim.key === 'anim-fx-hit-enemy-death')
             {

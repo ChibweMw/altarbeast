@@ -17,7 +17,7 @@ export default class PLAYER_DEATH_SEQUENCE
         // console.log(`AI: ENTER STATE >> player > DEATH SEQ`) 
         this.anim_DeathPlayed = false  
         this.player.clearTint()    
-        this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
+        // this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
 
     }
     
@@ -37,9 +37,9 @@ export default class PLAYER_DEATH_SEQUENCE
                 // console.log(`DEATH ANIM ISPLAYING`) 
                 if (this.player.anims.currentFrame === this.player.anims.currentAnim.getLastFrame())
                 {
-                    this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
-                    this.player.scene.spawnHitVFX(this.player.body.x - 16, this.player.body.y + 16, 'fx-player-land')
-                    this.player.scene.spawnHitVFX(this.player.body.x + 16, this.player.body.y + 16, 'fx-player-land')
+                    // this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
+                    // this.player.scene.spawnHitVFX(this.player.body.x - 16, this.player.body.y + 16, 'fx-player-land')
+                    // this.player.scene.spawnHitVFX(this.player.body.x + 16, this.player.body.y + 16, 'fx-player-land')
                 }
                 return
             }

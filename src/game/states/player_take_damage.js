@@ -17,7 +17,7 @@ export default class Player_TAKE_DAMAGE
     {
         // console.log(`>> TAKING DAMAGE`)
         // this.player.isHurt = true
-        this.player.scene.spawnHitVFX(this.player.hitBox.body.x, this.player.hitBox.body.y, 'fx-hit-connect')    
+        // this.player.scene.spawnHitVFX(this.player.hitBox.body.x, this.player.hitBox.body.y, 'fx-hit-connect')    
         this.player.play('anim-oni-attack-hurt')
         
         
@@ -107,7 +107,7 @@ export default class Player_TAKE_DAMAGE
         this.tween_sprite_flash.stop()
         this.player.isHurt = false
         this.player.setAlpha(1)
-        this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
+        // this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
         this.player.controlState.setState('idle')
     }
     

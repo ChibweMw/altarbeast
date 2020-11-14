@@ -12,7 +12,7 @@ export default class Player_MOVE_JUMP
 
     enter ()
     {
-        this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
+        // this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
         if (!this.player.isAttacking_AIR){
             this.player.play('anim-oni-jump')
             console.log(`>> PLAYER MOVE 'JUMP' STATE `)

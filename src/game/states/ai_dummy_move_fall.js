@@ -19,7 +19,7 @@ export default class AI_IDLE_MOVE_FALL
         // console.log(`AI UPDATE: DUMMY > IDLE`)
         if (this.dummy.body.blocked.down)
         {
-            this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y + 16, 'fx-player-land')
+            // this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y + 16, 'fx-player-land')
             this.dummy.controlState.setState('idle')
         }  
         

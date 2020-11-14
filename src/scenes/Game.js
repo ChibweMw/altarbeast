@@ -14,6 +14,7 @@ import cnf_dummy_group from '../game/prefab_configs/cnf_dummy_group.js'
 import cnf_hopperFish_group from '../game/prefab_configs/cnf_hopperFish_group.js'
 import cnf_vfx_collision_group from '../game/prefab_configs/cnf_vfx_collision_group.js'
 import cnf_item_base_group from '../game/prefab_configs/cnf_item_base_group.js'
+import cnf_vfx_decal_group from '../game/prefab_configs/cnf_vfx_decal_group.js'
 
 export default class Game extends Phaser.Scene
 {
@@ -76,7 +77,7 @@ export default class Game extends Phaser.Scene
     SPAWN_POINT_enemy_left 
     SPAWN_POINT_enemy_right
     
-    prefabGroups = [cnf_dummy_group, cnf_hopperFish_group, cnf_vfx_collision_group, cnf_item_base_group]
+    prefabGroups = [cnf_dummy_group, cnf_hopperFish_group, cnf_vfx_collision_group, cnf_vfx_decal_group, cnf_item_base_group]
     
     init ()
     {
@@ -134,9 +135,10 @@ export default class Game extends Phaser.Scene
         this.map = this.make.tilemap({ key: 'level-arena-01', tileWidth: 16, tileHeight: 16 })
         this.tiles = this.map.addTilesetImage('altar-tiles-01', 'tiles-arena', 16, 16)
 
-        this.layerStaticPlatform = this.map.createStaticLayer('platform-solid-static', this.tiles, 0, 0)
+        this.layerPlatformDeco = this.map.createStaticLayer('platform-env-static', this.tiles, 0, 0).setDepth(-5)
+        this.layerStaticPlatform = this.map.createStaticLayer('platform-solid-static', this.tiles, 0, 0).setDepth(-5)
         
-        const layerPlatformDeco = this.map.createStaticLayer('platform-env-static', this.tiles, 0, 0).setDepth(-1)
+        // const layerPlatformDeco = this.map.createStaticLayer('platform-env-static', this.tiles, 0, 0).setDepth(-1)
 
         const SPAWN_POINT_player = this.map.findObject("spawnpoints", obj => obj.name === "player-spawn-point")
         
@@ -186,7 +188,7 @@ export default class Game extends Phaser.Scene
         this.SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
 
         this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_dummy_group], callbackScope: this, repeat: -1})
-        this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 3750, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group], callbackScope: this, repeat: -1})
+        // this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 2250, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group], callbackScope: this, repeat: -1})
         // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
         // this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 2500, callback: this.spawnHopper, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
 
@@ -216,7 +218,7 @@ export default class Game extends Phaser.Scene
         {
             item.tween_left_right_motion.stop()
         }
-        this.spawnHitVFX(player.body.x, player.body.y, 'fx-hit-block')
+        // this.spawnHitVFX(player.body.x, player.body.y, 'fx-hit-block')
         item.setAlpha(1)
         this.GROUP_ITEM.killAndHide(item)
         this.GROUP_ITEM.remove(item)
@@ -326,37 +328,84 @@ export default class Game extends Phaser.Scene
         }
     }
 
-    spawnHitVFX(x, y, animation)
+    spawnHitVFX(x, y, pref_group)
     {
-        // MOVE TO USING STATE MACHINE
-        // MOVE VARIABLE PROPS TO INIT STATE OF EACH ITEM PREFAB
 
-        if (this.GROUP_VFX_HIT.countActive() >= this.GROUP_VFX_HIT.maxSize)
+        if (this[pref_group.group_name].countActive() >= this[pref_group.group_name].maxSize)
         {
             return
         }
-        /** @type {VFX_COLLISION} */
+        // /** @type {VFX_COLLISION} */
         let newHitVFX
         
-        if(this.GROUP_POOL_VFX_HIT.getLength()){
-            // console.log(`SPAWNED POOLED hitVF`)
-            newHitVFX = this.GROUP_POOL_VFX_HIT.getFirst()
+        if(this[pref_group.pool_name].getLength()){
+            newHitVFX = this[pref_group.pool_name].getFirst()
+            newHitVFX.controlState.setState('init')
             newHitVFX.x = x
             newHitVFX.y = y
-            newHitVFX.play(`anim-${animation}`)
+            // newHitVFX.play(`anim-${pref_group.key}`)
             newHitVFX.setActive(true)
             newHitVFX.setVisible(true)
+            console.log(`SPAWNED POOLED hitVF`)
             
-            this.GROUP_POOL_VFX_HIT.remove(newHitVFX)
+            this[pref_group.pool_name].remove(newHitVFX)
         }
         else{
             // console.log(`SPAWNED NEW hitVF`)
-            newHitVFX = this.GROUP_VFX_HIT.get(x, y, animation)
-            newHitVFX.play(`anim-${animation}`)
+            newHitVFX = this[pref_group.group_name].get(x, y, pref_group.key, pref_group.frame)
+            newHitVFX.setData({ "props": pref_group.props, "states": pref_group.states })
+            newHitVFX.data.values.props.group = this[pref_group.group_name]
 
-            this.GROUP_VFX_HIT.add(newHitVFX)            
+            let new_newHitVFX_CONTROLLER = new Ai_Controller(newHitVFX)
+            newHitVFX.setControlState(new_newHitVFX_CONTROLLER)
+            newHitVFX.controlState.setState('init')
+
+            this[pref_group.group_name].add(newHitVFX)            
         }
     }
+
+    // spawnHitVFX(x, y, animation)
+    // {
+    //     // MOVE TO USING STATE MACHINE
+    //     // MOVE VARIABLE PROPS TO INIT STATE OF EACH ITEM PREFAB
+
+    //     if (this.GROUP_VFX_HIT.countActive() >= this.GROUP_VFX_HIT.maxSize)
+    //     {
+    //         return
+    //     }
+    //     /** @type {VFX_COLLISION} */
+    //     let newHitVFX
+        
+    //     if(this.GROUP_POOL_VFX_HIT.getLength()){
+    //         // console.log(`SPAWNED POOLED hitVF`)
+    //         newHitVFX = this.GROUP_POOL_VFX_HIT.getFirst()
+    //         newHitVFX.x = x
+    //         newHitVFX.y = y
+    //         newHitVFX.play(`anim-${animation}`)
+    //         newHitVFX.controlState.setState('init')
+    //         newHitVFX.setActive(true)
+    //         newHitVFX.setVisible(true)
+            
+    //         this.GROUP_POOL_VFX_HIT.remove(newHitVFX)
+    //     }
+    //     else{
+    //         // console.log(`SPAWNED NEW hitVF`)
+    //         newHitVFX = this.GROUP_VFX_HIT.get(x, y, animation)
+    //         newHitVFX.setData({ "props": pref_group.props, "states": pref_group.states })
+    //         newHitVFX.data.values.props.group = this[pref_group.group_name]
+
+    //         // FOLLOWING LINES ARE SETUP FOR MASKING BLOOD SPATTER VFX
+    //         // newHitVFX.mask = new Phaser.Display.Masks.BitmapMask(this, this.layerStaticPlatform)
+    //         // newHitVFX.mask = new Phaser.Display.Masks.BitmapMask(this, this.layerPlatformDeco)
+    //         let new_newHitVFX_CONTROLLER = new Ai_Controller(newHitVFX)
+    //         newHitVFX.setControlState(new_newHitVFX_CONTROLLER)
+    //         newHitVFX.controlState.setState('init')
+
+    //         newHitVFX.play(`anim-${newHitVFX.data.values.key}`)
+
+    //         this.GROUP_VFX_HIT.add(newHitVFX)            
+    //     }
+    // }
 
     spawnItem(x, y, animation)
     {
