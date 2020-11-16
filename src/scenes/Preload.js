@@ -249,7 +249,7 @@ export default class Preload extends Phaser.Scene
         }
         const ANIM_CNF_VFX_ENEMY_DEATH = {
             key: 'anim-fx-hit-enemy-death',
-            frames: this.anims.generateFrameNumbers('fx-hit-enemy-death', { start: 5, end: 7, first: 0 }),
+            frames: this.anims.generateFrameNumbers('fx-hit-enemy-death', { start: 5, end: 9, first: 0 }),
             frameRate: anim_vfx_FrameRate,
             repeat: 0
         }

@@ -33,7 +33,7 @@ export default class Player_ATTACK_JUMPING
     {
         if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'anim-oni-attack-jump')
         {
-            console.log(`ATTACKING`)
+            // console.log(`ATTACKING`)
             if (this.player.body.velocity.y >= this.player.jumpPeakThreshold && (this.player.isJumping || this.player.isAttacking_AIR))
             {
                 this.player.setGravityY(0)

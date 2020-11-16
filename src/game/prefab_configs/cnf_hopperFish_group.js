@@ -30,8 +30,10 @@ export default cnf_hopperFish_group =
     frame: 2,
     props: {
         testProp: 'THIS IS A TEST PROPERTY',
-        maxHP: 1,
+        maxHP: 1,//3,
+        currHP: null,
         isHurt: false,
-        group: null
+        group: null,
+        pool: null,
     }
 }

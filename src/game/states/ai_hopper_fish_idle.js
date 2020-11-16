@@ -13,25 +13,20 @@ export default class AI_IDLE
 
     enter ()
     {
-        // console.log(`AI: ENTER STATE >> DUMMY > IDLE`)
-        this.hopper.clearTint()
-        // this.hopper.curr_walkSpeed = 0
-        // this.hopper.setVelocityY(-450)   
-        // Phaser.Math.RND.pick([this.hopper.controlState.setState('move_right'), this.hopper.controlState.setState('move_left')])   
-
-          
+        // this.hopper.clearTint()
+        this.hopper.controlState.setState('move_right')
     }
-
+    
     toJump()
     {
         this.hopper.controlState.setState('jump')
     }
     update ()
     {
-        if (this.hopper.body.blocked.down)
-        {
-            this.hopper.scene.time.delayedCall(100, this.toJump, null, this)
-        }
+        // if (this.hopper.body.blocked.down && this.hopper.currHP > 0)
+        // {
+        //     this.hopper.scene.time.delayedCall(100, this.toJump, null, this)
+        // }
         
     }
 

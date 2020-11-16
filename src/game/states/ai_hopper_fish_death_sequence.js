@@ -15,39 +15,54 @@ export default class AI_DEATH_SEQUENCE
 
     enter ()
     {
-        // console.log(`AI: ENTER STATE >> DUMMY > DEATH SEQ`)   
+        console.log(`AI: ENTER STATE >> DUMMY > DEATH SEQ`)   
         this.anim_DeathPlayed = false    
-        this.dummyTakeDamage()
+        this.hopper.scene.cameras.main.shake(100, 0.0045)
+        // this.dummyTakeDamage() // to remove 
     }
     
     update ()
     {
-        if (this.hopper.isHurt && this.hopper.body.blocked.down)
-        {
+        // if (this.hopper.isHurt && this.hopper.body.blocked.down || this.hopper.currHP <= 0 && this.hopper.body.blocked.down)
+        // if (this.hopper.currHP <= 0 && this.hopper.body.blocked.down)
+        // {
             if (!this.anim_DeathPlayed)
             {
-                this.anim_DeathPlayed = true
                 this.hopper.scene.spawnItem(this.hopper.body.x, this.hopper.body.y, 'ui-health')
                 this.hopper.play('anim-fx-hit-enemy-death')
                 this.hopper.setVelocityX(0)
                 // this.hopper.scene.spawnHitVFX(this.hopper.body.x + 16, this.hopper.body.y - 16, 'fx-hit-enemy-death')  
                 // this.hopper.scene.spawnHitVFX(this.hopper.body.x - 16, this.hopper.body.y, 'fx-hit-enemy-death')  
                 this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y, cnf_vfx_decal_group)  
-            }
-            if (this.hopper.anims.isPlaying && this.hopper.anims.currentAnim.key === 'anim-fx-hit-enemy-death')
-            {
-                // console.log(`DEATH ANIM ISPLAYING`) 
-                return
+                this.anim_DeathPlayed = true
             }
             else
             {
-                // console.log(`DEATH ANIM FINISHED`) 
-                // this.hopper.scene.GROUP_hopFish.killAndHide(this.hopper)
-                // this.hopper.scene.GROUP_hopFish.remove(this.hopper) 
-                this.hopper.data.values.props.group.killAndHide(this.hopper)
-                this.hopper.data.values.props.group.remove(this.hopper) 
+                if (this.hopper.anims.isPlaying && this.hopper.anims.currentAnim.key === 'anim-fx-hit-enemy-death')
+                {
+                    if (this.hopper.anims.currentFrame === this.hopper.anims.currentAnim.getLastFrame())
+                    {
+
+                        console.log(`DEATH ANIM FINISHED`) 
+                        // this.hopper.scene.GROUP_hopFish.killAndHide(this.hopper)
+                        // this.hopper.scene.GROUP_hopFish.remove(this.hopper) 
+                        this.hopper.anims.stop()
+                        this.hopper.data.values.props.group.killAndHide(this.hopper)
+                        this.hopper.data.values.props.group.remove(this.hopper) 
+                        // this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y + 16, 'fx-hopper-jump')
+                        // this.hopper.scene.spawnHitVFX(this.hopper.body.x - 16, this.hopper.body.y + 16, 'fx-hopper-land')
+                        // this.hopper.scene.spawnHitVFX(this.hopper.body.x + 16, this.hopper.body.y + 16, 'fx-hopper-land')
+                    }
+                    
+                    // console.log(`>>>>> DEATH ANIM ISPLAYING`) 
+                    // return
+                }
+                // else //if (!this.hopper.anims.isPlaying && this.hopper.anims.currentAnim.key === 'anim-fx-hit-enemy-death')
+                // {
+                // }
             }
-        }
+            
+        // }
     }
 
     dummyTakeDamage (player)
@@ -59,11 +74,11 @@ export default class AI_DEATH_SEQUENCE
         else
         {
             this.hopper.name = 'beenhit'
-            // this.hopper.isHurt = true
-            // console.log('DUMMY BEEN HIT BY PLAYER')
+            this.hopper.isHurt = true   
+            console.log('DUMMY BEEN HIT BY PLAYER')
 
             // TAKE DAMAGE
-            this.hopper.currHP -= 1
+            this.hopper.data.values.props.currHP -= 1
             // KNOCKBACK SETUP
             this.hopper.setGravityY(GameOptions.playerGravity / 2)
             let recoil = 100
@@ -87,7 +102,7 @@ export default class AI_DEATH_SEQUENCE
                 repeat: 5,
             })
             // CAMERA SHAKE
-            this.hopper.scene.cameras.main.shake(100, 0.0025)
+            this.hopper.scene.cameras.main.shake(100, 0.0045)
             // this.hopper.isHurt = false
         }
     }

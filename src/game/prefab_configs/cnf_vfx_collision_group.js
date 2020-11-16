@@ -29,6 +29,7 @@ export default cnf_vfx_collision_group =
         testProp: 'THIS IS A TEST PROPERTY',
         group: null,
         pool: null,
-        key: 'fx-hit-connect'
+        key: 'fx-hit-connect',
+        spawnTimer: null
     }
 }

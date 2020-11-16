@@ -29,6 +29,8 @@ export default cnf_vfx_decal_group =
         testProp: 'THIS IS A TEST PROPERTY',
         group: null,
         pool: null,
-        key: 'fx-hit-enemy-death'
+        key: 'fx-hit-enemy-death',
+        lifeSpan: 5000,
+        spawnTimer: null
     }
 }

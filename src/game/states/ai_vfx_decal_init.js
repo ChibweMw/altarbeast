@@ -14,13 +14,13 @@ export default class AI_VFX_DECAL_INIT
 
     enter ()
     {
-        console.log(`DECAL INIT STATE ENTERED >>`)
-        // this.vfx_collision.setTexture('vfx_collision')
+        // console.log(`DECAL INIT STATE ENTERED >>`)
         // console.log(`AI: HOPPER DATA GROUP > ${this.vfx_collision.data.values.props.group}`)
         // this.vfx_collision.play(`anim-${this.vfx_collision.data.values.props.key}`)
         this.animPlayed = false
         this.vfx_collision.setDepth(-3)
-        this.vfx_collision.play(`anim-${this.vfx_collision.data.values.props.key}`)
+        // this.vfx_collision.play(`anim-${this.vfx_collision.data.values.props.key}`)
+        this.vfx_collision.setTexture(`${this.vfx_collision.data.values.props.key}`, 8)
         if (!this.maskCreated)
         {
             this.vfx_collision.mask = new Phaser.Display.Masks.BitmapMask(this.vfx_collision.scene, this.vfx_collision.scene.layerStaticPlatform)
@@ -34,10 +34,11 @@ export default class AI_VFX_DECAL_INIT
     
     update ()
     {
+        // NEEDS A MIDDLE STATE TO FADE BEFORE DOING THE FOLLOWING
         if (!this.vfx_collision.anims.isPlaying && !this.animPlayed)
         {
             // this.vfx_collision.setTexture(this.vfx_collision.data.values.props.key, 7)
-            this.vfx_collision.scene.time.delayedCall(100, this.removeDecal, null, this)
+            this.vfx_collision.scene.time.delayedCall(this.vfx_collision.data.values.props.lifeSpan, this.removeDecal, null, this)
             this.animPlayed = true
         }
     }

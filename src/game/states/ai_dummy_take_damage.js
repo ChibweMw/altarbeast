@@ -32,7 +32,7 @@ export default class AI_TAKE_DAMAGE
         this.dummy.scene.physics.resume()
         this.dummyTakeDamage()  
 
-        // this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
+        this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
     }
 
     spawnParticle()
@@ -43,13 +43,13 @@ export default class AI_TAKE_DAMAGE
         if (this.dummy.body.velocity.x > 0) 
         {
             this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(16, 18), this.dummy.body.y, cnf_vfx_collision_group)
-            // this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
-            // this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), cnf_vfx_collision_group)        
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x + Phaser.Math.RND.integerInRange(10, 18), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), cnf_vfx_collision_group)        
         } else
         {
             this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(8, 10), this.dummy.body.y, cnf_vfx_collision_group)
-            // this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
-            // this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), 'fx-hit-block')        
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y - Phaser.Math.RND.integerInRange(6, 8), cnf_vfx_collision_group)        
+            this.dummy.scene.spawnHitVFX(this.dummy.body.x - Phaser.Math.RND.integerInRange(0, 8), this.dummy.body.y + Phaser.Math.RND.integerInRange(6, 8), cnf_vfx_collision_group)        
         }
 
         // if (this.dummy.body.velocity.x > 0) 
@@ -103,7 +103,7 @@ export default class AI_TAKE_DAMAGE
         {
             this.dummy.isHurt = true
             // console.log('DUMMY BEEN HIT BY PLAYER')
-            this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 90, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1}) 
+            // this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1}) 
             // TAKE DAMAGE
             this.dummy.currHP -= 1
             // KNOCKBACK SETUP

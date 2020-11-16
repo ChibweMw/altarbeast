@@ -21,7 +21,8 @@ export default class AI_DUMMY_INIT
         this.dummy.clearTint()
         this.dummy.isHurt = this.dummy.data.values.props.isHurt // false
         this.dummy.currHP = this.dummy.data.values.props.maxHP // this.dummy.maxHP
-        this.dummy.scene.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? this.dummy.controlState.setState('move_left') : this.dummy.controlState.setState('move_right')
+        // this.dummy.scene.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0 ? this.dummy.controlState.setState('move_left') : this.dummy.controlState.setState('move_right')
+        this.dummy.controlState.setState('move_right')
     }
     
     update ()

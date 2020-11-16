@@ -46,9 +46,11 @@ export default class Ai_Controller
 	 */
 	setState(name)
 	{
-        // console.log(`ENTRIES >>> '${Object.entries(this.states)}'`)
         if (this.currentState === this.states[name])
         {
+            // console.log(`===========================================================`)
+            // console.log(`###<<< CONSECUTIVE RETPEAT STATE CALL FOR >>> '${name} ###'`)
+            // console.log(`===========================================================`)
             return
         }
 

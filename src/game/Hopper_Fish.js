@@ -50,9 +50,9 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
         this.init_walkSpeed = 45
         this.walkSpeed = 60
         this.curr_walkSpeed = this.init_walkSpeed
-        this.maxHP = 1
-        this.currHP = this.maxHP
-        this.isHurt = false
+        // this.maxHP = 1
+        // this.currHP = null
+        // this.isHurt = false
 
         this.setCollideWorldBounds(false)
         this.setBounce(0)
@@ -62,15 +62,16 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
     // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
     setupOverlapEvents(){
         this.on("overlapstart", function() {
-            // console.log(">>>>> OVERLAP STARTO <<<<<")
+            console.log(">>>>> OVERLAP STARTO <<<<<")
             this.controlState.setState('take_damage')
     
             // console.time("overlap")
           })
 
         this.on("overlapend", function() {
+            console.log(">>>>> OVERLAP ENDO <<<<<")
+            // this.isHurt = false
             return
-            // console.log(">>>>> OVERLAP ENDO <<<<<")
             // console.timeEnd("overlap")
         })
     }
@@ -117,6 +118,7 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
     
     update()
     {
+
         this.controlState.update()
         this.screenWrapX()
         this.screenWrapY()
