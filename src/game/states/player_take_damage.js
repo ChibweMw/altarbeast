@@ -1,5 +1,6 @@
 import GameOptions from "../GameOptions.js"
 import Player from '../Player.js'
+import cnf_vfx_collision_group from "../prefab_configs/cnf_vfx_collision_group.js"
 
 export default class Player_TAKE_DAMAGE
 {
@@ -17,7 +18,7 @@ export default class Player_TAKE_DAMAGE
     {
         // console.log(`>> TAKING DAMAGE`)
         // this.player.isHurt = true
-        // this.player.scene.spawnHitVFX(this.player.hitBox.body.x, this.player.hitBox.body.y, 'fx-hit-connect')    
+        this.player.scene.spawnHitVFX(this.player.hitBox.body.x, this.player.hitBox.body.y, cnf_vfx_collision_group)    
         this.player.play('anim-oni-attack-hurt')
         // this.spriteFlash()
         this.handleDamage()

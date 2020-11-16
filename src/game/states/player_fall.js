@@ -1,5 +1,6 @@
 import GameOptions from "../GameOptions.js"
 import Player from '../Player.js'
+import cnf_vfx_land_group from "../prefab_configs/cnf_vfx_land_group.js"
 
 export default class Player_FALL
 {
@@ -42,7 +43,7 @@ export default class Player_FALL
         } else 
         {
             // PLACE CHECK FOR JUMP BUTTON HERE
-            // this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-land')
+            this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, cnf_vfx_land_group)
             this.player.controlState.setState('idle')
         }
         

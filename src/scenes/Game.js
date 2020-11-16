@@ -15,6 +15,8 @@ import cnf_hopperFish_group from '../game/prefab_configs/cnf_hopperFish_group.js
 import cnf_vfx_collision_group from '../game/prefab_configs/cnf_vfx_collision_group.js'
 import cnf_item_base_group from '../game/prefab_configs/cnf_item_base_group.js'
 import cnf_vfx_decal_group from '../game/prefab_configs/cnf_vfx_decal_group.js'
+import cnf_vfx_land_group from '../game/prefab_configs/cnf_vfx_land_group.js'
+import cnf_vfx_jump_group from '../game/prefab_configs/cnf_vfx_jump_group.js'
 
 export default class Game extends Phaser.Scene
 {
@@ -77,7 +79,7 @@ export default class Game extends Phaser.Scene
     SPAWN_POINT_enemy_left 
     SPAWN_POINT_enemy_right
     
-    prefabGroups = [cnf_dummy_group, cnf_hopperFish_group, cnf_vfx_collision_group, cnf_vfx_decal_group, cnf_item_base_group]
+    prefabGroups = [cnf_dummy_group, cnf_vfx_jump_group, cnf_vfx_land_group, cnf_hopperFish_group, cnf_vfx_collision_group, cnf_vfx_decal_group, cnf_item_base_group]
     
     init ()
     {

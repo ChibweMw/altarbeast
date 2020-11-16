@@ -1,5 +1,6 @@
 import GameOptions from "../GameOptions.js"
 import Player from '../Player.js'
+import cnf_vfx_jump_group from "../prefab_configs/cnf_vfx_jump_group.js"
 
 export default class Player_MOVE_JUMP
 {
@@ -12,7 +13,7 @@ export default class Player_MOVE_JUMP
 
     enter ()
     {
-        // this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
+        this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, cnf_vfx_jump_group)
         if (!this.player.isAttacking_AIR){
             this.player.play('anim-oni-jump')
             console.log(`>> PLAYER MOVE 'JUMP' STATE `)
