@@ -30,6 +30,7 @@ export default cnf_vfx_collision_group =
         group: null,
         pool: null,
         key: 'fx-hit-connect',
-        spawnTimer: null
+        spawnTimer: null,
+        tintFillColor: 0xFF0080 // pinkish red
     }
 }

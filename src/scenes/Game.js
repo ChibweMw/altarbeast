@@ -163,6 +163,7 @@ export default class Game extends Phaser.Scene
         this.physics.add.collider(this.player, this.layerStaticPlatform)
 
         this.prefabGroups.forEach((pref_group) => {
+            /**@type {Phaser.Physics.Arcade.Group} */
             this[pref_group.group_name] = this.physics.add.group(pref_group.group_cnf)
             this[pref_group.pool_name] = this.physics.add.group(pref_group.pool_cnf)            
             this.physics.add.collider(this[pref_group.group_name], this.layerStaticPlatform)
@@ -189,8 +190,8 @@ export default class Game extends Phaser.Scene
         this.SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
         this.SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
 
-        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1750, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_dummy_group], callbackScope: this, repeat: -1})
-        this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 3250, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group], callbackScope: this, repeat: -1})
+        // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1750, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_dummy_group], callbackScope: this, repeat: -1})
+        this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 4550, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group], callbackScope: this, repeat: -1})
         // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
         // this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 2500, callback: this.spawnHopper, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
 

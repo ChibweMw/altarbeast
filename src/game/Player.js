@@ -96,9 +96,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
     setupOverlapEvents(){
         this.on("overlapstart", function() {
-            // console.log(">>>>> OVERLAP STARTO <<<<<")
-            // this.controlState.setState('take_damage')
-            this.scene.player_CONTROLLER.setState('take_damage')
+            console.log(">>>>> OVERLAP STARTO <<<<<")
+            this.controlState.setState('take_damage')
+            // debugger
+            // this.scene.player_CONTROLLER.setState('take_damage')
 
     
             // console.time("overlap")

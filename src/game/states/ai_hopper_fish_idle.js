@@ -3,29 +3,43 @@ import Hopper from '../Hopper_Fish.js'
 
 export default class AI_IDLE
 {
-    /** @param {Hopper} hopper*/
+    /** @param {Hopper} prefab*/
 
-    constructor (hopper)
+    constructor (prefab)
     {
-        this.hopper = hopper
+        this.prefab = prefab
         this.enteringWalkSpeed = null
     }
 
     enter ()
     {
-        // this.hopper.clearTint()
-        this.hopper.controlState.setState('move_right')
+        // this.prefab.clearTint()
+        // this.prefab.isHurt = false
+        this.prefab.hitBox.body.checkCollision.none = false
+        this.prefab.curr_walkSpeed = 0
+        this.prefab.setVelocityX(this.prefab.curr_walkSpeed)
+        // if (!this.prefab.isHurt)
+        // {
+        //     // debugger
+        //     /**
+        //      * this seems to be an issue when dealing with damage. 
+        //      * delayed call results in state transition confusion
+        //      */
+        // }
+        /**@type {Phaser.Time.TimerEvent} */
+        this.prefab.idle_transition_Timer = this.prefab.scene.time.delayedCall(500, this.toNextScene, [this.prefab, 'move_right'])
+        // this.prefab.controlState.setState('move_right')
     }
     
-    toJump()
+    toNextScene(prefab, state)
     {
-        this.hopper.controlState.setState('jump')
+        prefab.controlState.setState(state)
     }
     update ()
     {
-        // if (this.hopper.body.blocked.down && this.hopper.currHP > 0)
+        // if (this.prefab.body.blocked.down && this.prefab.currHP > 0)
         // {
-        //     this.hopper.scene.time.delayedCall(100, this.toJump, null, this)
+        //     this.prefab.scene.time.delayedCall(100, this.toJump, null, this)
         // }
         
     }

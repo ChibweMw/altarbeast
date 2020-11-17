@@ -39,7 +39,11 @@ export default cnf_dummy_group =
         maxHP: 1,
         isHurt: false,
         group: null,
-        pool: null
+        pool: null,
+        key: 'dummy',
+        texFrame: 0,
+        startState: 'move_right'
+
         // TO ADD
         // KNOCKBACK STATS
         // MOVEMENT

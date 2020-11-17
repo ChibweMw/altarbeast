@@ -20,6 +20,10 @@ export default class AI_VFX_COLLISION_INIT
         // console.log(`AI: vfx_collision > REMOVE REMOVE REMOVE`)
         this.animPlayed = false
         this.vfx_collision.play(`anim-${this.vfx_collision.data.values.props.key}`)
+        if (this.vfx_collision.data.values.props.tintFillColor)
+        {
+            this.vfx_collision.setTint(this.vfx_collision.data.values.props.tintFillColor) // a pinkish red
+        }
     }
     
     update ()

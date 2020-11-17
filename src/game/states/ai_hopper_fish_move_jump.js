@@ -1,5 +1,6 @@
 import GameOptions from "../GameOptions.js"
 import Hopper from '../Hopper_Fish.js'
+import cnf_vfx_jump_group from "../prefab_configs/cnf_vfx_jump_group.js"
 
 export default class AI_IDLE_MOVE_JUMP
 {
@@ -12,6 +13,7 @@ export default class AI_IDLE_MOVE_JUMP
 
     enter ()
     {
+        // debugger
         this.hopper.setGravityY(GameOptions.playerGravity / 6)
 
         this.hopper.setVelocityY(this.hopper.jumpForce)      
@@ -26,11 +28,11 @@ export default class AI_IDLE_MOVE_JUMP
         {
             this.hopper.controlState.setState('fall')
         }
-        if (this.hopper.body.blocked.down && this.hopper.data.values.props.currHP > 0)
+        if (this.hopper.body.blocked.down && this.hopper.currHP > 0)
         {
-            // this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y + 16, 'fx-player-land')
-            // this.hopper.controlState.setState('idle')
-            this.hopper.controlState.setState('jump')
+            this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y + 16, cnf_vfx_jump_group)
+            this.hopper.controlState.setState('idle')
+            // this.hopper.controlState.setState('jump')
         }  
         
     }

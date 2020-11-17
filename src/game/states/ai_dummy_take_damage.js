@@ -21,6 +21,7 @@ export default class AI_TAKE_DAMAGE
         // this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y, 'fx-hit-connect')        
         this.dummy.scene.spawnHitVFX(this.dummy.body.x, this.dummy.body.y, cnf_vfx_collision_group)        
         this.spawnParticle() 
+        this.particleTimerEvent = null
         // this.dummyTakeDamage()  
         // this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
         this.dummy.scene.physics.pause()  
@@ -32,7 +33,7 @@ export default class AI_TAKE_DAMAGE
         this.dummy.scene.physics.resume()
         this.dummyTakeDamage()  
 
-        this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 60, callback: this.spawnParticle, args: null, callbackScope: this, repeat: -1})   
+        this.particleTimerEvent = this.dummy.scene.time.addEvent({delay: 120, callback: this.spawnParticle, args: null, callbackScope: this, repeat: 20}) 
     }
 
     spawnParticle()

@@ -29,6 +29,10 @@ export default class Player_ATTACK_STANDING
 
     update ()
     {
+        if (this.player.isHurt)
+        {
+            return
+        }
         if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'anim-oni-attack-stand')
         {
             // console.log(`ATTACKING`)

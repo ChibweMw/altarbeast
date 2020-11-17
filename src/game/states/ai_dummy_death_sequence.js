@@ -17,7 +17,8 @@ export default class AI_DEATH_SEQUENCE
     {
         // console.log(`AI: ENTER STATE >> DUMMY > DEATH SEQ`)      
         this.anim_DeathPlayed = false 
-        this.dummyTakeDamage()
+        this.dummy.scene.cameras.main.shake(100, 0.0025)
+        // this.dummyTakeDamage()
 
     }
     

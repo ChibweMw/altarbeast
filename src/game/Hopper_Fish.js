@@ -23,7 +23,7 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
         this.scene.add.existing(this)
         this.scene.physics.add.existing(this)
         this.scene.physics.world.enable(this)
-        
+        /**@type {Phaser.GameObjects.Zone} */
         this.hitBox = this.scene.add.zone(this.body.x, this.body.y, 16, 16)
         this.scene.add.existing(this.hitBox)
         this.scene.physics.world.enable(this.hitBox)
@@ -45,11 +45,11 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
 
         this.vulnTime = 500
 
-        this.jumpForce = -200
+        // this.jumpForce = -200
         this.lungeFactor = 1.5       
-        this.init_walkSpeed = 45
         this.walkSpeed = 60
-        this.curr_walkSpeed = this.init_walkSpeed
+        // this.init_walkSpeed = 45
+        // this.curr_walkSpeed = this.init_walkSpeed
         // this.maxHP = 1
         // this.currHP = null
         // this.isHurt = false
@@ -62,14 +62,23 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
     // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
     setupOverlapEvents(){
         this.on("overlapstart", function() {
-            console.log(">>>>> OVERLAP STARTO <<<<<")
+            // if (this.currHP > 0)
+            // if (!this.isDeathSeq)
             this.controlState.setState('take_damage')
+            // debugger
+            // if (!this.isHurt)
+            // {
+            // } //else
+            // {
+            //     this.controlState.setState('death_sequence')
+            //     console.log(">>>>> HP LESS THAN 0 HP LESS THAN 0HP LESS THAN 0HP LESS THAN 0HP LESS THAN 0 <<<<<")
+            // }
     
             // console.time("overlap")
           })
 
         this.on("overlapend", function() {
-            console.log(">>>>> OVERLAP ENDO <<<<<")
+            // console.log(">>>>> OVERLAP ENDO <<<<<")
             // this.isHurt = false
             return
             // console.timeEnd("overlap")
@@ -115,15 +124,9 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
     {
         this.hitBox.setPosition(this.body.x, this.body.y)
     }
-    
-    update()
+
+    trackOverlapEvents ()
     {
-
-        this.controlState.update()
-        this.screenWrapX()
-        this.screenWrapY()
-        this.trackHitBox()
-
         // Treat 'embedded' as 'touching' also
         if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false
 
@@ -140,5 +143,35 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
             // console.log('OVERLAP END')
             this.emit("overlapend")
         }
+    }
+    
+    update()
+    {
+
+        this.controlState.update()
+        this.screenWrapX()
+        this.screenWrapY()
+        this.trackHitBox()
+        if (!this.isHurt)
+        {
+            this.trackOverlapEvents()
+        }
+
+        // // Treat 'embedded' as 'touching' also
+        // if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false
+
+        // var touching = !this.hitBox.body.touching.none
+        // var wasTouching = !this.hitBox.body.wasTouching.none
+
+        // if (touching && !wasTouching) 
+        // {
+        //     // console.log('OVERLAP START')
+        //     this.emit("overlapstart")
+        // }
+        // else if (!touching && wasTouching) 
+        // {
+        //     // console.log('OVERLAP END')
+        //     this.emit("overlapend")
+        // }
     }
 }

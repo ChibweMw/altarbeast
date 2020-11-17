@@ -31,6 +31,10 @@ export default class Player_ATTACK_JUMPING
 
     update ()
     {
+        if (this.player.isHurt)
+        {
+            return
+        }
         if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'anim-oni-attack-jump')
         {
             // console.log(`ATTACKING`)

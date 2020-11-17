@@ -1,6 +1,7 @@
 import GameOptions from "../GameOptions.js"
 import Player from '../Player.js'
 import cnf_vfx_collision_group from "../prefab_configs/cnf_vfx_collision_group.js"
+import cnf_vfx_jump_group from "../prefab_configs/cnf_vfx_jump_group.js"
 
 export default class Player_TAKE_DAMAGE
 {
@@ -29,6 +30,7 @@ export default class Player_TAKE_DAMAGE
     unFreze()
     {
         this.player.scene.physics.resume()
+        // debugger
         this.player.isHurt = true
         this.spriteFlash()
         this.knockBack()  
@@ -49,6 +51,7 @@ export default class Player_TAKE_DAMAGE
     knockBack ()
     {
         // KNOCK BACK
+        // debugger
         this.player.setGravityY(GameOptions.playerGravity / 2)
         let hurtForce_X = this.player.flipX ? this.player.hurtForce : -this.player.hurtForce
         let hurtForce_Y = this.player.hurtForce
@@ -67,9 +70,11 @@ export default class Player_TAKE_DAMAGE
         // }
         if (this.player.isHurt && this.player.body.blocked.down && this.player.HP > 0)
         {
+            // debugger
             this.recovery()
         } else if (this.player.isHurt && this.player.body.blocked.down && this.player.HP <= 0)
         {
+            // debugger
             console.log(`PLAYER DEATH SEQUENCE`)
             this.player.controlState.setState('death')
         }
@@ -81,7 +86,7 @@ export default class Player_TAKE_DAMAGE
         this.tween_sprite_flash.stop()
         this.player.isHurt = false
         this.player.setAlpha(1)
-        // this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, 'fx-player-jump')
+        this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, cnf_vfx_jump_group)
         this.player.controlState.setState('idle')
     }
     
