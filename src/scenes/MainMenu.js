@@ -2,6 +2,7 @@ import gameOptions from '../game/GameOptions.js'
 import UI_Cursor from '../game/UI_Cursor.js'
 import UI_Cursor_Controller from '../game/UI_Cursor_Controller.js'
 
+
 export default class MainMenu extends Phaser.Scene
 {
     constructor()

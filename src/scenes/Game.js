@@ -17,6 +17,7 @@ import cnf_item_base_group from '../game/prefab_configs/cnf_item_base_group.js'
 import cnf_vfx_decal_group from '../game/prefab_configs/cnf_vfx_decal_group.js'
 import cnf_vfx_land_group from '../game/prefab_configs/cnf_vfx_land_group.js'
 import cnf_vfx_jump_group from '../game/prefab_configs/cnf_vfx_jump_group.js'
+import cnf_wave_manager_group from '../game/prefab_configs/cnf_wave_manager_group.js'
 
 export default class Game extends Phaser.Scene
 {
@@ -24,7 +25,7 @@ export default class Game extends Phaser.Scene
     {
         super('game')
     }
-
+    
     /** @type {Phaser.Input.Keyboard.Key} */
     key_DEBUG_GameOver
     /** @type {Phaser.Input.Keyboard.Key} */
@@ -79,8 +80,8 @@ export default class Game extends Phaser.Scene
     SPAWN_POINT_enemy_left 
     SPAWN_POINT_enemy_right
     
-    prefabGroups = [cnf_dummy_group, cnf_vfx_jump_group, cnf_vfx_land_group, cnf_hopperFish_group, cnf_vfx_collision_group, cnf_vfx_decal_group, cnf_item_base_group]
-    
+    prefabGroups = [cnf_wave_manager_group, cnf_dummy_group, cnf_vfx_jump_group, cnf_vfx_land_group, cnf_hopperFish_group, cnf_vfx_collision_group, cnf_vfx_decal_group, cnf_item_base_group]
+
     init ()
     {
         this.DEBUG_isOVERLAY = false
@@ -94,6 +95,7 @@ export default class Game extends Phaser.Scene
 
         // width: 256,
         // height: 240,
+
 
         
         const width = this.scale.width
@@ -190,15 +192,23 @@ export default class Game extends Phaser.Scene
         this.SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
         this.SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
 
-        // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1750, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_dummy_group], callbackScope: this, repeat: -1})
+        this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1750, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_dummy_group], callbackScope: this, repeat: -1})
         this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 4550, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group], callbackScope: this, repeat: -1})
         // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
         // this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 2500, callback: this.spawnHopper, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
 
+        this.createWaveManager(0, 0, cnf_wave_manager_group)
+        
+        // this.controlState.setState('init')
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})
         
     }
+
+    // setControlState(controlstate)
+    // {
+    //     this.controlState = controlstate
+    // }
 
     // dummyHurt(player, dummy)
     // {
@@ -237,6 +247,8 @@ export default class Game extends Phaser.Scene
     {
         this.gamePause()
         this.DEBUG_KEY_CONTROLS()
+
+        // this.controlState.update() // WAVE MANAGERs
 
         if (!this.player.isAlive && !this.isGameOver)
         {
@@ -292,7 +304,51 @@ export default class Game extends Phaser.Scene
         })
     }
 
-    spawnEnemy(x, y, pref_group, timer)
+    createWaveManager(x, y, pref_group)
+    {
+        // console.log(`USING GENERIC ENEMY SPAWNER!!!!!!!!!!!!!!!!!!!!!!!`)
+        // if (this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0) 
+        // {
+        //     x = this.SPAWN_POINT_enemy_right.x
+        //     y = this.SPAWN_POINT_enemy_right.y
+        // }
+        if (this[pref_group.group_name].countActive() >= this[pref_group.group_name].maxSize)
+        {
+            return
+        }
+        // /** @type {Dummy} */
+        let new_Wave_manager
+        
+        if(this[pref_group.pool_name].getLength()){
+            new_Wave_manager = this[pref_group.pool_name].getFirst()
+            new_Wave_manager.controlState.setState('init')
+            new_Wave_manager.x = x
+            new_Wave_manager.y = y
+            new_Wave_manager.setActive(true)
+            new_Wave_manager.setVisible(true)
+            
+            this[pref_group.pool_name].remove(new_Wave_manager)
+        }
+        else{
+            new_Wave_manager = this[pref_group.group_name].get(x, y, this.scale.width, this.scale.width)
+            new_Wave_manager.setData({ "props": pref_group.props, "states": pref_group.states })
+            new_Wave_manager.data.values.props.group = this[pref_group.group_name]
+            new_Wave_manager.data.values.props.pool = this[pref_group.pool_name]
+
+            for (const [propName, propValue] of Object.entries(new_Wave_manager.data.values.props)) {
+                if (propName === 'controlState')
+                {
+                    new_Wave_manager[propName] = new Ai_Controller(new_Wave_manager)
+                }
+                // console.log(`${propName} : ${this.hopper[propName]}`)
+            }
+            new_Wave_manager.controlState.setState('init')
+
+            this[pref_group.group_name].add(new_Wave_manager)            
+        }
+    }
+
+    spawnEnemy(x, y, pref_group)
     {
         // console.log(`USING GENERIC ENEMY SPAWNER!!!!!!!!!!!!!!!!!!!!!!!`)
         // if (this.TIMED_EVENT_ENEMY_SPAWN.repeatCount % 2 === 0) 
