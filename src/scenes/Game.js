@@ -18,6 +18,7 @@ import cnf_vfx_decal_group from '../game/prefab_configs/cnf_vfx_decal_group.js'
 import cnf_vfx_land_group from '../game/prefab_configs/cnf_vfx_land_group.js'
 import cnf_vfx_jump_group from '../game/prefab_configs/cnf_vfx_jump_group.js'
 import cnf_wave_manager_group from '../game/prefab_configs/cnf_wave_manager_group.js'
+import cnf_txt_title_manager_group from '../game/prefab_configs/cnf_txt_title_manager_group.js'
 
 export default class Game extends Phaser.Scene
 {
@@ -198,7 +199,8 @@ export default class Game extends Phaser.Scene
         // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
         // this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 2500, callback: this.spawnHopper, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
 
-        this.createWaveManager(0, 0, cnf_wave_manager_group)
+        // this.createWaveManager(0, 0, cnf_txt_title_manager_group) //txt title manager
+        this.createWaveManager(0, 0, cnf_wave_manager_group) // actual wave spawner
         
         // this.controlState.setState('init')
         // UI SCENE INITIALIZATION

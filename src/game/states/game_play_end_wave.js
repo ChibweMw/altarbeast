@@ -13,6 +13,7 @@ export default class PLAY_SCENE_END_WAVE
     {
         console.log(`GAME END STATE`)
         // this.prefab.controlState.setState('intro')
+        GameOptions.txt_title_manager.controlState.setState('wave_end_in')
     }
     
     update ()
