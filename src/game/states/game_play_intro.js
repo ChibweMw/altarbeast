@@ -1,8 +1,7 @@
-import GameOptions from "../GameOptions.js"
-
+// wwill use to intro the stage if in the very beginning, then present the next wave
+// In a title card type presentation  
 export default class PLAY_SCENE_INTRO
 {
-    // /** @param {Dummy} prefab*/
 
     constructor (prefab)
     {
