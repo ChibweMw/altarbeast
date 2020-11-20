@@ -45,6 +45,7 @@ export default class AI_DEATH_SEQUENCE
                 // console.log(`DEATH ANIM FINISHED`) 
                 // this.dummy.scene.GROUP_training_dummy.killAndHide(this.dummy)
                 // this.dummy.scene.GROUP_training_dummy.remove(this.dummy) 
+                GameOptions.wave_entities_alive--
                 this.dummy.data.values.props.group.killAndHide(this.dummy)
                 this.dummy.data.values.props.group.remove(this.dummy) 
             }

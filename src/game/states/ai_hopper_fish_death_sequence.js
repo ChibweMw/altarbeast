@@ -52,6 +52,8 @@ export default class AI_DEATH_SEQUENCE
                         this.hopper.hitBox.setActive(false)
                         this.hopper.setActive(false)
 
+                        GameOptions.wave_entities_alive--
+
                         this.hopper.data.values.props.group.killAndHide(this.hopper)
                         this.hopper.data.values.props.group.remove(this.hopper) 
                         // this.hopper.scene.spawnHitVFX(this.hopper.body.x, this.hopper.body.y + 16, 'fx-hopper-jump')

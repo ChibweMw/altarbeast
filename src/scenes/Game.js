@@ -369,6 +369,8 @@ export default class Game extends Phaser.Scene
         }
         // /** @type {Dummy} */
         let newEnemy
+
+        // GameOptions.wave_entities_alive++
         
         if(this[pref_group.pool_name].getLength()){
             newEnemy = this[pref_group.pool_name].getFirst()
@@ -392,6 +394,8 @@ export default class Game extends Phaser.Scene
 
             this[pref_group.group_name].add(newEnemy)            
         }
+
+        
     }
 
     spawnHitVFX(x, y, pref_group)

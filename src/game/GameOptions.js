@@ -18,5 +18,7 @@ export default gameOptions =
     playerMinAP: 1,
     playerMaxAP: 5,
     playerScore: 0,
-    // playerScore_High: 0 
+    // playerScore_High: 0 ,
+
+    wave_entities_alive: 0
 }
