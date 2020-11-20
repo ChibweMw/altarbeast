@@ -23,7 +23,7 @@ export default class TXT_WAVE_END_IN
             x: 0,
             y: 0,
             fillStyle: {
-                color: 0x000000,
+                color: 0xFF0080,
                 alpha: 0.9
             }
         })
@@ -52,15 +52,16 @@ export default class TXT_WAVE_END_IN
             yoyo: true,
             hold: 1600,
             repeat: 0,
+            color: 0x000000
         })
     }
     
     update ()
     {
+        console.log(`get all tweens >> ${this.scene.tweens.getAllTweens().length}`)
         if (!this.outro_Played && this.scene.tweens.getAllTweens().length <= 0)
         {
             this.outro_Played = true
-            console.log(`get all tweens >> ${this.scene.tweens.getAllTweens().length}`)
             this.prefab.controlState.setState('wave_end_out')
         }
     }

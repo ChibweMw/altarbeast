@@ -52,6 +52,7 @@ export default class TXT_WAVE_TITLE_IN
             yoyo: true,
             hold: 1600,
             repeat: 0,
+            tint: 0xFF0080
         })
     }
     

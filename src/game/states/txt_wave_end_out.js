@@ -12,7 +12,7 @@ export default class TXT_WAVE_END_OUT
     enter ()
     {
         console.log('>>>>>>>>>>>>>>> END WAVE <<<<<<<<<<<<<<')
-        GameOptions.wave_manager.controlState.setState('start')
+        GameOptions.wave_manager.controlState.setState('intro')
     }
     
     update ()
