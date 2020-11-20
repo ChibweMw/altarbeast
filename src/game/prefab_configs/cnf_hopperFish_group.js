@@ -20,7 +20,6 @@ export default cnf_hopperFish_group =
         runChildUpdate: true,
         gravityY: GameOptions.playerGravity,
         removeCallback: function (hopfish) {
-            // GameOptions.wave_entities_alive--
             hopfish.scene.GROUP_POOL_hopFish.add(hopfish)
         }
     },

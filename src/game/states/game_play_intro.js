@@ -11,7 +11,7 @@ export default class PLAY_SCENE_INTRO
     enter ()
     {
         console.log(`GAME INTRO STATE`)
-        this.prefab.controlState.setState('start')
+        // this.prefab.controlState.setState('start')
     }
     
     update ()

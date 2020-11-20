@@ -20,5 +20,7 @@ export default gameOptions =
     playerScore: 0,
     // playerScore_High: 0 ,
 
-    wave_entities_alive: 0
+    wave_manager: null,
+    wave_entities_alive: 0,
+    wave_round: 0
 }

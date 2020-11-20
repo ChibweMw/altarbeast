@@ -87,6 +87,7 @@ export default class Game extends Phaser.Scene
         this.DEBUG_isOVERLAY = false
         this.isGameOver = false
         GameOptions.playerScore = 0
+        GameOptions.wave_round = 0
     }
     
     create()
@@ -340,19 +341,13 @@ export default class Game extends Phaser.Scene
                 {
                     new_Wave_manager[propName] = new Ai_Controller(new_Wave_manager)
                 }
-                // console.log(`>>>>>>>>>>>>>>>>>>>>${propName} : ${propValue}`)
-                // if (propName === 'spawnPoints')
-                // {
-                //     new_Wave_manager[propName] = [this.SPAWN_POINT_enemy_left, this.SPAWN_POINT_enemy_right]
-                // }
-                
-
             }
-            // console.log(`>>>>>>>>>>>>>>>>>>>> ${new_Wave_manager.spawnAbles}`)
             new_Wave_manager.controlState.setState('init')
 
             this[pref_group.group_name].add(new_Wave_manager)            
+            GameOptions.wave_manager = new_Wave_manager
         }
+
     }
 
     spawnEnemy(x, y, pref_group)

@@ -42,7 +42,7 @@ export default class PLAY_SCENE_START_WAVE
     
     update ()
     {
-        console.log(`>>>>> WAVE ENTITIES ${GameOptions.wave_entities_alive}`)
+        // console.log(`>>>>> WAVE ENTITIES ${GameOptions.wave_entities_alive}`)
         if (this.prefab.TIMED_EVENT_ENEMY_SPAWN.repeatCount <= 0 && GameOptions.wave_entities_alive <= 0 || GameOptions.wave_entities_alive <= 0)
         {
             console.log(`WAVE COMPLEEEEETE!!! ${this.prefab.TIMED_EVENT_ENEMY_SPAWN.repeat + 1} spawns`)

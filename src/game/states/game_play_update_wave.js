@@ -12,12 +12,13 @@ export default class PLAY_SCENE_UPDATE_WAVE
     enter ()
     {
         this.prefab.wave_round_count++
+        GameOptions.wave_round = this.prefab.wave_round_count
         console.log(`WAVE ROUND >> ${this.prefab.wave_round_count} COMPLEEEEETE!!!`)
     }
     
     update ()
     {
-        console.log(`>>>>> WAVE ENTITIES ${GameOptions.wave_entities_alive}`)
+        // console.log(`>>>>> WAVE ENTITIES ${GameOptions.wave_entities_alive}`)
 
         if ( this.prefab.wave_round_count >= this.prefab.wave_max_round_count )
         {

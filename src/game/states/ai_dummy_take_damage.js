@@ -83,7 +83,10 @@ export default class AI_TAKE_DAMAGE
             // this.dummy.scene.GROUP_training_dummy.killAndHide(this.dummy)
             // this.dummy.scene.GROUP_training_dummy.remove(this.dummy)
             this.dummy.clearTint()
-            this.particleTimerEvent.destroy()
+            if (this.particleTimerEvent)
+            {
+                this.particleTimerEvent.destroy()
+            }
             this.dummy.controlState.setState('death_sequence')
         }
 
