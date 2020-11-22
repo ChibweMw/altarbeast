@@ -18,23 +18,28 @@ export default class TXT_WAVE_END_IN
         const height = this.scene.scale.height
         
         // SCENE OVERLAY GRAPHIC
-
+        const banner_height = height * 0.2
         const overlay = this.scene.add.graphics({
             x: 0,
-            y: 0,
+            y: -banner_height,
             fillStyle: {
                 color: 0xFF0080,
                 alpha: 0.9
             }
         })
-        overlay.fillRect(0, 0, width, height * 0.2)
+        overlay.fillRect(0, 0, width, banner_height)
 
         const screenWidthCenter = width / 2
-        this.wave_roundText = this.scene.add.bitmapText(10, height / 2, 'tentown', `WAVE CLEAR : ${GameOptions.wave_round}`, 24).setOrigin(0, 0)
+        this.wave_roundText = this.scene.add.bitmapText(10, -24, 'tentown', `WAVE CLEAR : ${GameOptions.wave_round}`, 24).setOrigin(0, 0)
+
+        const text_yPos = 0.8
+        const banner_yPos = 0.8
+        const text_Height = height * text_yPos
+        const banner_Height = height * banner_yPos
 
         this.outro_text_tween_Deco = this.scene.tweens.add({
             targets: overlay,
-            y: {from: 0,to: height / 2 },
+            y: {from: 0,to: banner_Height },
             alpha: { from: 0, to: 1 },
             duration: 300,
             ease: 'Cubic.easeInOut',
@@ -45,7 +50,7 @@ export default class TXT_WAVE_END_IN
 
         this.outro_text_tween_Text = this.scene.tweens.add({
             targets: this.wave_roundText,
-            y: {from: 0,to: height / 2 },
+            y: {from: 0,to: text_Height},
             alpha: { from: 0, to: 1 },
             duration: 600,
             ease: 'Cubic.easeInOut',

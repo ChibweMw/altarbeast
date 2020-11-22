@@ -99,7 +99,8 @@ export default class Game extends Phaser.Scene
         // height: 240,
 
 
-        
+        this.cameras.main.fadeIn(500, 0, 0, 0)
+
         const width = this.scale.width
         const height = this.scale.height
         // this.cameras.main.setOrigin(0.5)
@@ -384,6 +385,16 @@ export default class Game extends Phaser.Scene
             newEnemy.setData({ "props": pref_group.props, "states": pref_group.states })
             newEnemy.data.values.props.group = this[pref_group.group_name]
             newEnemy.data.values.props.pool = this[pref_group.pool_name]
+
+            // This is where further init actions would be carried out, if applicable
+            // They would be all unique to the prefab 
+            /**
+             * if (newEnemy.data.values.spawnInit
+             * {
+             *      newEnemy.data.values.spawnInit()
+             * 
+             * }
+             */
 
             let new_newEnemy_CONTROLLER = new Ai_Controller(newEnemy)
             newEnemy.setControlState(new_newEnemy_CONTROLLER)

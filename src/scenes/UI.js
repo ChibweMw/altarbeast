@@ -27,20 +27,37 @@ export default class UI extends Phaser.Scene
             this[pref_group.pool_name] = this.add.group(pref_group.pool_cnf)            
         })
 
-        this.createWaveManager(0, 0, cnf_txt_title_manager_group) //txt title manager
-        const width = this.scale.width
-        const height = this.scale.height
+        //txt title manager
+        
+        
+        this.data.gameScene.cameras.main.on(Phaser.Cameras.Scene2D.Events.FADE_IN_COMPLETE, (cam, effect) => {
+            /**
+             * wait for 'game' scene to finish fade-in
+             * then do following code
+             */
+            // console.log(`XDXDXDXDXDXDXDXDXDXDXDXD`)
+            this.createWaveManager(0, 0, cnf_txt_title_manager_group) 
+            const width = this.scale.width
+            const height = this.scale.height
+            const screenWidthCenter = width / 2
+            this.scoreText = this.add.bitmapText(screenWidthCenter, 8, 'tentown', `${GameOptions.playerScore}`, 12).setOrigin(0.5, 0)
+    
+            const ui_player_hp_x = screenWidthCenter
+            const ui_player_hp_y = height - 16
+            const ui_player_hp_origin_x = 0.5
+            const ui_player_hp_origin_y = 0
+    
+            this.ui_health_empty = this.add.tileSprite(ui_player_hp_x, ui_player_hp_y, 16 * this.data.gameScene.player.HP, 16, 'ui-health', 6)
+            .setOrigin(ui_player_hp_origin_x, ui_player_hp_origin_y)
+            .setDepth(2)
+            this.ui_health_full = this.add.tileSprite(this.ui_health_empty.x - this.ui_health_empty.width / 2, ui_player_hp_y, 16 * this.data.gameScene.player.HP, 16, 'ui-health', 4)
+            .setOrigin(0, ui_player_hp_origin_y)
+            .setDepth(2)
+          }, this)
 
-        const screenWidthCenter = width / 2
-        this.scoreText = this.add.bitmapText(screenWidthCenter, 8, 'tentown', `${GameOptions.playerScore}`, 12).setOrigin(0.5, 0)
+        
 
-        const ui_player_hp_x = screenWidthCenter
-        const ui_player_hp_y = height - 16
-        const ui_player_hp_origin_x = 0.5
-        const ui_player_hp_origin_y = 0
-
-        this.ui_health_empty = this.add.tileSprite(ui_player_hp_x, ui_player_hp_y, 16 * this.data.gameScene.player.HP, 16, 'ui-health', 6).setOrigin(ui_player_hp_origin_x, ui_player_hp_origin_y)
-        this.ui_health_full = this.add.tileSprite(this.ui_health_empty.x - this.ui_health_empty.width / 2, ui_player_hp_y, 16 * this.data.gameScene.player.HP, 16, 'ui-health', 4).setOrigin(0, ui_player_hp_origin_y)
+        
     }
 
     createWaveManager(x, y, pref_group)
@@ -79,11 +96,29 @@ export default class UI extends Phaser.Scene
             GameOptions.txt_title_manager = new_Wave_manager
         }
 
+        // this.game.events.addListener('intro-complete', this.introPlayed, this)
+
     }
+
+    // introPlayed()
+    // {
+    //     if (!this.outro_Played && this.scene.tweens.getAllTweens().length <= 0)
+    //     {
+    //         this.outro_Played = true
+    //         this.game.events.emit()
+    //         // this.prefab.controlState.setState('wave_end_out')
+    //     }    
+    // }
 
     update()
     {
-        this.scoreText.setText(`${GameOptions.playerScore}`)
-        this.ui_health_full.width = 16 * this.data.gameScene.player.HP
+        if (this.scoreText)
+        {
+            this.scoreText.setText(`${GameOptions.playerScore}`)
+        }
+        if (this.ui_health_full)
+        {
+            this.ui_health_full.width = 16 * this.data.gameScene.player.HP
+        }
     }
 }

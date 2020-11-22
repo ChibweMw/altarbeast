@@ -26,7 +26,19 @@ export default class PLAY_SCENE_INIT
                 } 
             }
         }
-        this.prefab.controlState.setState('intro')
+
+        this.prefab.scene.cameras.main.on(Phaser.Cameras.Scene2D.Events.FADE_IN_COMPLETE, (cam, effect) => {
+            /**
+             * wait for 'game' scene to finish fade-in
+             * then do following code
+             */
+            console.log(`GAME PLAY INIT STATE FADE IN COMPLETE`)
+            this.camera_Faded_IN = true
+            this.prefab.controlState.setState('intro')
+
+            // GameOptions.txt_title_manager.controlState.setState('wave_title_in')
+
+          }, this)
         // this.prefab.controlState.setState(this.prefab.startState)
     }
     

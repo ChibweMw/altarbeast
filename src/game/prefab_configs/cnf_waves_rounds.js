@@ -88,7 +88,7 @@ export default wave_set_00 = [
         /**
          * The total number of times the Timer Event will repeat before finishing.
          */
-        repeat: 4,
+        repeat: 2,
         /**
          * `true` if the Timer Event should repeat indefinitely.
          */

@@ -30,7 +30,7 @@ export default class MainMenu extends Phaser.Scene
         const width = this.scale.width
         const height = this.scale.height
 
-        console.log(`Main Menu Entered`)
+        // console.log(`Main Menu Entered`)
         this.add.image(this.game.scale.width / 2, this.game.scale.height / 2, 'logo')
         // this.add.image(this.game.scale.width / 2, this.game.scale.height / 2, 'logo').setScale(0.5)
 
@@ -53,8 +53,23 @@ export default class MainMenu extends Phaser.Scene
         this.key_CONFIRM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
         this.key_uiCursor_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
         this.key_uiCursor_DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
+        
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+          this.startGame(this, 750, 'game')  
+        }, this)
     }
 
+    transtition_Out(speed)
+    {
+        this.cameras.main.fadeOut(speed, 0, 0, 0)
+    }
+
+    startGame(context, delay, scene)
+    {
+        context.time.delayedCall(delay, function (){
+            this.scene.start(scene)
+        }, null, context)
+    }
     update()
     {
         this.uiConfirm()
@@ -68,14 +83,17 @@ export default class MainMenu extends Phaser.Scene
             case this.menuText_Start.text:
                 if (Phaser.Input.Keyboard.JustUp(this.key_CONFIRM))
                 {
-                    console.log('Got to Game Scene')
-                    this.scene.start('game')
+                    // console.log('Got to Game Scene')
+
+                    // this.scene.start('game')
+                    this.transtition_Out(500)
+                    
                 }
                 break
             case this.menuText_Options.text:
                 if (Phaser.Input.Keyboard.JustUp(this.key_CONFIRM))
                 {
-                    console.log(`Go to OPTIONS SCENE`)
+                    // console.log(`Go to OPTIONS SCENE`)
                     gameOptions.scene_prev = this.scene.key
                     this.scene.switch('options')
                 }
@@ -83,7 +101,7 @@ export default class MainMenu extends Phaser.Scene
             default:
                 this.UI_cursorTarget = this.menuItems[0]
                 gameOptions.UI_cursorTarget = this.UI_cursorTarget.text
-                console.log(`SELECTION : ${gameOptions.UI_cursorTarget}`)
+                // console.log(`SELECTION : ${gameOptions.UI_cursorTarget}`)
         }
         
     }
