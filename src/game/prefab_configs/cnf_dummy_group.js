@@ -42,7 +42,7 @@ export default cnf_dummy_group =
         pool: null,
         key: 'dummy',
         texFrame: 0,
-        startState: 'move_right'
+        startState: 'move_right',
 
         // TO ADD
         // KNOCKBACK STATS

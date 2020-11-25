@@ -35,6 +35,9 @@ export default class Preload extends Phaser.Scene
         this.load.spritesheet('enemy-fish', '../../assets/sprites/enemies/enemy-dummy--fish-crawler.png', { frameWidth: 16, frameHeight: 16, startFrame: 1, endFrame: 8 })
         this.load.spritesheet('enemy-crawler', '../../assets/sprites/enemies/enemy-dummy--fish-crawler.png', { frameWidth: 32, frameHeight: 16, startFrame: 3, endFrame: 4 })
         
+        //BELL 
+        this.load.spritesheet('altar-bell', '../../assets/sprites/Bell/anim-bell.png', {frameWidth: 48, frameHeight: 64})
+
         // ITEMS
         this.load.spritesheet('sw-axe', '../../assets/sprites/items/sw-axe.png', { frameWidth: 16, frameHeight: 16 })
 

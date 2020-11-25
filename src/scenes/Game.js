@@ -19,6 +19,7 @@ import cnf_vfx_land_group from '../game/prefab_configs/cnf_vfx_land_group.js'
 import cnf_vfx_jump_group from '../game/prefab_configs/cnf_vfx_jump_group.js'
 import cnf_wave_manager_group from '../game/prefab_configs/cnf_wave_manager_group.js'
 import cnf_txt_title_manager_group from '../game/prefab_configs/cnf_txt_title_manager_group.js'
+import cnf_altar_bell_group from '../game/prefab_configs/cnf_altar_bell_group.js'
 
 export default class Game extends Phaser.Scene
 {
@@ -81,7 +82,7 @@ export default class Game extends Phaser.Scene
     SPAWN_POINT_enemy_left 
     SPAWN_POINT_enemy_right
     
-    prefabGroups = [cnf_wave_manager_group, cnf_dummy_group, cnf_vfx_jump_group, cnf_vfx_land_group, cnf_hopperFish_group, cnf_vfx_collision_group, cnf_vfx_decal_group, cnf_item_base_group]
+    prefabGroups = [cnf_altar_bell_group, cnf_wave_manager_group, cnf_dummy_group, cnf_vfx_jump_group, cnf_vfx_land_group, cnf_hopperFish_group, cnf_vfx_collision_group, cnf_vfx_decal_group, cnf_item_base_group]
 
     init ()
     {
@@ -195,6 +196,8 @@ export default class Game extends Phaser.Scene
         this.SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
         this.SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
 
+        // PLACE ALTAR BELL
+        this.spawnEnemy(this.scale.width / 2, this.scale.height * 0.2, cnf_altar_bell_group) // args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group]
         // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1750, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_dummy_group], callbackScope: this, repeat: -1})
         // this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 4550, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group], callbackScope: this, repeat: -1})
         // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})

@@ -46,6 +46,8 @@ export default class TXT_WAVE_TITLE_IN
             yoyo: true,
             hold: 2000,
             repeat: 0,
+            delay: 1000
+
         })
 
         this.intro_text_tween_Text = this.scene.tweens.add({
@@ -57,7 +59,8 @@ export default class TXT_WAVE_TITLE_IN
             yoyo: true,
             hold: 1600,
             repeat: 0,
-            tint: 0xFF0080
+            tint: 0xFF0080,
+            delay: 1000
         })
     }
     

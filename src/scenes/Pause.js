@@ -1,6 +1,7 @@
 import gameOptions from '../game/GameOptions.js'
 import UI_Cursor from '../game/UI_Cursor.js'
 import UI_Cursor_Controller from '../game/UI_Cursor_Controller.js'
+import MainMenu from './MainMenu.js'
 
 export default class Pause extends Phaser.Scene
 {
@@ -25,6 +26,13 @@ export default class Pause extends Phaser.Scene
 
     UI_cursorTarget
     menuItems = []
+
+    nextScene
+
+    init()
+    {
+        this.nextScene = null
+    }
     
     create ()
     {
@@ -70,6 +78,51 @@ export default class Pause extends Phaser.Scene
         this.key_uiCursor_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
         this.key_uiCursor_DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
 
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+            // this.startGame(this, 750, this.nextScene)  
+            switch (this.nextScene)
+            {
+                case 'game':
+                    this.restartStage(this, 750, 'game')
+                    break
+                case 'main-menu':
+                    this.returnToMainMenu(this, 750)
+                    break
+                default:
+                    console.log(`nothing selected, pick something`)
+            }
+          }, this)
+
+    }
+
+    transtition_Out(speed)
+    {
+        this.cameras.main.fadeOut(speed, 0, 0, 0)
+    }
+
+    restartStage(context, delay, scene)
+    {
+        this.time.delayedCall(delay, function (){
+            // this.scene.stop('ui')
+            this.scene.start('game')
+            // this.scene.start(scene)
+        }, null, context)
+    }
+
+    returnToMainMenu(context, delay)
+    {
+        this.time.delayedCall(delay, function (){
+            this.scene.stop('game')
+            this.scene.start('main-menu')
+        }, null, context)
+    }
+
+    mainMenuSceneSwitch()
+    {
+        console.log(`HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH`)
+        this.scene.stop('ui')
+        this.scene.stop('game')
+        this.scene.start('main-menu')
     }
     
     update()
@@ -89,7 +142,9 @@ export default class Pause extends Phaser.Scene
                     this.scene.resume('game')
                     break
                 case this.sceneRestartText.text:
-                    this.scene.start('game')
+                    // this.scene.start('game')
+                    this.nextScene = 'game'
+                    this.transtition_Out(750)
                     break
                 case this.sceneOptionsMenuText.text:
                     gameOptions.scene_prev = this.scene.key
@@ -99,6 +154,8 @@ export default class Pause extends Phaser.Scene
                     this.scene.stop('ui')
                     this.scene.stop('game')
                     this.scene.start('menu-main')
+                    // this.nextScene = 'main-menu'
+                    // this.transtition_Out(750)
                     break
                 default:
                     console.log(`nothing selected, pick something`)
