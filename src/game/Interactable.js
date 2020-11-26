@@ -15,10 +15,15 @@ export default class Interactable extends Phaser.Physics.Arcade.Sprite
 
         this.scene = scene
 
+        // SET DEPTH
+
+        this.setDepth(-1)
+        // ADD PHYSICS BODY
         this.scene.add.existing(this)
         this.scene.physics.add.existing(this)
         this.scene.physics.world.enable(this)
         
+        // ADD HITBOX FOR INTERACTION WITH PLAYER
         this.hitBox = this.scene.add.zone(this.body.x, this.body.y, this.body.width, this.body.height)
         this.scene.add.existing(this.hitBox)
         this.scene.physics.world.enable(this.hitBox)

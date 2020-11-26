@@ -1,7 +1,10 @@
+import Interactable from "../Interactable.js"
+
 export default class INTERACTABLE_INIT 
 {
     constructor(prefab)
     {
+        /**@type {Interactable} */
         this.prefab = prefab
         this.scene = this.prefab.scene
     }

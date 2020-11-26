@@ -36,6 +36,7 @@ export default class TXT_WAVE_TITLE_IN
         const banner_yPos = 0.8
         const text_Height = height * text_yPos
         const banner_Height = height * banner_yPos
+        const delayStart = 0
         
         this.intro_text_tween_Deco = this.scene.tweens.add({
             targets: overlay,
@@ -46,7 +47,7 @@ export default class TXT_WAVE_TITLE_IN
             yoyo: true,
             hold: 2000,
             repeat: 0,
-            delay: 1000
+            delay: delayStart
 
         })
 
@@ -60,7 +61,7 @@ export default class TXT_WAVE_TITLE_IN
             hold: 1600,
             repeat: 0,
             tint: 0xFF0080,
-            delay: 1000
+            delay: delayStart
         })
     }
     

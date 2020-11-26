@@ -36,7 +36,8 @@ export default class PLAY_SCENE_INTRO
         if (this.camera_Faded_IN && GameOptions.txt_title_manager.controlState)
         {
             this.camera_Faded_IN = false
-            GameOptions.txt_title_manager.controlState.setState('wave_title_in')
+            // GameOptions.txt_title_manager.controlState.setState('wave_title_in')
+            GameOptions.txt_title_manager.controlState.setState('wave_pre_round')
             // return
         } //else
         // {

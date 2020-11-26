@@ -197,31 +197,15 @@ export default class Game extends Phaser.Scene
         this.SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
 
         // PLACE ALTAR BELL
-        this.spawnEnemy(this.scale.width / 2, this.scale.height * 0.2, cnf_altar_bell_group) // args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group]
-        // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1750, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_dummy_group], callbackScope: this, repeat: -1})
-        // this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 4550, callback: this.spawnEnemy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group], callbackScope: this, repeat: -1})
-        // this.TIMED_EVENT_ENEMY_SPAWN = this.time.addEvent({ delay: 1500, callback: this.spawnDummy, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
-        // this.TIMED_EVENT_ENEMY_SPAWN_Hoper = this.time.addEvent({ delay: 2500, callback: this.spawnHopper, args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y], callbackScope: this, repeat: -1})
+        this.spawnEnemy(this.scale.width / 2, this.scale.height * 0.3, cnf_altar_bell_group) // args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group]
 
         // this.createWaveManager(0, 0, cnf_txt_title_manager_group) //txt title manager
         this.createWaveManager(0, 0, cnf_wave_manager_group) // actual wave spawner
         
         // this.controlState.setState('init')
         // UI SCENE INITIALIZATION
-        this.scene.launch('ui', {gameScene: this})
-        
+        this.scene.launch('ui', {gameScene: this})   
     }
-
-    // setControlState(controlstate)
-    // {
-    //     this.controlState = controlstate
-    // }
-
-    // dummyHurt(player, dummy)
-    // {
-    //     dummy.controlState.setState('take_damage')
-    //     this.spawnHitVFX(dummy.body.x, dummy.body.y, 'fx-hit-connect')        
-    // }
 
     /**
      * 

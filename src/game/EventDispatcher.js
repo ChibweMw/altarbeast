@@ -1,5 +1,5 @@
 let instance = null
-class EventDispatcher extends Phaser.Events.EventEmitter 
+export default class EventDispatcher extends Phaser.Events.EventEmitter 
 {
     constructor()
     {

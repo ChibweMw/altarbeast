@@ -29,8 +29,11 @@ export default class UI extends Phaser.Scene
 
         //txt title manager
         
+        // add event dispatcher
+        // this.emitter = EventDispatcher.getInstance()
         
         this.data.gameScene.cameras.main.on(Phaser.Cameras.Scene2D.Events.FADE_IN_COMPLETE, (cam, effect) => {
+        // this.emitter.on('WAVE_START', () => {
             /**
              * wait for 'game' scene to finish fade-in
              * then do following code

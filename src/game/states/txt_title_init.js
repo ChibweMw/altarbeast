@@ -20,13 +20,13 @@ export default class TXT_TITLE_INIT
                 this.prefab[propName] = propValue
             }
         }
-        this.prefab.controlState.setState('wave_title_in')
+        this.prefab.controlState.setState('wave_pre_round')
         // this.prefab.controlState.setState(this.prefab.startState)
     }
     
     update ()
     {
-
+        // console.log(`INIT WAVE TEXT TITLE`)
     }
 
 }
