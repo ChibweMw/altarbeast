@@ -17,7 +17,7 @@ export default class Player_FALL
 
         // this.player.walkSpeed = 0
         
-        console.log(`>> PLAYER 'FALL' STATE `)
+        // console.log(`>> PLAYER 'FALL' STATE `)
     }
     
     update ()
@@ -64,7 +64,7 @@ export default class Player_FALL
             this.player.controlState.setState('jump')
         } else  if (this.player.jumpCount <= 0 && Phaser.Input.Keyboard.JustDown(this.player.scene.key_player_B))
         {
-            console.log(`JUMPPRESSED DURING FALL`)
+            // console.log(`JUMPPRESSED DURING FALL`)
             this.player.jumpPressed = true
             this.player.scene.time.delayedCall(this.player.jumpPressBufferTime, this.resetJumpPress, null, this)
             
@@ -74,7 +74,7 @@ export default class Player_FALL
     resetJumpPress()
     {
         this.player.jumpPressed = false        
-        console.log(`JUMPPRESSED RESET`)
+        // console.log(`JUMPPRESSED RESET`)
     }
 
     airAttack()

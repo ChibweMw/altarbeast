@@ -21,7 +21,7 @@ export default class UI_Cursor_Move_DOWN
     {
         Phaser.Utils.Array.RotateLeft(this.menuItems)
         this.cursor.playSound_Nav()
-        console.log('CURSOR DOWN')
+        // console.log('CURSOR DOWN')
     }
 
 }

@@ -14,13 +14,13 @@ export default cnf_altar_bell_group =
         allowGravity: false,
         visible: true,
         runChildUpdate: true,
-        removeCallback: function (item) {
-            item.scene.GROUP_POOL_ALTAR_BELL.add(item)
+        removeCallback: function (bell) {
+            bell.scene.GROUP_POOL_ALTAR_BELL.add(bell)
         }
     },
     pool_cnf: {
-        removeCallback: function (item) {
-            item.scene.GROUP_ALTAR_BELL.add(item)
+        removeCallback: function (bell) {
+            bell.scene.GROUP_ALTAR_BELL.add(bell)
         }
     },
     states: cnf_altar_bell_states,

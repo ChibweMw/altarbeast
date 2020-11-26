@@ -4,7 +4,7 @@ export default class INTERACTABLE_INIT
 {
     constructor(prefab)
     {
-        /**@type {Interactable} */
+        // /**@type {Interactable} */
         this.prefab = prefab
         this.scene = this.prefab.scene
     }
@@ -18,7 +18,8 @@ export default class INTERACTABLE_INIT
         this.prefab.setTexture(this.prefab.key, this.prefab.texFrame)
         this.prefab.clearTint()
         this.prefab.setAlpha(1)
-        this.prefab.hitBox.setActive(true)
+        // this.prefab.hitBox.setActive(true)
+        // this.prefab.hitBox.body.checkCollision.none = false
         // GO TO 'INITIAL' STATE
         this.prefab.controlState.setState(this.prefab.startState)
     }

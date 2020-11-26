@@ -1,10 +1,10 @@
 import EventDispatcher from '../EventDispatcher.js'
-import Interactable from '../Interactable.js'
+// import Interactable from '../Interactable.js'
 export default class ALTAR_BELL_ACTIVATE
 {
     constructor(prefab)
     {
-        /**@type {Interactable} */
+        // /**@type {Interactable} */
         this.prefab = prefab
         this.scene = this.prefab.scene
         /**@type {Phaser.Events.EventEmitter} */
@@ -13,8 +13,12 @@ export default class ALTAR_BELL_ACTIVATE
     enter()
     {
         console.log(`>>>>>>>>> BELL PREFAB >> ${this.prefab.type}`)
-        console.log(`>>>>>>>>> BELL HITBOX >> ${this.prefab.hitBox}`)
-        this.prefab.hitBox.body.checkCollision.none = false
+        console.log(`>>>>>>>>> BELL HITBOX BODY >> ${this.prefab.hitBox.body}`)
+        if (this.prefab.hitBox.body)
+        {
+            this.prefab.hitBox.body.checkCollision.none = false
+            // then stop listener for now till next needed
+        }
 
         // MAY NEED IN-BETWEEN STATES FOR FLESHING OUT 
         this.prefab.controlState.setState('idle')

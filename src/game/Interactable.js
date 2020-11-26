@@ -24,17 +24,21 @@ export default class Interactable extends Phaser.Physics.Arcade.Sprite
         this.scene.physics.world.enable(this)
         
         // ADD HITBOX FOR INTERACTION WITH PLAYER
+        /**@type {Phaser.GameObjects.Zone} */
         this.hitBox = this.scene.add.zone(this.body.x, this.body.y, this.body.width, this.body.height)
         this.scene.add.existing(this.hitBox)
         this.scene.physics.world.enable(this.hitBox)
         this.hitBox.setOrigin(0, 0)
         this.hitBox.body.debugBodyColor = 0x00ff33
+
         this.scene.physics.add.overlap(this.scene.player.hurtBox, this.hitBox)
 
         this.controlState = undefined
 
         // this.setupOverlapEvents(this.interactionBegin)
         this.setupOverlapEvents()
+
+        console.log(`BELL CREATED ${this.hitBox.body}`)
     }
 
     // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
