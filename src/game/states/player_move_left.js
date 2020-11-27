@@ -15,6 +15,9 @@ export default class Player_MOVE_LEFT
         // console.log(`>> PLAYER 'MOVE LEFT' STATE`)
         
         this.player.setFlipX(false)
+        this.player.hurtBox.setFlipX(false)
+        this.player.hurtBox.body.setOffset( 24, 5)
+
         // this.player.hurtBox.setOrigin(1, 0)
         // this.player.hurtBox_offset = 16
         this.player.walkSpeed = -GameOptions.player_walkSpeed

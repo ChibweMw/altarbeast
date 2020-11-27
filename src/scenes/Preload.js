@@ -25,7 +25,10 @@ export default class Preload extends Phaser.Scene
         
         // PLAYER ASSETS
         this.load.atlas('ATLAS-oni', '../../assets/sprites/player/ATLAS-ONI.png', '../../assets/sprites/player/ATLAS-ONI.json')
-                
+        // PLAYER ATTACK TESTS
+        this.load.spritesheet('player-attack-02', '../../assets/sprites/player/anim-player-attack-02-02-split.png', { frameWidth: 48, frameHeight: 48 })
+        this.load.spritesheet('oni-club-swing-01', '../../assets/sprites/player/anim-player-attack-02-01-split.png', { frameWidth: 144, frameHeight: 48, startFrame: 5, endFrame: 7 })
+
         this.load.spritesheet('fx-player-jump', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 3, endFrame: 5 })
         this.load.spritesheet('fx-player-land', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 5, endFrame: 8 })
         
@@ -85,6 +88,7 @@ export default class Preload extends Phaser.Scene
     create ()
     {
         // SPRITESHEETS
+        const SHEET_oni_frame_WIDTH = 144
         const SHEET_oni_idle  = this.textures.addSpriteSheetFromAtlas(
             'oni-idle',
             {
@@ -93,7 +97,9 @@ export default class Preload extends Phaser.Scene
                 frameWidth: 48,
                 frameHeight: 48,
                 startFrame: 2,
-                endFrame: 2
+                endFrame: 2,
+                // spacing: 48,
+                // margin: SHEET_oni_frame_WIDTH
             }
         )
         const SHEET_oni_walk  = this.textures.addSpriteSheetFromAtlas(
@@ -104,7 +110,9 @@ export default class Preload extends Phaser.Scene
                 frameWidth: 48,
                 frameHeight: 48,
                 startFrame: 0,
-                endFrame: 3
+                endFrame: 3,
+                // spacing: 48,
+                // margin: SHEET_oni_frame_WIDTH,
             }
         )
         const SHEET_oni_jump  = this.textures.addSpriteSheetFromAtlas(
@@ -115,7 +123,9 @@ export default class Preload extends Phaser.Scene
                 frameWidth: 48,
                 frameHeight: 48,
                 startFrame: 0,
-                endFrame: 0
+                endFrame: 0,
+                // spacing: 48,
+                // margin: SHEET_oni_frame_WIDTH
             }
         )
         const SHEET_oni_crouch  = this.textures.addSpriteSheetFromAtlas(
@@ -126,7 +136,9 @@ export default class Preload extends Phaser.Scene
                 frameWidth: 48,
                 frameHeight: 48,
                 startFrame: 0,
-                endFrame: 0
+                endFrame: 0,
+                // spacing: 48,
+                // margin: SHEET_oni_frame_WIDTH
             }
         )
         const SHEET_oni_attack_stand  = this.textures.addSpriteSheetFromAtlas(
@@ -137,7 +149,9 @@ export default class Preload extends Phaser.Scene
                 frameWidth: 48,
                 frameHeight: 48,
                 startFrame: 0,
-                endFrame: 3
+                endFrame: 3,
+                // spacing: 48,
+                // margin: SHEET_oni_frame_WIDTH
             }
         )
         const SHEET_oni_attack_crouch  = this.textures.addSpriteSheetFromAtlas(
@@ -148,7 +162,9 @@ export default class Preload extends Phaser.Scene
                 frameWidth: 48,
                 frameHeight: 48,
                 startFrame: 4,
-                endFrame: 7
+                endFrame: 7,
+                // spacing: 48,
+                // margin: SHEET_oni_frame_WIDTH
             }
         )
         const SHEET_oni_attack_hurt  = this.textures.addSpriteSheetFromAtlas(
@@ -159,7 +175,9 @@ export default class Preload extends Phaser.Scene
                 frameWidth: 48,
                 frameHeight: 48,
                 startFrame: 0,
-                endFrame: 1
+                endFrame: 1,
+                // spacing: 48,
+                // margin: SHEET_oni_frame_WIDTH
             }
         )
         const SHEET_oni_attack_death  = this.textures.addSpriteSheetFromAtlas(
@@ -170,12 +188,36 @@ export default class Preload extends Phaser.Scene
                 frameWidth: 48,
                 frameHeight: 48,
                 startFrame: 0,
-                endFrame: 3
+                endFrame: 3,
+                // spacing: 48,
+                // margin: SHEET_oni_frame_WIDTH
             }
         )
+        // const ATLAS_JSON = this.textures.get('ATLAS-oni')
+        // console.log(`ATLAS_JSON Frame Names >> ${ATLAS_JSON.key}`)
+
+        // const ATLAS_SHEET_GROUP =[
+        //     SHEET_oni_idle, 
+        //     SHEET_oni_walk, 
+        //     SHEET_oni_jump, 
+        //     SHEET_oni_crouch, 
+        //     SHEET_oni_attack_stand, 
+        //     SHEET_oni_attack_crouch,
+        //     SHEET_oni_attack_hurt,
+        //     SHEET_oni_attack_death
+        // ]
 
         // ANIMATIONS 
         const anim_FramRate = 8
+        // this.load.spritesheet('oni-club-swing-01', '../../assets/sprites/player/anim-player-attack-02-01-split.png', { frameWidth: 48, frameHeight: 48, startFrame: 5, endFrame: 7 })
+
+        const ANIM_CNF_oni_club_swing_01 = {
+            key: 'anim-oni-club-swing-01',
+            // frames: this.anims.generateFrameNumbers('oni-attack-stand', { start: 0, end: 3, first: 0 }),
+            frames: this.anims.generateFrameNumbers('oni-club-swing-01', { start: 5, end: 7, first: 5 }),
+            frameRate: anim_FramRate,
+            repeat: 0
+        }
 
         const ANIM_CNF_oni_idle = {
             key: 'anim-oni-idle',
@@ -201,12 +243,16 @@ export default class Preload extends Phaser.Scene
             frameRate: anim_FramRate,
             repeat: 0
         }
+
+        // NEW ATTACK WITH BIGGER FRAME TEST
         const ANIM_CNF_attack_stand = {
             key: 'anim-oni-attack-stand',
-            frames: this.anims.generateFrameNumbers('oni-attack-stand', { start: 0, end: 3, first: 0 }),
+            // frames: this.anims.generateFrameNumbers('oni-attack-stand', { start: 0, end: 3, first: 0 }),
+            frames: this.anims.generateFrameNumbers('player-attack-02', { start: 0, end: 4, first: 0 }),
             frameRate: anim_FramRate,
             repeat: 0
         }
+
         const ANIM_CNF_attack_crouch = {
             key: 'anim-oni-attack-crouch',
             frames: this.anims.generateFrameNumbers('oni-attack-crouch', { start: 4, end: 7, first: 4 }),
@@ -231,7 +277,7 @@ export default class Preload extends Phaser.Scene
             frameRate: anim_FramRate,
             repeat: 0
         }
-        const anim_conf_oni = [ANIM_CNF_oni_idle, ANIM_CNF_oni_walk, ANIM_CNF_oni_jump, ANIM_CNF_oni_crouch, ANIM_CNF_attack_stand, ANIM_CNF_attack_crouch, ANIM_CNF_attack_jump, ANIM_CNF_attack_hurt, ANIM_CNF_attack_death]
+        const anim_conf_oni = [ANIM_CNF_oni_club_swing_01, ANIM_CNF_oni_idle, ANIM_CNF_oni_walk, ANIM_CNF_oni_jump, ANIM_CNF_oni_crouch, ANIM_CNF_attack_stand, ANIM_CNF_attack_crouch, ANIM_CNF_attack_jump, ANIM_CNF_attack_hurt, ANIM_CNF_attack_death]
         anim_conf_oni.forEach((animation) => {this.anims.create(animation)})
 
         // VFX ANIMATIONS 

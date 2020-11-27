@@ -12,20 +12,24 @@ export default class ALTAR_BELL_ACTIVATE
     }
     enter()
     {
-        console.log(`>>>>>>>>> BELL PREFAB >> ${this.prefab.type}`)
-        console.log(`>>>>>>>>> BELL HITBOX BODY >> ${this.prefab.hitBox.body}`)
-        if (this.prefab.hitBox.body)
+        if (!this.prefab.hitBox.body)
         {
-            this.prefab.hitBox.body.checkCollision.none = false
             // then stop listener for now till next needed
+            // console.log(`>>>>>>>>> BELL PREFAB >> ${this.prefab.type}`)
+            // console.log(`>>>>>>>>> BELL HITBOX BODY >> ${this.prefab.hitBox.body}`)
+            return
+        } else
+        {
+            
+            this.prefab.hitBox.body.checkCollision.none = false
         }
 
         // MAY NEED IN-BETWEEN STATES FOR FLESHING OUT 
         this.prefab.controlState.setState('idle')
 
     }
-
     update()
+
     {}
     
 }

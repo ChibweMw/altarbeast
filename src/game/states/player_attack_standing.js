@@ -18,6 +18,9 @@ export default class Player_ATTACK_STANDING
         // SHOULD PROPBS TAKE THIS INTO A SEPARATE STATE
         this.player.walkSpeed = 0
         this.player.play('anim-oni-attack-stand')
+
+        // this.player.hurtBox.anims.play('anim-oni-club-swing-01')
+
         // this.player.hurtBox.body.checkCollision.none = false
 
         // ACTIVATE PLAYER ATTACK HURTBOX

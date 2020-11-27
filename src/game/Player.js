@@ -27,13 +27,24 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.scene.physics.world.enable(this.hitBox)
         this.hitBox.setOrigin(0, 0)
 
-        this.hurtBox = this.scene.add.zone(this.body.x, this.body.y, 48, 32)
+        // this.hurtBox = this.scene.add.zone(this.body.x, this.body.y, 48, 32)
+        this.hurtBox = this.scene.add.sprite(this.body.x, this.body.y, 'oni-club-swing-01', 5)
         this.scene.add.existing(this.hurtBox)
         this.scene.physics.world.enable(this.hurtBox)
-        this.hurtBox.setOrigin(0, 0)
 
         this.hurtBox.body.checkCollision.none = true
-        this.hurtBox.body.x = this.body.x - this.hurtBox.width
+
+        this.hurtBox.setOrigin(0, 0)
+        
+        // this.hurtBox.frame.x
+        
+        this.hurtBox.setFlipX(true)
+        this.hurtBox.setVisible(false)
+
+        // ARCADE BODY OFFSET
+        this.hurtBox.body.setSize(72, 32, true)
+        this.hurtBox.body.setOffset( 48, 5)
+        
         
         this.hurtBox.body.debugBodyColor = 0xfff999
         this.hurtBox.body.debugShowBody = !this.hurtBox.body.checkCollision 
@@ -52,7 +63,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.walkSpeed = 0
         // this.jumpVelocity = GameOptions.playerJumpVel
         this.jumpVelocity = 0
-        this.atkActiveTime = 300
         this.HP = GameOptions.playerStartHP
         this.AP = GameOptions.playerStartAP
         this.gained_HP = 0
@@ -63,6 +73,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.hurtBox_offset = 16
         this.isAttacking = false
         this.isAttacking_AIR = false
+        this.atkActiveTime = 300
         this.jumpPressed = false
         this.isJumping = false
         this.jumpCount = GameOptions.player_JumpCount
@@ -195,7 +206,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     trackHurtBox ()
     {
         // this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 42)
-        this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 12)
+        // this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 12)
+        this.hurtBox.setPosition(this.body.x - (48 + 16) , this.body.y - 16)
         this.hurtBox.body.debugShowBody = !this.hurtBox.body.checkCollision.none
     }
 
@@ -226,12 +238,21 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     {
         this.isAttacking = false
         this.isAttacking_AIR = false
+        this.hurtBox.setVisible(false)
         this.hurtBox.body.checkCollision.none = true
     }
     
     activatePlayerHurtbox ()
     {
-        // console.log('ACTIVATE PLAYER HURTBOX')
-        this.hurtBox.body.checkCollision.none = false
+        if (this.isHurt)
+        {
+            return
+        } else
+        {
+            // console.log('ACTIVATE PLAYER HURTBOX')
+            this.hurtBox.setVisible(true)
+            this.hurtBox.anims.play('anim-oni-club-swing-01')
+            this.hurtBox.body.checkCollision.none = false
+        }
     }
 }
