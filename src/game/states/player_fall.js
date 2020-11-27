@@ -13,7 +13,13 @@ export default class Player_FALL
 
     enter ()
     {
-        this.player.play('anim-oni-jump')
+        this.player.play('anim-oni-crouch')
+
+        this.player.hurtBox_offsetY = 5
+
+        this.player.setSize(16, 24)
+        this.player.setOffset(16, 24)
+        this.player.hitBox.body.height = 24
 
         // this.player.walkSpeed = 0
         
@@ -43,7 +49,7 @@ export default class Player_FALL
         } else 
         {
             // PLACE CHECK FOR JUMP BUTTON HERE
-            this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, cnf_vfx_land_group)
+            this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + this.player.body.height, cnf_vfx_land_group)
             this.player.controlState.setState('idle')
         }
         

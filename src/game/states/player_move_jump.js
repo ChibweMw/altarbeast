@@ -13,15 +13,20 @@ export default class Player_MOVE_JUMP
 
     enter ()
     {
-        this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, cnf_vfx_jump_group)
+        this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + this.player.body.height, cnf_vfx_jump_group)
+        // this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, cnf_vfx_jump_group)
 
         // SET HURTBOX OFFSET
         // this.player.hurtBox.body.setOffset( 24, 5)
         this.player.hurtBox_offsetY = 5
 
+        this.player.setSize(16, 24)
+        this.player.setOffset(16, 24)
+        this.player.hitBox.body.height = 24
+
 
         if (!this.player.isAttacking_AIR){
-            this.player.play('anim-oni-jump')
+            this.player.play('anim-oni-crouch')
             console.log(`>> PLAYER MOVE 'JUMP' STATE `)
             // console.log(`>> JUMP COUNT BEFORE ${this.player.jumpCount}`)
             this.player.jumpCount -= 1

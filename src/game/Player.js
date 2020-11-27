@@ -22,7 +22,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
         
 
-        this.hitBox = this.scene.add.zone(this.body.x + 4, this.body.y, 8, 32)
+        this.hitBox_WIDTH = 8
+        this.hitBox_HEIGHT = 32
+        this.hitBox = this.scene.add.zone(this.body.x + 4, this.body.y, this.hitBox_WIDTH, this.hitBox_HEIGHT)
         this.scene.add.existing(this.hitBox)
         this.scene.physics.world.enable(this.hitBox)
         this.hitBox.setOrigin(0, 0)
@@ -97,7 +99,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         // this.setCollideWorldBounds(true)
         this.setCollideWorldBounds(false)
         this.setSize(16, 32)
-        this.setOffset(16, this.body.halfHeight)
+        // this.setOffset(16, this.body.halfHeight)
+        this.setOffset(16, 16)
         this.setFlipX(true)
         this.setOrigin(0, 1)
 
@@ -204,7 +207,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     trackHitBox ()
     {
-        this.hitBox.setPosition(this.body.x + 4, this.body.y + 2)
+        this.hitBox.setPosition(this.body.x + 4, this.body.y)
     }
 
     trackHurtBox ()

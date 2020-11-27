@@ -15,6 +15,11 @@ export default class Player_Crouch
         console.log(`>> PLAYER 'CROUCH' STATE`)
         this.player.walkSpeed = 0
         this.player.hurtBox_offsetY = 5
+        this.player.setSize(16, 24)
+        this.player.setOffset(16, 24)
+        
+        this.player.hitBox.body.height = 24
+
 
         this.player.play('anim-oni-crouch')
     }

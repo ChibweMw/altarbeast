@@ -15,7 +15,7 @@ export default class VFX_COLLISION extends Phaser.GameObjects.Sprite
         super(scene, x, y, texture, frame)
         
         this.scene = scene
-        this.setOrigin(0, 0)
+        this.setOrigin(0, 1)
         this.setActive(true)
         this.setVisible(true)
 
