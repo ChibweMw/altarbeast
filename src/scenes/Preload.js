@@ -28,6 +28,7 @@ export default class Preload extends Phaser.Scene
         // PLAYER ATTACK TESTS
         this.load.spritesheet('player-attack-02', '../../assets/sprites/player/anim-player-attack-02-02-split.png', { frameWidth: 48, frameHeight: 48 })
         this.load.spritesheet('oni-club-swing-01', '../../assets/sprites/player/anim-player-attack-02-01-split.png', { frameWidth: 144, frameHeight: 48, startFrame: 5, endFrame: 7 })
+        this.load.spritesheet('player-attack-02-crouch', '../../assets/sprites/player/anim-player-attack-02-02-crouch-split.png', { frameWidth: 48, frameHeight: 48 })
 
         this.load.spritesheet('fx-player-jump', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 3, endFrame: 5 })
         this.load.spritesheet('fx-player-land', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 5, endFrame: 8 })
@@ -255,13 +256,15 @@ export default class Preload extends Phaser.Scene
 
         const ANIM_CNF_attack_crouch = {
             key: 'anim-oni-attack-crouch',
-            frames: this.anims.generateFrameNumbers('oni-attack-crouch', { start: 4, end: 7, first: 4 }),
+            // frames: this.anims.generateFrameNumbers('oni-attack-crouch', { start: 4, end: 7, first: 4 }),
+            frames: this.anims.generateFrameNumbers('player-attack-02-crouch', { start: 0, end: 4, first: 0 }),
             frameRate: anim_FramRate,
             repeat: 0
         }
         const ANIM_CNF_attack_jump = {
             key: 'anim-oni-attack-jump',
-            frames: this.anims.generateFrameNumbers('oni-attack-crouch', { start: 4, end: 7, first: 4 }),
+            // frames: this.anims.generateFrameNumbers('oni-attack-crouch', { start: 4, end: 7, first: 4 }),
+            frames: this.anims.generateFrameNumbers('player-attack-02-crouch', { start: 0, end: 4, first: 0 }),
             frameRate: anim_FramRate,
             repeat: 0
         }

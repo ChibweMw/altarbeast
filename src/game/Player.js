@@ -42,7 +42,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.hurtBox.setVisible(false)
 
         // ARCADE BODY OFFSET
-        this.hurtBox.body.setSize(72, 32, true)
+        this.hurtBox_offsetX = 48 + 16
+        this.hurtBox_offsetY = 20
+
+        this.hurtBox.body.setSize(72, 30, true)
         this.hurtBox.body.setOffset( 48, 5)
         
         
@@ -70,7 +73,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.isHurt = false
         this.hurtTime = 500
         this.hurtForce = -100
-        this.hurtBox_offset = 16
+
+        
         this.isAttacking = false
         this.isAttacking_AIR = false
         this.atkActiveTime = 300
@@ -207,8 +211,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     {
         // this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 42)
         // this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 12)
-        this.hurtBox.setPosition(this.body.x - (48 + 16) , this.body.y - 16)
+        this.hurtBox.setPosition(this.body.x - this.hurtBox_offsetX , this.body.y - this.hurtBox_offsetY)
         this.hurtBox.body.debugShowBody = !this.hurtBox.body.checkCollision.none
+
+        // this.hurtBox.body.setOffset( this.hurtBox_offsetX, this.hurtBox_offsetY)
     }
 
     

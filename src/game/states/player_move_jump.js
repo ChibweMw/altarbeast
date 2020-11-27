@@ -14,6 +14,12 @@ export default class Player_MOVE_JUMP
     enter ()
     {
         this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + 16, cnf_vfx_jump_group)
+
+        // SET HURTBOX OFFSET
+        // this.player.hurtBox.body.setOffset( 24, 5)
+        this.player.hurtBox_offsetY = 5
+
+
         if (!this.player.isAttacking_AIR){
             this.player.play('anim-oni-jump')
             console.log(`>> PLAYER MOVE 'JUMP' STATE `)

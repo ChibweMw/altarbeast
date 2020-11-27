@@ -45,8 +45,10 @@ export default class Player_ATTACK_JUMPING
                 // console.log(`REDUCE GRAVITY NOW`)
             }
 
+            // SHOULD PLAYER LAND IN THE MIDDLE OF AN AIR ATTACK
             if (this.player.body.blocked.down)
             {
+                this.hurtBox_offsetY = 5
                 this.player.walkSpeed = 0
             }
             return

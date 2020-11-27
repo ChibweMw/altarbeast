@@ -20,6 +20,8 @@ export default class Player_Idle
         this.player.jumpCount = GameOptions.player_JumpCount
         this.player.setGravityY(GameOptions.playerGravity)
 
+        this.player.hurtBox_offsetY = 20
+
         
         // !this.player.jumpCount ? this.player.jumpCount = 1 : console.log(`can already jump`) 
         

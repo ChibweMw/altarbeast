@@ -16,7 +16,11 @@ export default class Player_MOVE_RIGHT
         
         this.player.setFlipX(true)
         this.player.hurtBox.setFlipX(true)
+
+        // this.player.hurtBox_offsetY = 16
+        this.player.hurtBox_offsetX = 48 + 16
         this.player.hurtBox.body.setOffset( 48, 5)
+        // this.player.hurtBox_offsetY = -16
 
         // this.player.hurtBox.setOrigin(0, 0)
         // this.player.hurtBox_offset = 16

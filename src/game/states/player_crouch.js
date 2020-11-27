@@ -14,6 +14,8 @@ export default class Player_Crouch
     {
         console.log(`>> PLAYER 'CROUCH' STATE`)
         this.player.walkSpeed = 0
+        this.player.hurtBox_offsetY = 5
+
         this.player.play('anim-oni-crouch')
     }
     update ()
@@ -26,6 +28,7 @@ export default class Player_Crouch
             this.player.play('anim-oni-crouch')            
         } else 
         {
+            // this.player.hurtBox_offsetY = 16
             this.player.controlState.setState('idle')
         }
 
