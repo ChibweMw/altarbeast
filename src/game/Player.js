@@ -258,7 +258,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.isAttacking = false
         this.isAttacking_AIR = false
         this.hurtBox.setVisible(false)
-        this.hurtBox.body.checkCollision.none = true
+        // this.hurtBox.body.checkCollision.none = true
     }
     
     activatePlayerHurtbox ()

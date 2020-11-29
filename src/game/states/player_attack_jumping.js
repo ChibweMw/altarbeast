@@ -8,6 +8,7 @@ export default class Player_ATTACK_JUMPING
     constructor (player)
     {
         this.player = player
+        this.hurtBox_Activated = false
     }
 
     enter ()
@@ -15,6 +16,9 @@ export default class Player_ATTACK_JUMPING
         // console.log(`>>JUMP ATTACK DURATIONS ${this.player.atkActiveTime}`)
         
         this.player.isAttacking_AIR = true
+
+        this.hurtBox_Activated = false
+
         this.player.play('anim-oni-attack-jump')
         // this.player.jumpPeakThreshold = -40
 
@@ -24,7 +28,7 @@ export default class Player_ATTACK_JUMPING
 
         // ACTIVATE PLAYER ATTACK HURTBOX
         this.player.atkActiveTime = this.player.anims.currentAnim.duration
-        this.player.scene.time.delayedCall(this.player.atkActiveTime / 2, this.player.activatePlayerHurtbox, null, this.player)
+        // this.player.scene.time.delayedCall(this.player.atkActiveTime / 2, this.player.activatePlayerHurtbox, null, this.player)
 
         // this.player.scene.sound.play('player-attack') 
     }
@@ -51,10 +55,23 @@ export default class Player_ATTACK_JUMPING
                 this.hurtBox_offsetY = 5
                 this.player.walkSpeed = 0
             }
+
+            if (!this.hurtBox_Activated && this.player.anims.currentFrame.index > 2 && this.player.anims.currentFrame.index < (this.player.anims.currentAnim.frames.length - 1))
+            {
+                this.hurtBox_Activated = true
+
+                this.player.activatePlayerHurtbox()
+            } else if (this.player.anims.currentFrame.index >= (this.player.anims.currentAnim.frames.length - 1)) {
+                this.player.hurtBox.body.checkCollision.none = true
+
+            }
+            
             return
         } else 
         {
-            this.player.isAttacking_AIR = false
+            // this.player.isAttacking_AIR = false
+            this.player.deactivatePlayerHurtbox()
+
 
             if (!this.player.body.blocked.down)
             {

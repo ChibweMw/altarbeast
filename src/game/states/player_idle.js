@@ -84,7 +84,7 @@ export default class Player_Idle
         {
             // console.log('Stand ATTACK')
             this.player.controlState.setState('stand_atk_norm')
-            this.player.scene.time.delayedCall(this.player.atkActiveTime, this.player.deactivatePlayerHurtbox, null, this.player)
+            // this.player.scene.time.delayedCall(this.player.atkActiveTime, this.player.deactivatePlayerHurtbox, null, this.player)
         }
     }
 
