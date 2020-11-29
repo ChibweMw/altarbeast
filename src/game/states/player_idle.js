@@ -20,7 +20,7 @@ export default class Player_Idle
         this.player.jumpCount = GameOptions.player_JumpCount
         this.player.setGravityY(GameOptions.playerGravity)
 
-        this.player.hurtBox_offsetY = 20
+        this.player.hurtBox_offsetY = 16
         this.player.setSize(16, 32)
         this.player.setOffset(16, 16)
         this.player.hitBox.body.height = 32

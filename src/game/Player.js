@@ -30,7 +30,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.hitBox.setOrigin(0, 0)
 
         // this.hurtBox = this.scene.add.zone(this.body.x, this.body.y, 48, 32)
-        this.hurtBox = this.scene.add.sprite(this.body.x, this.body.y, 'oni-club-swing-01', 5)
+        this.hurtBox = this.scene.add.sprite(this.body.x, this.body.y, 'oni-club-swing-01')
         this.scene.add.existing(this.hurtBox)
         this.scene.physics.world.enable(this.hurtBox)
 
@@ -44,11 +44,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.hurtBox.setVisible(false)
 
         // ARCADE BODY OFFSET
-        this.hurtBox_offsetX = 48 + 16
-        this.hurtBox_offsetY = 20
+        this.hurtBox_offsetX = 0
+        this.hurtBox_offsetY = 16
 
         this.hurtBox.body.setSize(72, 30, true)
-        this.hurtBox.body.setOffset( 48, 5)
+        // this.hurtBox.setSizeToFrame(this.hurtBox.frame)
+        this.hurtBox.body.setOffset( 0, 0)
         
         
         this.hurtBox.body.debugBodyColor = 0xfff999
@@ -140,6 +141,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     {
         this.controlState.update()
         this.trackHitBox()
+
+        // this.setHurtBox_Size(this.hurtBox.frame)
         this.trackHurtBox()
 
         // console.log(`JUMP COUNT '${this.jumpCount}'`)
@@ -152,6 +155,26 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
         this.trackOverlapEvents()
         
+    }
+
+    trackHitBox ()
+    {
+        this.hitBox.setPosition(this.body.x + 4, this.body.y)
+    }
+
+    setHurtBox_Size(frame){
+        this.hurtBox.setSizeToFrame(frame)
+    }
+
+    trackHurtBox ()
+    {
+        // this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 42)
+        // this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 12)
+        this.hurtBox.setPosition(this.body.x - this.hurtBox_offsetX , this.body.y - this.hurtBox_offsetY)
+        // this.hurtBox.setPosition(this.body.x, this.body.y - this.hurtBox_offsetY)
+        this.hurtBox.body.debugShowBody = !this.hurtBox.body.checkCollision.none
+
+        // this.hurtBox.body.setOffset( this.hurtBox_offsetX, this.hurtBox_offsetY)
     }
 
     trackOverlapEvents()
@@ -205,20 +228,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         }
     }
 
-    trackHitBox ()
-    {
-        this.hitBox.setPosition(this.body.x + 4, this.body.y)
-    }
-
-    trackHurtBox ()
-    {
-        // this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 42)
-        // this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 12)
-        this.hurtBox.setPosition(this.body.x - this.hurtBox_offsetX , this.body.y - this.hurtBox_offsetY)
-        this.hurtBox.body.debugShowBody = !this.hurtBox.body.checkCollision.none
-
-        // this.hurtBox.body.setOffset( this.hurtBox_offsetX, this.hurtBox_offsetY)
-    }
+    
 
     
 
@@ -261,6 +271,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
             // console.log('ACTIVATE PLAYER HURTBOX')
             this.hurtBox.setVisible(true)
             this.hurtBox.anims.play('anim-oni-club-swing-01')
+            this.scene.sound.play('player-attack')
             this.hurtBox.body.checkCollision.none = false
         }
     }

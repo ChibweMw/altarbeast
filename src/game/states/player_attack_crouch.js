@@ -22,7 +22,7 @@ export default class Player_ATTACK_CROUCHING
 
         // console.log(`${this.player.atkActiveTime}`)
 
-        this.player.scene.sound.play('player-attack') 
+        // this.player.scene.sound.play('player-attack') 
     }
 
     update ()

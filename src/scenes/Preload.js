@@ -26,8 +26,9 @@ export default class Preload extends Phaser.Scene
         // PLAYER ASSETS
         this.load.atlas('ATLAS-oni', '../../assets/sprites/player/ATLAS-ONI.png', '../../assets/sprites/player/ATLAS-ONI.json')
         // PLAYER ATTACK TESTS
-        this.load.spritesheet('player-attack-02', '../../assets/sprites/player/anim-player-attack-02-02-split.png', { frameWidth: 48, frameHeight: 48 })
-        this.load.spritesheet('oni-club-swing-01', '../../assets/sprites/player/anim-player-attack-02-01-split.png', { frameWidth: 144, frameHeight: 48, startFrame: 5, endFrame: 7 })
+        this.load.spritesheet('player-attack-02', '../../assets/sprites/player/anim-player-attack-02-02-split.png', { frameWidth: 48, frameHeight: 48 }) //anim-player-attack-split-swipe-01
+        this.load.spritesheet('oni-club-swing-01', '../../assets/sprites/player/anim-player-attack-02-01-split.png', { frameWidth: 72, frameHeight: 32 })
+        // this.load.spritesheet('oni-club-swing-01', '../../assets/sprites/player/anim-player-attack-02-01-split.png', { frameWidth: 72, frameHeight: 31, startFrame: 5, endFrame: 7 })
         this.load.spritesheet('player-attack-02-crouch', '../../assets/sprites/player/anim-player-attack-02-02-crouch-split.png', { frameWidth: 48, frameHeight: 48 })
 
         this.load.spritesheet('fx-player-jump', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 3, endFrame: 5 })
@@ -215,9 +216,9 @@ export default class Preload extends Phaser.Scene
         const ANIM_CNF_oni_club_swing_01 = {
             key: 'anim-oni-club-swing-01',
             // frames: this.anims.generateFrameNumbers('oni-attack-stand', { start: 0, end: 3, first: 0 }),
-            frames: this.anims.generateFrameNumbers('oni-club-swing-01', { start: 5, end: 7, first: 5 }),
+            frames: this.anims.generateFrameNumbers('oni-club-swing-01', { start: 0, end: 2, first: 0 }),
             frameRate: anim_FramRate,
-            repeat: 0
+            repeat: 0,
         }
 
         const ANIM_CNF_oni_idle = {

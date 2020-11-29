@@ -26,7 +26,7 @@ export default class Player_ATTACK_JUMPING
         this.player.atkActiveTime = this.player.anims.currentAnim.duration
         this.player.scene.time.delayedCall(this.player.atkActiveTime / 2, this.player.activatePlayerHurtbox, null, this.player)
 
-        this.player.scene.sound.play('player-attack') 
+        // this.player.scene.sound.play('player-attack') 
     }
 
     update ()
