@@ -34,6 +34,8 @@ export default class AI_DUMMY_INIT
         this.prefab.clearTint()
         this.prefab.setAlpha(1)
         this.prefab.hitBox.setActive(true)
+        this.prefab.scene.setupOverlapEvents(this.prefab)
+        // this.prefab.scene.trackOverlapEvents(this.prefab)
 
         // if ()
         // {

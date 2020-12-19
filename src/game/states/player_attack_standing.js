@@ -43,9 +43,15 @@ export default class Player_ATTACK_STANDING
         if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'anim-oni-attack-stand')
         {
             // console.log(`ATTACKING`)
+            // JSON.parse()
+            // this.player.scene.cache.json.get('oni-attack-slices').meta.slices[this.player.anims.currentFrame.index].keys[this.player.anims.currentFrame.index].bounds.w
+            // this.player.scene.cache.json.get('oni-attack-slices').meta.slices[this.player.anims.currentFrame.index].keys[this.player.anims.currentFrame.index].bounds.h
+            
             if (!this.hurtBox_Activated && this.player.anims.currentFrame.index > 2 && this.player.anims.currentFrame.index < (this.player.anims.currentAnim.frames.length - 1))
             {
                 this.hurtBox_Activated = true
+
+
 
                 this.player.activatePlayerHurtbox()
             } else if (this.player.anims.currentFrame.index >= (this.player.anims.currentAnim.frames.length - 1)) {

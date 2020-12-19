@@ -34,6 +34,9 @@ export default class Preload extends Phaser.Scene
         this.load.spritesheet('fx-player-jump', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 3, endFrame: 5 })
         this.load.spritesheet('fx-player-land', '../../assets/sprites/fx/fx-collision-and-jump.png', { frameWidth: 16, frameHeight: 16, startFrame: 5, endFrame: 8 })
         
+        // Player attack hitboxes
+        this.load.json('oni-attack-slices', '../../assets/sprites/player/anim-player-attack-split-swipe-01.json')
+        
         // ENEMIES
         this.load.spritesheet('floater', '../../assets/sprites/enemies/anim-enemy-floater.png', { frameWidth: 16, frameHeight: 32 })
         this.load.spritesheet('dummy', '../../assets/sprites/enemies/enemy-dummy--fish-crawler.png', { frameWidth: 16, frameHeight: 32 })
@@ -60,6 +63,7 @@ export default class Preload extends Phaser.Scene
 
         this.load.audio('main-game-over-theme-01', '../../assets/audio/music/Abstraction-Three-Red-Hearts-Sanctuary.wav')
         this.load.audio('main-game-over-theme-02', '../../assets/audio/music/falling-star.wav')
+        
 
         // SFX
         this.load.audio('collect-health', '../../assets/audio/sfx/collect-health.wav')
@@ -89,6 +93,8 @@ export default class Preload extends Phaser.Scene
 
     create ()
     {
+
+        // console.log(`>>>>>>>>>>>>>>>>>>>>>>>>${this.cache.json.get('oni-attack-slices').meta.slices[0].keys[0].bounds.w}`)
         // SPRITESHEETS
         const SHEET_oni_frame_WIDTH = 144
         const SHEET_oni_idle  = this.textures.addSpriteSheetFromAtlas(

@@ -49,10 +49,10 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.currHP = this.maxHP
         this.isHurt = false
 
-        // this.setCollideWorldBounds(false)
+        this.setCollideWorldBounds(true)
         // this.setBounce(0)
 
-        this.setupOverlapEvents()
+        // this.setupOverlapEvents()
     }
 
     // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
@@ -119,20 +119,20 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         this.trackHitBox()
 
         // Treat 'embedded' as 'touching' also
-        if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false
+        // if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false
 
-        var touching = !this.hitBox.body.touching.none
-        var wasTouching = !this.hitBox.body.wasTouching.none
+        // var touching = !this.hitBox.body.touching.none
+        // var wasTouching = !this.hitBox.body.wasTouching.none
 
-        if (touching && !wasTouching) 
-        {
-            // console.log('OVERLAP START')
-            this.emit("overlapstart")
-        }
-        else if (!touching && wasTouching) 
-        {
-            // console.log('OVERLAP END')
-            this.emit("overlapend")
-        }
+        // if (touching && !wasTouching) 
+        // {
+        //     // console.log('OVERLAP START')
+        //     this.emit("overlapstart")
+        // }
+        // else if (!touching && wasTouching) 
+        // {
+        //     // console.log('OVERLAP END')
+        //     this.emit("overlapend")
+        // }
     }
 }

@@ -84,6 +84,7 @@ export default class Game extends Phaser.Scene
     
     prefabGroups = [cnf_altar_bell_group, cnf_wave_manager_group, cnf_dummy_group, cnf_vfx_jump_group, cnf_vfx_land_group, cnf_hopperFish_group, cnf_vfx_collision_group, cnf_vfx_decal_group, cnf_item_base_group]
 
+    enemyGroups = [cnf_dummy_group, cnf_hopperFish_group]
     init ()
     {
         this.DEBUG_isOVERLAY = false
@@ -153,10 +154,12 @@ export default class Game extends Phaser.Scene
         // ADD PLAYER
         // this.player = new Player(this, 16 * 11, 16 * 5, 'oni-idle', 0)
         this.player = new Player(this, SPAWN_POINT_player.x, SPAWN_POINT_player.y, 'oni-idle', 0)
+        this.setupOverlapEvents(this.player)
         this.player.setData({"states": cnf_player_states})
         // this.player_CONTROLLER = new Player_Controller(this.player)
         this.player_CONTROLLER = new Ai_Controller(this.player)
-        this.player.setControlState(this.player_CONTROLLER)
+        this.setControlState(this.player, this.player_CONTROLLER)
+        // this.player.setControlState(this.player_CONTROLLER)
         
         // this.player_CONTROLLER.setState('idle')
         this.player.controlState.setState('idle')
@@ -205,6 +208,30 @@ export default class Game extends Phaser.Scene
         // this.controlState.setState('init')
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})   
+
+        PhaserGUIAction(this);
+    }
+
+    setControlState(prefab, controlState)
+    {
+        prefab.controlState = controlState
+    }
+
+    setupOverlapEvents(prefab){
+        prefab.on("overlapstart", function() {
+            // console.log(">>>>> OVERLAP STARTO <<<<<")
+            prefab.controlState.setState('take_damage')
+            // debugger
+            // prefab.scene.player_CONTROLLER.setState('take_damage')
+
+    
+            // console.time("overlap")
+          })
+
+        prefab.on("overlapend", function() {
+            // console.log(">>>>> OVERLAP ENDO <<<<<")
+            // console.timeEnd("overlap")
+        })
     }
 
     /**
@@ -234,6 +261,31 @@ export default class Game extends Phaser.Scene
         this.scene.launch('gameover')
     }
 
+    trackOverlapEvents(prefab)
+    {
+        // Treat 'embedded' as 'touching' also
+        // if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false
+        if (prefab.hitBox.body.embedded) prefab.hitBox.body.touching.none = false
+
+        // var touching = !this.hitBox.body.touching.none
+        // var wasTouching = !this.hitBox.body.wasTouching.none
+        var touching = !prefab.hitBox.body.touching.none
+        var wasTouching = !prefab.hitBox.body.wasTouching.none
+
+        if (touching && !wasTouching) 
+        {
+            // console.log('OVERLAP START')
+            // this.emit("overlapstart")
+            prefab.emit("overlapstart")
+        }
+        else if (!touching && wasTouching) 
+        {
+            // console.log('OVERLAP END')
+            // this.emit("overlapend")
+            prefab.emit("overlapend")
+        }
+    }
+
     update ()
     {
         this.gamePause()
@@ -249,6 +301,18 @@ export default class Game extends Phaser.Scene
         {
             this.player.update()
         }
+
+        this.physics.world.wrap(this.player.body)
+        this.trackOverlapEvents(this.player)
+        this.enemyGroups.forEach( (group)=> {
+            let newGroup = this[group.group_name]
+            newGroup.getChildren().forEach(enemy => {
+                // console.log(`DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd  ${enemy}`)
+                this.trackOverlapEvents(enemy)
+                
+                
+            })
+        })
     }
 
     gamePause ()

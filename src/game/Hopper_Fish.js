@@ -56,7 +56,7 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
 
         this.setCollideWorldBounds(false)
         this.setBounce(0)
-        this.setupOverlapEvents()
+        // this.setupOverlapEvents()
     }
 
     // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
