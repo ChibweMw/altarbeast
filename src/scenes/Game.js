@@ -165,8 +165,9 @@ export default class Game extends Phaser.Scene
 
         // SET CAMERA FOLLOW PLAYER
         // this.cameras.main.startFollow(this.player, true)
+        this.cameras.main.centerOnX(this.player.x)
 
-        console.log(`player  properties ${Object.getOwnPropertyNames(this.player)}`)
+        // console.log(`player  properties ${Object.getOwnPropertyNames(this.player)}`)
 
         this.player.setData({"states": cnf_player_states})
         // this.player_CONTROLLER = new Player_Controller(this.player)
@@ -237,9 +238,12 @@ export default class Game extends Phaser.Scene
             // console.log(`Tile map objects >>>> ${object.objects}`)
             if (object.name === 'doors'){
                 object.objects.forEach( object => {
-                    console.log(`Objects in object layer ${object.name}`)
+                    console.log(`Objects in object layer ${object.properties[0].name}`)
                     // GameOptions.prefabXYZ_SPAWN_POINT = object.name
                     let newDoor = this.add.zone(object.x, object.y, object.width, object.height).setOrigin(0)
+                    object.properties.forEach(prop => {
+                        newDoor[prop.name] = prop.value
+                    });
                     this.overlapDoor(newDoor)
                     this.physics.world.enableBody(newDoor)
                     this.physics.add.overlap(this.player, newDoor, this.doorEvent , null, this)
@@ -263,22 +267,37 @@ export default class Game extends Phaser.Scene
 
     doorEvent(player, door)
     {
-        // console.log('kjfsldnf;oiklsdfnksldmflkdsfajmslkdfjmdslkfmdsklmcskdlmcdsklcmdspklcmdps;lmcsalkdmfcsdkslmvdklsjgnvfojkdghaniodlfkjcmpok')
+        console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${door.direction}`)
         let screenWidth = this.cameras.main.width / 2
-        let screenHeight = this.cameras.main.height / 2
-        if (door.body.touching.left) {
-            this.panCamera(this.cameras.main, door.x + screenWidth + 8)
-            this.physics.moveTo(player, door.x + player.width + 32 + 32, player.y, 64, 1000 )
+        if (door.direction === 'horizontal')
+        {
+            
+            if (door.body.touching.left) 
+            {
+                this.panCamera(this.cameras.main, door.x + screenWidth + 8)
+                this.physics.moveTo(player, door.x + player.width + 32 + 32, player.y, 64, 1000 )
+            }
+            if (door.body.touching.right) 
+            {
+                this.panCamera(this.cameras.main, door.x - screenWidth - 8)
+                this.physics.moveTo(player, door.x - player.width - 32 - 32, player.y, 64, 1000 )
+            }
         }
-        if (door.body.touching.right) {
-            this.panCamera(this.cameras.main, door.x - screenWidth - 8)
-            this.physics.moveTo(player, door.x - player.width - 32 - 32, player.y, 64, 1000 )
+        
+        if (door.direction === 'vertical')
+        {
+            let screenHeight = this.cameras.main.height / 2
+            if (door.body.touching.up) {
+                this.panCamera(this.cameras.main, door.x + screenWidth, door.y + screenHeight + 8)
+                this.physics.moveTo(player, player.x , door.y + player.height + 32 + 32, 64, 1000 )
+            }
+            if (door.body.touching.down) {
+                this.panCamera(this.cameras.main, door.x + screenWidth, door.y - screenHeight + 8)
+                this.physics.moveTo(player, player.x , door.y - player.height - 32 - 32, 64, 1000 )
+            }
         }
 
-        // if (door.body.touching.up) {
-        //     this.panCamera(this.cameras.main, null, door.y + screenHeight + 8)
-        //     this.physics.moveTo(player, player.x, door.y + player.height + 32 + 32, 64, 1000 )
-        // }
+
     }
 
     panCamera(camera, targetX = this.cameras.main.x, targetY = this.cameras.main.y, easing = 'Sine.easeInOut')
