@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="door" width="15.9996" height="240">
+  <properties>
+   <property name="direction" value="horizontal"/>
+  </properties>
+ </object>
+</template>

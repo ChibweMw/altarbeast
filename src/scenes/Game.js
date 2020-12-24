@@ -211,10 +211,16 @@ export default class Game extends Phaser.Scene
         // SET ENEMY SPAWN POINT FIRST
         this.SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
         this.SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
-        this.test_DOOR = this.map.findObject("spawnpoints", obj => obj.name === "door")
+        
+        
         // console.log(`DOOR OBJECT TYPE ==== ${this.test_DOOR.width}`)
-        this.door_Region = this.add.zone(this.test_DOOR.x, this.test_DOOR.y, this.test_DOOR.width, this.test_DOOR.height).setOrigin(0)
-        this.overlapDoor(this.door_Region)
+        
+        // TEST DOOR BASED ON OBJECT IN RECTANGLE OBJECT LAYER
+        // this.test_DOOR = this.map.findObject("doors", obj => obj.name === 'door')
+        // this.door_Region = this.add.zone(this.test_DOOR.x, this.test_DOOR.y, this.test_DOOR.width, this.test_DOOR.height).setOrigin(0)
+        // this.overlapDoor(this.door_Region)
+        // this.physics.world.enableBody(this.door_Region)
+        // this.physics.add.overlap(this.player, this.door_Region, this.doorEvent , null, this)
 
         this.doorEntered = false
         // this.doors = this.map.createFromObjects('spawnpoints', 'door', {key: 'floater', frame: 0})
@@ -223,19 +229,24 @@ export default class Game extends Phaser.Scene
         // })
 
         // this.physics.add.existing(this.door_Region)
-        this.physics.world.enableBody(this.door_Region)
-        this.physics.add.overlap(this.player, this.door_Region, this.doorEvent , null, this)
 
         this.map.renderDebugFull(this.DEBUG_Overlay, {})
 
-
+        this.doorSet = []
         this.map.objects.forEach((object)=> {
             // console.log(`Tile map objects >>>> ${object.objects}`)
-            object.objects.forEach( object => {
-                console.log(`Objects in object layer ${object.name}`)
-                // GameOptions.prefabXYZ_SPAWN_POINT = object.name
-            })
-        })
+            if (object.name === 'doors'){
+                object.objects.forEach( object => {
+                    console.log(`Objects in object layer ${object.name}`)
+                    // GameOptions.prefabXYZ_SPAWN_POINT = object.name
+                    let newDoor = this.add.zone(object.x, object.y, object.width, object.height).setOrigin(0)
+                    this.overlapDoor(newDoor)
+                    this.physics.world.enableBody(newDoor)
+                    this.physics.add.overlap(this.player, newDoor, this.doorEvent , null, this)
+                    this.doorSet.push(newDoor)
+                }, this)
+            }
+        }, this)
 
         // PLACE ALTAR BELL
         this.spawnEnemy(this.scale.width / 2, this.scale.height * 0.3, cnf_altar_bell_group) // args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group]
@@ -252,20 +263,27 @@ export default class Game extends Phaser.Scene
 
     doorEvent(player, door)
     {
-        console.log('kjfsldnf;oiklsdfnksldmflkdsfajmslkdfjmdslkfmdsklmcskdlmcdsklcmdspklcmdps;lmcsalkdmfcsdkslmvdklsjgnvfojkdghaniodlfkjcmpok')
+        // console.log('kjfsldnf;oiklsdfnksldmflkdsfajmslkdfjmdslkfmdsklmcskdlmcdsklcmdspklcmdps;lmcsalkdmfcsdkslmvdklsjgnvfojkdghaniodlfkjcmpok')
+        let screenWidth = this.cameras.main.width / 2
+        let screenHeight = this.cameras.main.height / 2
         if (door.body.touching.left) {
-            this.panCamera(this.cameras.main, door.x + this.map.tileWidth)
+            this.panCamera(this.cameras.main, door.x + screenWidth + 8)
             this.physics.moveTo(player, door.x + player.width + 32 + 32, player.y, 64, 1000 )
         }
         if (door.body.touching.right) {
-            this.panCamera(this.cameras.main, door.x - this.map.width * this.map.tileWidth)
+            this.panCamera(this.cameras.main, door.x - screenWidth - 8)
             this.physics.moveTo(player, door.x - player.width - 32 - 32, player.y, 64, 1000 )
         }
+
+        // if (door.body.touching.up) {
+        //     this.panCamera(this.cameras.main, null, door.y + screenHeight + 8)
+        //     this.physics.moveTo(player, player.x, door.y + player.height + 32 + 32, 64, 1000 )
+        // }
     }
 
     panCamera(camera, targetX = this.cameras.main.x, targetY = this.cameras.main.y, easing = 'Sine.easeInOut')
     {
-        camera.pan(targetX * 2, targetY, 250, easing)
+        camera.pan(targetX, targetY, 250, easing)
     }
 
     setControlState(prefab, controlState)
@@ -275,20 +293,12 @@ export default class Game extends Phaser.Scene
 
     overlapDoor(prefab){
         prefab.on("overlapstart", function() {
-            // console.log(">>>>> OVERLAP STARTO <<<<<")
             this.doorEvent(this.player, prefab)
             this.doorEntered = true
-            // debugger
-            // prefab.scene.player_CONTROLLER.setState('take_damage')
-            
-            
-            // console.time("overlap")
         }, this)
         
         prefab.on("overlapend", function() {
             this.doorEntered = false
-            // console.log(">>>>> OVERLAP ENDO <<<<<")
-            // console.timeEnd("overlap")
         }, this)
     }
     setupOverlapEvents(prefab){
@@ -410,7 +420,11 @@ export default class Game extends Phaser.Scene
         }
 
         // this.physics.world.wrap(this.player.body)
-        this.track_DOOR_OverlapEvents(this.door_Region)
+        // this.track_DOOR_OverlapEvents(this.door_Region)
+
+        this.doorSet.forEach((door) => {
+            this.track_DOOR_OverlapEvents(door)
+        }, this)
         
         this.trackOverlapEvents(this.player)
         this.enemyGroups.forEach( (group)=> {
