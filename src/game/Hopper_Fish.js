@@ -85,15 +85,15 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
         })
     }
 
-    setControlState(controlState)
-    {
-        this.controlState = controlState
-    }
+    // setControlState(controlState)
+    // {
+    //     this.controlState = controlState
+    // }
 
     screenWrapX()
     {
-        // if (this.body.x > this.scene.scale.width - this.body.halfWidth)
-        if (this.body.x > this.scene.cameras.main.width - this.body.halfWidth)
+        if (this.body.x > this.scene.scale.width - this.body.halfWidth)
+        // if (this.body.x > this.scene.cameras.main.width - this.body.halfWidth)
         {
             
             // console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
@@ -120,30 +120,30 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
         }
     }
 
-    trackHitBox ()
-    {
-        this.hitBox.setPosition(this.body.x, this.body.y)
-    }
+    // trackHitBox ()
+    // {
+    //     this.hitBox.setPosition(this.body.x, this.body.y)
+    // }
 
-    trackOverlapEvents ()
-    {
-        // Treat 'embedded' as 'touching' also
-        if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false
+    // trackOverlapEvents ()
+    // {
+    //     // Treat 'embedded' as 'touching' also
+    //     if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false
 
-        var touching = !this.hitBox.body.touching.none
-        var wasTouching = !this.hitBox.body.wasTouching.none
+    //     var touching = !this.hitBox.body.touching.none
+    //     var wasTouching = !this.hitBox.body.wasTouching.none
 
-        if (touching && !wasTouching) 
-        {
-            // console.log('OVERLAP START')
-            this.emit("overlapstart")
-        }
-        else if (!touching && wasTouching) 
-        {
-            // console.log('OVERLAP END')
-            this.emit("overlapend")
-        }
-    }
+    //     if (touching && !wasTouching) 
+    //     {
+    //         // console.log('OVERLAP START')
+    //         this.emit("overlapstart")
+    //     }
+    //     else if (!touching && wasTouching) 
+    //     {
+    //         // console.log('OVERLAP END')
+    //         this.emit("overlapend")
+    //     }
+    // }
     
     update()
     {
@@ -151,11 +151,11 @@ export default class Hopper extends Phaser.Physics.Arcade.Sprite
         this.controlState.update()
         this.screenWrapX()
         this.screenWrapY()
-        this.trackHitBox()
-        if (!this.isHurt)
-        {
-            this.trackOverlapEvents()
-        }
+        // this.trackHitBox()
+        // if (!this.isHurt)
+        // {
+        //     this.trackOverlapEvents()
+        // }
 
         // // Treat 'embedded' as 'touching' also
         // if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false

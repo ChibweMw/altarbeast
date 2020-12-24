@@ -99,9 +99,11 @@ export default class Game extends Phaser.Scene
 
         // width: 256,
         // height: 240,
+       
 
 
         this.cameras.main.fadeIn(500, 0, 0, 0)
+
 
         const width = this.scale.width
         const height = this.scale.height
@@ -142,7 +144,8 @@ export default class Game extends Phaser.Scene
 
         //ADD MAP IN LAYERS
         this.map = this.make.tilemap({ key: 'level-arena-01', tileWidth: 16, tileHeight: 16 })
-        this.tiles = this.map.addTilesetImage('altar-tiles-01', 'tiles-arena', 16, 16)
+        this.tiles = this.map.addTilesetImage('altar-tiles-01', 'tiles-arena-extruded', 16, 16, 1, 2)
+        // this.tiles = this.map.addTilesetImage('altar-tiles-01', 'tiles-arena', 16, 16)
 
         this.layerPlatformDeco = this.map.createStaticLayer('platform-env-static', this.tiles, 0, 0).setDepth(-6)
         this.layerStaticPlatform = this.map.createStaticLayer('platform-solid-static', this.tiles, 0, 0).setDepth(-5)
@@ -151,10 +154,20 @@ export default class Game extends Phaser.Scene
 
         const SPAWN_POINT_player = this.map.findObject("spawnpoints", obj => obj.name === "player-spawn-point")
         
+        // SET CAMERA BOUNDS
+        this.cameras.main.setBounds(0, 0, this.map.width * this.map.tileWidth, this.map.height * this.map.tileHeight)
+        this.physics.world.setBounds(0, 0, this.map.width * this.map.tileWidth, this.map.height * this.map.tileHeight)
+
         // ADD PLAYER
         // this.player = new Player(this, 16 * 11, 16 * 5, 'oni-idle', 0)
         this.player = new Player(this, SPAWN_POINT_player.x, SPAWN_POINT_player.y, 'oni-idle', 0)
         this.setupOverlapEvents(this.player)
+
+        // SET CAMERA FOLLOW PLAYER
+        this.cameras.main.startFollow(this.player, true)
+
+        console.log(`player  properties ${Object.getOwnPropertyNames(this.player)}`)
+
         this.player.setData({"states": cnf_player_states})
         // this.player_CONTROLLER = new Player_Controller(this.player)
         this.player_CONTROLLER = new Ai_Controller(this.player)
@@ -167,7 +180,7 @@ export default class Game extends Phaser.Scene
         
         this.layerStaticPlatform.setCollision([4, 3, 2, 1, 10, 11, 12], true)
         this.DEBUG_Overlay.fillRect(0, 0, width, height)
-        this.layerStaticPlatform.renderDebug(this.DEBUG_Overlay, {})
+        // this.layerStaticPlatform.renderDebug(this.DEBUG_Overlay, {})
         
         this.physics.add.collider(this.player, this.layerStaticPlatform)
 
@@ -198,6 +211,24 @@ export default class Game extends Phaser.Scene
         // SET ENEMY SPAWN POINT FIRST
         this.SPAWN_POINT_enemy_left = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-left")
         this.SPAWN_POINT_enemy_right = this.map.findObject("spawnpoints", obj => obj.name === "enemy-spawn-right")
+        this.test_DOOR = this.map.findObject("spawnpoints", obj => obj.name === "door")
+        // this.map.layers.forEach((layer)=> {
+        //     // console.log(`Tile map layers >>>> ${layer.name}`)
+        // })
+
+        this.physics.add.existing(this.test_DOOR)
+        this.physics.add.overlap(this.player, this.test_DOOR, this.doorEvent , null, this)
+
+        this.map.renderDebugFull(this.DEBUG_Overlay, {})
+
+
+        this.map.objects.forEach((object)=> {
+            // console.log(`Tile map objects >>>> ${object.objects}`)
+            object.objects.forEach( object => {
+                console.log(`Objects in object layer ${object.name}`)
+                // GameOptions.prefabXYZ_SPAWN_POINT = object.name
+            })
+        })
 
         // PLACE ALTAR BELL
         this.spawnEnemy(this.scale.width / 2, this.scale.height * 0.3, cnf_altar_bell_group) // args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group]
@@ -209,7 +240,18 @@ export default class Game extends Phaser.Scene
         // UI SCENE INITIALIZATION
         this.scene.launch('ui', {gameScene: this})   
 
-        PhaserGUIAction(this);
+        // PhaserGUIAction(this)
+    }
+
+    doorEvent(player, door)
+    {
+        console.log('kjfsldnf;oiklsdfnksldmflkdsfajmslkdfjmdslkfmdsklmcskdlmcdsklcmdspklcmdps;lmcsalkdmfcsdkslmvdklsjgnvfojkdghaniodlfkjcmpok')
+        this.panCamera(this.cameras.main, door.x + this.map.tileWidth)
+    }
+
+    panCamera(camera, targetX = this.cameras.main.x, targetY = this.cameras.main.y, easing = 'Sine.easeInOut')
+    {
+        camera.pan(targetX, targetY, 0.2, easing)
     }
 
     setControlState(prefab, controlState)
@@ -286,6 +328,11 @@ export default class Game extends Phaser.Scene
         }
     }
 
+    trackHitBox (prefab)
+    {
+        prefab.hitBox.setPosition(prefab.body.x, prefab.body.y)
+    }
+
     update ()
     {
         this.gamePause()
@@ -302,15 +349,13 @@ export default class Game extends Phaser.Scene
             this.player.update()
         }
 
-        this.physics.world.wrap(this.player.body)
+        // this.physics.world.wrap(this.player.body)
         this.trackOverlapEvents(this.player)
         this.enemyGroups.forEach( (group)=> {
             let newGroup = this[group.group_name]
             newGroup.getChildren().forEach(enemy => {
-                // console.log(`DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd  ${enemy}`)
+                this.trackHitBox(enemy)
                 this.trackOverlapEvents(enemy)
-                
-                
             })
         })
     }
@@ -448,7 +493,8 @@ export default class Game extends Phaser.Scene
              */
 
             let new_newEnemy_CONTROLLER = new Ai_Controller(newEnemy)
-            newEnemy.setControlState(new_newEnemy_CONTROLLER)
+            this.setControlState(newEnemy, new_newEnemy_CONTROLLER)
+            // newEnemy.setControlState(new_newEnemy_CONTROLLER)
             newEnemy.controlState.setState('init')
 
             this[pref_group.group_name].add(newEnemy)            

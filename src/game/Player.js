@@ -23,8 +23,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         
 
         this.hitBox_WIDTH = 8
+        this.hitBox_OFFSET = this.hitBox_WIDTH / 2
         this.hitBox_HEIGHT = 32
-        this.hitBox = this.scene.add.zone(this.body.x + 4, this.body.y, this.hitBox_WIDTH, this.hitBox_HEIGHT)
+        this.hitBox = this.scene.add.zone(this.body.x + this.hitBox_OFFSET, this.body.y, this.hitBox_WIDTH, this.hitBox_HEIGHT)
         this.scene.add.existing(this.hitBox)
         this.scene.physics.world.enable(this.hitBox)
         this.hitBox.setOrigin(0, 0)
@@ -97,8 +98,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         // this.isInvincible
 
         this.setGravityY(this.playerGravity)
-        // this.setCollideWorldBounds(true)
-        this.setCollideWorldBounds(false)
+        this.setCollideWorldBounds(true)
+        // this.setCollideWorldBounds(false)
         this.setSize(16, 32)
         // this.setOffset(16, this.body.halfHeight)
         this.setOffset(16, 16)
@@ -176,7 +177,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     trackHitBox ()
     {
-        this.hitBox.setPosition(this.body.x + 4, this.body.y)
+        this.hitBox.setPosition(this.body.x + this.hitBox_OFFSET, this.body.y)
     }
 
     setHurtBox_Size(frame){
@@ -185,13 +186,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     trackHurtBox ()
     {
-        // this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 42)
-        // this.hurtBox.setPosition(this.body.x - this.hurtBox_offset, this.body.y - 12)
         this.hurtBox.setPosition(this.body.x - this.hurtBox_offsetX , this.body.y - this.hurtBox_offsetY)
-        // this.hurtBox.setPosition(this.body.x, this.body.y - this.hurtBox_offsetY)
         this.hurtBox.body.debugShowBody = !this.hurtBox.body.checkCollision.none
-
-        // this.hurtBox.body.setOffset( this.hurtBox_offsetX, this.hurtBox_offsetY)
     }
 
     trackOverlapEvents(prefab)

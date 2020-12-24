@@ -56,30 +56,30 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
     }
 
     // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
-    setupOverlapEvents(){
-        this.on("overlapstart", function() {
-            // console.log(">>>>> OVERLAP STARTO <<<<<")
-            this.controlState.setState('take_damage')
+    // setupOverlapEvents(){
+    //     this.on("overlapstart", function() {
+    //         // console.log(">>>>> OVERLAP STARTO <<<<<")
+    //         this.controlState.setState('take_damage')
     
-            // console.time("overlap")
-          })
+    //         // console.time("overlap")
+    //       })
 
-        this.on("overlapend", function() {
-            return
-            // console.log(">>>>> OVERLAP ENDO <<<<<")
-            // console.timeEnd("overlap")
-        })
-    }
+    //     this.on("overlapend", function() {
+    //         return
+    //         // console.log(">>>>> OVERLAP ENDO <<<<<")
+    //         // console.timeEnd("overlap")
+    //     })
+    // }
 
-    setControlState(controlState)
-    {
-        this.controlState = controlState
-    }
+    // setControlState(controlState)
+    // {
+    //     this.controlState = controlState
+    // }
 
     screenWrapX()
     {
-        // if (this.body.x > this.scene.scale.width - this.body.halfWidth)
-        if (this.body.x > this.scene.cameras.main.width - this.body.halfWidth)
+        if (this.body.x > this.scene.scale.width - this.body.halfWidth)
+        // if (this.body.x > this.scene.cameras.main.width - this.body.halfWidth)
         {
             
             // console.log(`<< SCREEN WRAP << RIGHT TO LEFT`)
@@ -106,17 +106,17 @@ export default class Dummy extends Phaser.Physics.Arcade.Sprite
         }
     }
 
-    trackHitBox ()
-    {
-        this.hitBox.setPosition(this.body.x, this.body.y)
-    }
+    // trackHitBox (prefab)
+    // {
+    //     prefab.hitBox.setPosition(prefab.body.x, prefab.body.y)
+    // }
     
     update()
     {
         this.controlState.update()
         this.screenWrapX()
         this.screenWrapY()
-        this.trackHitBox()
+        // this.trackHitBox(this)
 
         // Treat 'embedded' as 'touching' also
         // if (this.hitBox.body.embedded) this.hitBox.body.touching.none = false
