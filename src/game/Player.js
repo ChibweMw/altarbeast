@@ -108,28 +108,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
         this.body.debugBodyColor = 0xfff999
         // this.debugBodyColor = 0x008000
-
-        // this.scene.cameras.main.startFollow(this, true, 0.9, 1)
-        // this.setupOverlapEvents(this)
     }
 
-    // MAKE OVERLAP COLLIDER ONLY TRACK THE START OF AN OVERLAP EVENT
-    // setupOverlapEvents(){
-    //     this.on("overlapstart", function() {
-    //         // console.log(">>>>> OVERLAP STARTO <<<<<")
-    //         this.controlState.setState('take_damage')
-    //         // debugger
-    //         // this.scene.player_CONTROLLER.setState('take_damage')
-
-    
-    //         // console.time("overlap")
-    //       })
-
-    //     this.on("overlapend", function() {
-    //         // console.log(">>>>> OVERLAP ENDO <<<<<")
-    //         // console.timeEnd("overlap")
-    //     })
-    // }
 
     setupOverlapEvents(prefab){
         prefab.on("overlapstart", function() {

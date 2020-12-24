@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="8">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="9">
  <editorsettings>
   <export target="level-tiles-01.json" format="json"/>
  </editorsettings>
@@ -26,7 +26,7 @@
   <object id="5" name="player-spawn-point" x="192" y="48">
    <point/>
   </object>
-  <object id="6" name="door" x="384.004" y="0.00366411" width="15.9996" height="240">
+  <object id="6" name="door" x="392" y="0.00366411" width="16" height="240" visible="0">
    <properties>
     <property name="direction" value="horizontal"/>
    </properties>
