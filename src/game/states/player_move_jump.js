@@ -43,10 +43,10 @@ export default class Player_MOVE_JUMP
     
     update ()
     {
-        // console.log(`JUMP STATE UPDATE`) 
         
         if (!this.player.body.blocked.down) 
         {
+            console.log(`JUMP STATE UPDATE`) 
             // this.player.play('anim-oni-jump')
             if (this.player.body.velocity.y >= this.player.jumpPeakThreshold && (this.player.isJumping || this.player.isAttacking_AIR))
             {

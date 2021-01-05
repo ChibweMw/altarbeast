@@ -43,6 +43,7 @@
         "level-tiles-01.tmx"
     ],
     "project": "ProtoLevel.tiled-project",
+    "property.type": "bool",
     "recentFiles": [
         "altar-tiles-01.tsx",
         "level-tiles-01.tmx",

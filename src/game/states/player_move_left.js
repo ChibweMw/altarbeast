@@ -37,7 +37,8 @@ export default class Player_MOVE_LEFT
     update ()
     {
         // console.log(`LEFT WALK STATE UPDATE`)
-        if (this.player.body.blocked.down)
+        // if (this.player.body.blocked.down)
+        if (this.player.body.blocked.down || this.player.body.touching.down)
         {
             if (this.player.scene.player_Cursors.left.isDown)
             {
@@ -60,7 +61,7 @@ export default class Player_MOVE_LEFT
     
             this.jump()
         }
-        else if (!this.player.body.blocked.down)
+        else // if (!this.player.body.blocked.down)
         {
             this.player.walkSpeed = 0
             this.player.controlState.setState('fall')                        

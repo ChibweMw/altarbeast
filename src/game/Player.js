@@ -133,11 +133,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     //     this.controlState = controlState
     // }
     
+    stateLabel()
+    {
+        // this.scene.add.bitmapText(this.x , this.y, 'tentown', `${this.controlState.currentState}`, 12).setOrigin(0.5, 0)
+        this.scene.add.bitmapText(this.x , this.y, 'tentown', `${Object.getOwnPropertyNames(this.controlState.currentState)}`, 12).setOrigin(0.5, 0)
+    }
     
 
     update()
     {
         this.controlState.update()
+        // this.stateLabel()
         this.trackHitBox()
 
         // this.setHurtBox_Size(this.hurtBox.frame)

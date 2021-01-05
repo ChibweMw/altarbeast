@@ -234,23 +234,65 @@ export default class Game extends Phaser.Scene
         this.map.renderDebugFull(this.DEBUG_Overlay, {})
 
         this.doorSet = []
-        this.map.objects.forEach((object)=> {
-            // console.log(`Tile map objects >>>> ${object.objects}`)
-            if (object.name === 'doors'){
-                object.objects.forEach( object => {
-                    console.log(`Objects in object layer ${object.properties[0].name}`)
-                    // GameOptions.prefabXYZ_SPAWN_POINT = object.name
-                    let newDoor = this.add.zone(object.x, object.y, object.width, object.height).setOrigin(0)
-                    object.properties.forEach(prop => {
-                        newDoor[prop.name] = prop.value
-                    });
-                    this.overlapDoor(newDoor)
-                    this.physics.world.enableBody(newDoor)
-                    this.physics.add.overlap(this.player, newDoor, this.doorEvent , null, this)
-                    this.doorSet.push(newDoor)
-                }, this)
-            }
+        this.platSensors = this.physics.add.group({
+            immovable: true,  
+        })
+
+        this.plat_Moving = this.physics.add.group({
+            classType: Phaser.GameObjects.TileSprite,
+            immovable: true,
+            allowGravity: false,
+            frictionX: 1
+        })
+        
+        this.map.objects.forEach((layer)=> {
+            // console.log(`Tile map objects >>>> ${layer.objects}`)
+            let objectName = layer.name
+            layer.objects.forEach( prefab => {
+                switch (layer.name) 
+                {
+                    case 'doors':
+                            console.log(`Objects in prefab layer ${prefab.properties[0].name}`)
+                            // GameOptions.prefabXYZ_SPAWN_POINT = prefab.name
+                            let newDoor = this.add.zone(prefab.x, prefab.y, prefab.width, prefab.height).setOrigin(0)
+                            prefab.properties.forEach(prop => {
+                                newDoor[prop.name] = prop.value
+                            })
+                            this.overlapDoor(newDoor)
+                            this.physics.world.enableBody(newDoor)
+                            this.physics.add.overlap(this.player, newDoor, this.doorEvent , null, this)
+                            this.doorSet.push(newDoor)
+                        break;
+                
+                    case 'moving tiles':
+                        console.log('Moving tile layer')
+                        // let newPlat_MOVING = this.plat_Moving.create(prefab.x, prefab.y, prefab.width, prefab.height, 'tiles-arena', 11)
+                        let newPlat_MOVING = this.add.tileSprite(prefab.x, prefab.y, prefab.width, prefab.height, 'tiles-moving', 13)
+                        prefab.properties.forEach(prop => {
+                            newPlat_MOVING[prop.name] = prop.value
+                        })
+                        this.plat_Moving.add(newPlat_MOVING)
+                        newPlat_MOVING.setOrigin(0, 1)
+
+                        break;
+                    case 'moving tile sensor':
+                            let newSensor = this.platSensors.create(prefab.x, prefab.y, null, null, false, true)
+                            prefab.properties.forEach(prop => {
+                                newSensor[prop.name] = prop.value
+                            })
+                            newSensor.setOrigin(0.25)
+                            newSensor.setSize(prefab.width, prefab.height)
+                            
+                            newSensor.debugBodyColor = 0xfff999
+                        console.log('Moving tile SENSOR >> layer')
+                        break;
+                    default:
+                        break;
+                }
+            }, this)
         }, this)
+
+        this.physics.add.collider(this.player, this.plat_Moving, this.rideMovingPlatform, null, this)
 
         // PLACE ALTAR BELL
         this.spawnEnemy(this.scale.width / 2, this.scale.height * 0.3, cnf_altar_bell_group) // args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group]
@@ -265,9 +307,19 @@ export default class Game extends Phaser.Scene
         // PhaserGUIAction(this)
     }
 
+    rideMovingPlatform(player, movingPlatform)
+    {
+        if (player.body.touching.down && movingPlatform.body.touching.up && !player.body.wasTouching.down && !movingPlatform.body.wasTouching.up)
+        {
+            console.log('PLAYER RIDING MOVING PLATFORM')
+            // player.controlState.setState('idle')
+
+        }
+    }
+
     doorEvent(player, door)
     {
-        console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${door.direction}`)
+        // console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${door.direction}`)
         let screenWidth = this.cameras.main.width / 2
         if (door.direction === 'horizontal')
         {

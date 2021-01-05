@@ -51,6 +51,7 @@ export default class Preload extends Phaser.Scene
 
         // TILESETS
         this.load.image('tiles-arena', '../../assets/sprites/tiles/tiles-level.png')
+        this.load.spritesheet('tiles-moving', '../../assets/sprites/tiles/tiles-level.png', { frameWidth: 16, frameHeight: 16 })
         this.load.image('tiles-arena-extruded', '../../assets/sprites/tiles/tiles-level-extruded.png')
         this.load.tilemapTiledJSON('level-arena-01', '../../assets/sprites/tiles/level-tiles-01.json')
 

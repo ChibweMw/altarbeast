@@ -48,7 +48,8 @@ export default class Player_Idle
         // this.player.jumpPressed ? console.log(`JUMPING`) : this.player.play('anim-oni-idle', true)
         // this.player.jumpPressed = false
         // this.player.play('anim-oni-idle', true)
-        if (this.player.body.blocked.down)
+        // if (this.player.body.blocked.down)
+        if (this.player.body.blocked.down || this.player.body.touching.down)
         {
             if (this.player.scene.player_Cursors.left.isDown)
             {
@@ -69,7 +70,7 @@ export default class Player_Idle
             } 
             this.normalAttack()
             this.jump()
-        } else if (!this.player.body.blocked.down)
+        } else // if (!this.player.body.blocked.down)
         {
             this.player.controlState.setState('fall')                        
         }

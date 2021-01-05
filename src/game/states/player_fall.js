@@ -28,9 +28,18 @@ export default class Player_FALL
     
     update ()
     {
-        // console.log(`FALL STATE UPDATE`)
-        
-        if (!this.player.body.blocked.down) 
+
+        if (this.player.body.blocked.down || this.player.body.touching.down) 
+        {
+            
+            console.log(`FALL STATE UPDATE`)
+    
+            // PLACE CHECK FOR JUMP BUTTON HERE
+            this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + this.player.body.height, cnf_vfx_land_group)
+            this.player.controlState.setState('idle')
+            // return
+        } 
+        else // if (this.player.body.blocked.down || this.player.body.touching.down) 
         {
             // this.player.play('anim-oni-jump')
             if (this.player.body.velocity.y >= this.player.jumpPeakThreshold && (this.player.isJumping || this.player.isAttacking_AIR))
@@ -39,20 +48,13 @@ export default class Player_FALL
                 this.player.setGravityY(0)
                 // this.player.setVelocityY(0)
                 this.player.scene.time.delayedCall(this.player.jumpHangTime, this.player.resetGravity, null, this.player)
-                
-                this.player.controlState.setState('fall')
+
+                // this.player.controlState.setState('fall')
             }
             
             this.jump()
             this.airAttack()
-            return
-        } else 
-        {
-            // PLACE CHECK FOR JUMP BUTTON HERE
-            this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + this.player.body.height, cnf_vfx_land_group)
-            this.player.controlState.setState('idle')
         }
-        
     }
 
     jump()
