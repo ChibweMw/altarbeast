@@ -239,10 +239,12 @@ export default class Game extends Phaser.Scene
         })
 
         this.plat_Moving = this.physics.add.group({
-            classType: Phaser.GameObjects.TileSprite,
+            // classType: Phaser.GameObjects.TileSprite,
             immovable: true,
             allowGravity: false,
-            frictionX: 1
+            frictionX: 1,
+            // velocityX: 30,
+            enable: true
         })
         
         this.map.objects.forEach((layer)=> {
@@ -270,7 +272,9 @@ export default class Game extends Phaser.Scene
                         let newPlat_MOVING = this.add.tileSprite(prefab.x, prefab.y, prefab.width, prefab.height, 'tiles-moving', 13)
                         prefab.properties.forEach(prop => {
                             newPlat_MOVING[prop.name] = prop.value
+                            console.log(prop.name)
                         })
+                        
                         this.plat_Moving.add(newPlat_MOVING)
                         newPlat_MOVING.setOrigin(0, 1)
 
@@ -293,6 +297,7 @@ export default class Game extends Phaser.Scene
         }, this)
 
         this.physics.add.collider(this.player, this.plat_Moving, this.rideMovingPlatform, null, this)
+        this.physics.add.collider(this.platSensors, this.plat_Moving, this.platSwitchDir, null, this)
 
         // PLACE ALTAR BELL
         this.spawnEnemy(this.scale.width / 2, this.scale.height * 0.3, cnf_altar_bell_group) // args: [this.SPAWN_POINT_enemy_left.x, this.SPAWN_POINT_enemy_left.y, cnf_hopperFish_group]
@@ -305,6 +310,24 @@ export default class Game extends Phaser.Scene
         this.scene.launch('ui', {gameScene: this})   
 
         // PhaserGUIAction(this)
+    }
+
+    platSwitchDir(sensor, platform)
+    {
+        platform.speed = -platform.speed 
+        // switch (platform.dir) {
+        //     case 'hor':
+        //         console.log('horizontal dirSwitch')
+        //         platform.body.velocity.x = -platform.body.velocity.x
+        //         break;
+        //     case 'vert':
+        //         console.log('vert dirSwitch')
+        //         platform.body.velocity.y = -platform.body.velocity.y 
+        //         break;
+        //     default:
+        //         console.log('platDir NULL')
+        //         break;
+        // }
     }
 
     rideMovingPlatform(player, movingPlatform)
@@ -504,6 +527,16 @@ export default class Game extends Phaser.Scene
                 this.trackHitBox(enemy)
                 this.trackOverlapEvents(enemy)
             })
+        })
+
+        this.plat_Moving.getChildren().forEach((platform) => {
+            if (platform.dir === 'hor')
+            {
+                platform.body.velocity.x = platform.speed
+            } else if (platform.dir === 'vert')
+            {
+                platform.body.velocity.y = platform.speed
+            }
         })
     }
 

@@ -31,15 +31,15 @@
   <object id="18" type="TileSprite" gid="14" x="528" y="128" width="48" height="16">
    <properties>
     <property name="Moving" type="bool" value="true"/>
-    <property name="horizontal" type="bool" value="true"/>
-    <property name="vertical" type="bool" value="false"/>
+    <property name="dir" value="hor"/>
+    <property name="speed" type="int" value="20"/>
    </properties>
   </object>
   <object id="23" type="TileSprite" gid="14" x="704" y="176" width="48" height="16">
    <properties>
     <property name="Moving" type="bool" value="true"/>
-    <property name="horizontal" type="bool" value="false"/>
-    <property name="vertical" type="bool" value="true"/>
+    <property name="dir" value="vert"/>
+    <property name="speed" type="int" value="30"/>
    </properties>
   </object>
  </objectgroup>
@@ -49,7 +49,7 @@
     <property name="sensor" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="28" x="656" y="96" width="16" height="16">
+  <object id="28" x="656" y="112" width="16" height="16">
    <properties>
     <property name="sensor" type="bool" value="true"/>
    </properties>
