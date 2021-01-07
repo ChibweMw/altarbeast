@@ -20,6 +20,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.scene.add.existing(this)
         this.scene.physics.world.enable(this)
 
+        this.setGravityY(this.playerGravity)
+        this.setCollideWorldBounds(true)
+        // this.setCollideWorldBounds(false)
+        this.setSize(16, 32)
+        // this.setOffset(16, this.body.halfHeight)
+        this.setOffset(16, 16)
+        this.setFlipX(true)
+        this.setOrigin(0, 1)
+
+        this.body.debugBodyColor = 0xfff999
         
 
         this.hitBox_WIDTH = 8
@@ -29,6 +39,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         this.scene.add.existing(this.hitBox)
         this.scene.physics.world.enable(this.hitBox)
         this.hitBox.setOrigin(0, 0)
+
+        this.interactionZONE = this.scene.add.zone(this.body.x, this.body.y, this.body.width, this.body.height)
+        this.scene.add.existing(this.interactionZONE)
+        this.scene.physics.world.enable(this.interactionZONE)
+        this.interactionZONE.setOrigin(0, 0)
 
         // this.hurtBox = this.scene.add.zone(this.body.x, this.body.y, 48, 32)
         this.hurtBox = this.scene.add.sprite(this.body.x, this.body.y, 'oni-club-swing-01')
@@ -97,16 +112,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         // this.currentAnimation
         // this.isInvincible
 
-        this.setGravityY(this.playerGravity)
-        this.setCollideWorldBounds(true)
-        // this.setCollideWorldBounds(false)
-        this.setSize(16, 32)
-        // this.setOffset(16, this.body.halfHeight)
-        this.setOffset(16, 16)
-        this.setFlipX(true)
-        this.setOrigin(0, 1)
-
-        this.body.debugBodyColor = 0xfff999
+        this.doorEntrySpeed = undefined
+        
         // this.debugBodyColor = 0x008000
     }
 
@@ -143,27 +150,25 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     update()
     {
         this.controlState.update()
-        // this.stateLabel()
         this.trackHitBox()
 
-        // this.setHurtBox_Size(this.hurtBox.frame)
         this.trackHurtBox()
+        this.trackInteractZone()
 
         // console.log(`JUMP COUNT '${this.jumpCount}'`)
-        // console.log(`IS JUMPING '${this.isJumping}'`)
+        // console.log(`Player velocity '${Object.entries(this.body.velocity)}'`)
         this.setVelocityX(this.walkSpeed)
-        // this.scene.player_CONTROLLER.update()
-        
-        // this.screenWrapX()
-        // this.screenWrapY()
-
-        // this.trackOverlapEvents(this)
         
     }
 
     trackHitBox ()
     {
         this.hitBox.setPosition(this.body.x + this.hitBox_OFFSET, this.body.y)
+    }
+
+    trackInteractZone ()
+    {
+        this.interactionZONE.setPosition(this.body.x, this.body.y)
     }
 
     setHurtBox_Size(frame){

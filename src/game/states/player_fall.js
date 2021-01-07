@@ -32,7 +32,7 @@ export default class Player_FALL
         if (this.player.body.blocked.down || this.player.body.touching.down) 
         {
             
-            console.log(`FALL STATE UPDATE`)
+            // console.log(`FALL STATE UPDATE`)
     
             // PLACE CHECK FOR JUMP BUTTON HERE
             this.player.scene.spawnHitVFX(this.player.body.x, this.player.body.y + this.player.body.height, cnf_vfx_land_group)

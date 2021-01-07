@@ -27,7 +27,7 @@ export default class Player_MOVE_JUMP
 
         if (!this.player.isAttacking_AIR){
             this.player.play('anim-oni-crouch')
-            console.log(`>> PLAYER MOVE 'JUMP' STATE `)
+            // console.log(`>> PLAYER MOVE 'JUMP' STATE `)
             // console.log(`>> JUMP COUNT BEFORE ${this.player.jumpCount}`)
             this.player.jumpCount -= 1
             // console.log(`>> JUMP COUNT AFTER ${this.player.jumpCount}`)
@@ -46,7 +46,7 @@ export default class Player_MOVE_JUMP
         
         if (!this.player.body.blocked.down) 
         {
-            console.log(`JUMP STATE UPDATE`) 
+            // console.log(`JUMP STATE UPDATE`) 
             // this.player.play('anim-oni-jump')
             if (this.player.body.velocity.y >= this.player.jumpPeakThreshold && (this.player.isJumping || this.player.isAttacking_AIR))
             {
@@ -80,7 +80,7 @@ export default class Player_MOVE_JUMP
     resetJumpPress()
     {
         this.player.jumpPressed = false        
-        console.log(`JUMPPRESSED RESET`)
+        // console.log(`JUMPPRESSED RESET`)
     }
 
 }

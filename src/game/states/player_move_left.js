@@ -32,6 +32,8 @@ export default class Player_MOVE_LEFT
         this.player.jumpPressed = false
         // this.player.play('anim-oni-walk', true)
         // this.player.setTexture('oni-walk', 1)
+
+        this.player.doorEntrySpeed = this.player.body.velocity
     }
 
     update ()
@@ -63,7 +65,7 @@ export default class Player_MOVE_LEFT
         }
         else // if (!this.player.body.blocked.down)
         {
-            this.player.walkSpeed = 0
+            // this.player.walkSpeed = 0
             this.player.controlState.setState('fall')                        
         }
 
