@@ -20,11 +20,11 @@
             "scaleInEditor": 1
         },
         "level-tiles-01.tmx": {
-            "scale": 1,
-            "selectedLayer": 2,
+            "scale": 3,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 329,
-                "y": 120.5
+                "x": 113.99999999999999,
+                "y": 194.83333333333331
             }
         },
         "level-tiles-01.tmx#altar-tiles-01": {
@@ -45,8 +45,8 @@
     "project": "ProtoLevel.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "altar-tiles-01.tsx",
         "level-tiles-01.tmx",
+        "altar-tiles-01.tsx",
         "altar-tiles-01-copy.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",

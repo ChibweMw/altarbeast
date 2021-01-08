@@ -252,7 +252,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     playerTakeDamage (hitBox, dummy)
     {
-        // console.log(`TEST PLAYER HIT CHECK`)
+        console.log(`dummy.atkPoints >> ${dummy.atkPoints}`)
         this.dmgTaken = dummy.atkPoints
         // this.scene.player_CONTROLLER.setState('take_damage')
     }

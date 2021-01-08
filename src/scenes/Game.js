@@ -234,6 +234,11 @@ export default class Game extends Phaser.Scene
         this.map.renderDebugFull(this.DEBUG_Overlay, {})
 
         // this.doorSet = []
+        this.set_SPIKES = this.physics.add.group({
+            // classType: Phaser.Physics.Arcade.Sprite,
+            immovable: true,
+            allowGravity: false
+        })
         this.doorSet = this.physics.add.group({
             immovable: true,
             allowGravity: false
@@ -258,17 +263,17 @@ export default class Game extends Phaser.Scene
                 switch (layer.name) 
                 {
                     case 'doors':
-                            console.log(`Objects in prefab layer ${prefab.properties[0].name}`)
-                            // GameOptions.prefabXYZ_SPAWN_POINT = prefab.name
-                            let newDoor = this.add.zone(prefab.x, prefab.y, prefab.width, prefab.height).setOrigin(0)
-                            prefab.properties.forEach(prop => {
-                                newDoor[prop.name] = prop.value
-                            })
-                            this.overlapDoor(newDoor)
-                            this.doorSet.add(newDoor)
-                            // this.physics.world.enableBody(newDoor)
-                            // this.physics.add.overlap(this.player, newDoor, this.doorEvent , null, this)
-                            // this.doorSet.push(newDoor)
+                        console.log(`Objects in prefab layer ${prefab.properties[0].name}`)
+                        // GameOptions.prefabXYZ_SPAWN_POINT = prefab.name
+                        let newDoor = this.add.zone(prefab.x, prefab.y, prefab.width, prefab.height).setOrigin(0)
+                        prefab.properties.forEach(prop => {
+                            newDoor[prop.name] = prop.value
+                        })
+                        this.overlapDoor(newDoor)
+                        this.doorSet.add(newDoor)
+                        // this.physics.world.enableBody(newDoor)
+                        // this.physics.add.overlap(this.player, newDoor, this.doorEvent , null, this)
+                        // this.doorSet.push(newDoor)
                         break;
                 
                     case 'moving tiles':
@@ -285,16 +290,33 @@ export default class Game extends Phaser.Scene
 
                         break;
                     case 'moving tile sensor':
-                            let newSensor = this.platSensors.create(prefab.x, prefab.y, null, null, false, true)
-                            prefab.properties.forEach(prop => {
-                                newSensor[prop.name] = prop.value
-                            })
-                            newSensor.setOrigin(0.25)
-                            newSensor.setSize(prefab.width, prefab.height)
-                            
-                            newSensor.debugBodyColor = 0xfff999
+                        let newSensor = this.platSensors.create(prefab.x, prefab.y, null, null, false, true)
+                        prefab.properties.forEach(prop => {
+                            newSensor[prop.name] = prop.value
+                        })
+                        newSensor.setOrigin(0.25)
+                        newSensor.setSize(prefab.width, prefab.height)
+                        
+                        newSensor.debugBodyColor = 0xfff999
                         console.log('Moving tile SENSOR >> layer')
                         break;
+                    case 'spikes':
+                        let newSpike =  this.add.sprite(prefab.x, prefab.y,  'tiles-moving', 12) //this.set_SPIKES.create(prefab.x, prefab.y, 'tiles-moving', 13, false, true)
+                        if (prefab.properties)
+                        {
+                            prefab.properties.forEach(prop => {
+                                newSpike[prop.name] = prop.value
+                                console.log(prop.name)                                
+                            })
+                        }
+
+                        newSpike.setOrigin(0, 1)
+                        this.set_SPIKES.add(newSpike)
+                        // newSpike.setSize(prefab.width, prefab.height)
+                        
+                        // newSpike.debugBodyColor = 0xfff999
+                        console.log('SPIKE >> layer')
+                        break;                    
                     default:
                         break;
                 }
@@ -302,6 +324,8 @@ export default class Game extends Phaser.Scene
         }, this)
 
         // this.physics.add.overlap(this.plat_Moving, this.doorSet, this.doorEvent, null, this)
+        this.physics.add.overlap(this.player.hitBox, this.set_SPIKES, this.player.playerTakeDamage, null, this.player)
+
         this.physics.add.overlap(this.player, this.doorSet, this.doorEvent, null, this)
         this.physics.add.collider(this.player, this.plat_Moving, this.rideMovingPlatform, null, this)
         this.physics.add.collider(this.platSensors, this.plat_Moving, this.platSwitchDir, null, this)
@@ -327,21 +351,25 @@ export default class Game extends Phaser.Scene
     rideMovingPlatform(player, movingPlatform)
     {
         player.doorEntrySpeed = movingPlatform.body.velocity
-        if (player.body.touching.down && movingPlatform.body.touching.up && !player.body.wasTouching.down && !movingPlatform.body.wasTouching.up)
-        {
-            // player.controlState.setState('idle')
-            console.log(`PLAYER RIDING MOVING PLATFORM ${Object.entries(player.doorEntrySpeed)}`)
+        // if (player.body.touching.down && movingPlatform.body.touching.up && !player.body.wasTouching.down && !movingPlatform.body.wasTouching.up)
+        // {
+        //     // player.controlState.setState('idle')
+        //     console.log(`PLAYER RIDING MOVING PLATFORM ${Object.entries(player.doorEntrySpeed)}`)
 
-        }
+        // }
     }
 
     doorEvent(player, door)
     {
-        // console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${Object.entries(door.body.touching)}`)
+        // console.log(`CAMERA SCROLL X : ${this.cameras.main.scrollX}`)
         let screenWidth = this.cameras.main.width / 2
+        let screenHeight = this.cameras.main.height / 2
+        // let screenWidth = this.scale.width
+        // let screenHeight = this.scale.height
+
         if (this.doorEntered)
         {
-            console.log(`Player VELOCITY ${Object.entries(player.body.velocity)}`)
+            // console.log(`Player VELOCITY ${Object.entries(player.body.velocity)}`)
 
             if (door.direction === 'horizontal')
             {
@@ -349,23 +377,29 @@ export default class Game extends Phaser.Scene
                 // if (door.body.touching.left && player.body.touching.right) 
                 if (door.body.touching.left && player.body.touching.right || player.doorEntrySpeed.x > 0) 
                 {
-                    // console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${door.direction}`)
-                    this.panCamera(this.cameras.main, door.x + screenWidth + 8)
+                    // console.log(`screenWidth x 3 = ${screenWidth * 3}`)
+                    this.panCamera(this.cameras.main, GameOptions.mainCamScroll.x + screenWidth * 3, GameOptions.mainCamScroll.y + screenHeight)
+                    // this.panCamera(this.cameras.main, door.x + screenWidth + door.width / 2, door.y + screenHeight)
+                    // this.panCamera(this.cameras.main, this.cameras.main.scrollX + screenWidth, this.cameras.main.scrollY)
+                    // this.panCamera(this.cameras.main, door.scrollX + screenWidth + 8)
                     // this.physics.moveTo(player, door.x + player.width + 32 + 32, player.y, 64, 1000 )
                     // this.physics.moveToObject(player, door.x + player.width + 32 + 32, player.y, 64, 100)
                 }
                 // if (door.body.touching.right && player.body.touching.left) 
                 if (door.body.touching.right && player.body.touching.left || player.doorEntrySpeed.x < 0) 
                 {
-                    // console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${door.direction}`)
-                    this.panCamera(this.cameras.main, door.x - screenWidth + 8)
+                    // console.log(`screenWidth x 1 = ${screenWidth}`)
+                    this.panCamera(this.cameras.main, GameOptions.mainCamScroll.x - screenWidth, GameOptions.mainCamScroll.y + screenHeight)
+                    // this.panCamera(this.cameras.main, door.x - screenWidth + door.width / 2, door.y + screenHeight)
+                    // this.panCamera(this.cameras.main, this.cameras.main.scrollX - screenWidth, this.cameras.main.scrollY)
+                    // this.panCamera(this.cameras.main, door.scrollX - screenWidth + 8)
                     // this.physics.moveTo(player, door.x - player.width - 32 - 32, player.y, 64, 1000 )
                 }
             }
             
             if (door.direction === 'vertical')
             {
-                let screenHeight = this.cameras.main.height / 2
+                
 
                 // if (door.body.touching.up && player.body.touching.down) 
                 // if (door.body.embedded && player.body.embedded) 
@@ -388,7 +422,8 @@ export default class Game extends Phaser.Scene
                     // })
                     // console.log(`============================================`)
     
-                    this.panCamera(this.cameras.main, door.x + screenWidth, door.y + screenHeight + 8)
+                    this.panCamera(this.cameras.main, GameOptions.mainCamScroll.x + screenWidth, GameOptions.mainCamScroll.y + screenHeight * 3)
+                    // this.panCamera(this.cameras.main, door.x + screenWidth, door.y + screenHeight + 8)
                     // this.physics.moveTo(player, player.x , door.y + player.height + 32 + 32, 64, 1000 )
                 }
                 // else if (door.body.touching.down && player.body.touching.up) 
@@ -411,8 +446,11 @@ export default class Game extends Phaser.Scene
                     //     }
                     // })
                     // console.log(`============================================`)
-    
-                    this.panCamera(this.cameras.main, door.x + screenWidth, door.y - screenHeight + 8)
+                    // this.cameras.main.setScroll()
+                    // this.panCamera(this.cameras.main, door.x + screenWidth, door.y - screenHeight + 8)
+                    this.panCamera(this.cameras.main, GameOptions.mainCamScroll.x + screenWidth, GameOptions.mainCamScroll.y - screenHeight)
+                    
+                    // this.panCamera(this.cameras.main, door.x + screenWidth, door.y - screenHeight + door.height / 2)
                     // this.physics.moveTo(player, player.x , door.y - player.height - 32 - 32, 64, 1000 )
                 }
             }
@@ -421,9 +459,12 @@ export default class Game extends Phaser.Scene
 
     }
 
-    panCamera(camera, targetX = this.cameras.main.x, targetY = this.cameras.main.y, easing = 'Sine.easeInOut')
+    // panCamera(camera, targetX = this.cameras.main.x, targetY = this.cameras.main.y, easing = 'Sine.easeInOut')
+    panCamera(camera, targetX = this.cameras.main.scrollX, targetY = this.cameras.main.scrollY, timing = 250, easing = 'Sine.easeInOut')
     {
-        camera.pan(targetX, targetY, 250, easing)
+        camera.pan(targetX, targetY, timing, easing)
+        // console.log(`New CAMERA POSITION >> X : ${camera.x} Y : ${camera.y}`)
+        // console.log(`New CAMERA SCROLL >> scrollX : ${Phaser.Math.CeilTo(camera.scrollX)} scrollY : ${Phaser.Math.CeilTo(camera.scrollY)}`)
     }
 
     setControlState(prefab, controlState)
@@ -433,6 +474,12 @@ export default class Game extends Phaser.Scene
 
     overlapDoor(prefab){
         prefab.on("overlapstart", function() {
+            if (!this.doorEntered)
+            {
+                GameOptions.mainCamScroll.x = this.cameras.main.scrollX
+                GameOptions.mainCamScroll.y = this.cameras.main.scrollY
+                console.log(`MAIN CAM SCROLL {X: ${GameOptions.mainCamScroll.x},Y: ${GameOptions.mainCamScroll.y}}`)
+            }
             this.doorEntered = true
             this.doorEvent(this.player, prefab)
         }, this)

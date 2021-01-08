@@ -23,5 +23,8 @@ export default gameOptions =
     wave_manager: null,
     wave_entities_alive: 0,
     wave_round: 0,
-    txt_title_manager: null
+    txt_title_manager: null,
+
+    // CAMERA
+    mainCamScroll:{ x: null, y: null} 
 }
