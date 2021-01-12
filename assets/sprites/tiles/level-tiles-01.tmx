@@ -80,7 +80,7 @@
   </object>
  </objectgroup>
  <objectgroup id="8" name="moving tiles">
-  <object id="18" type="TileSprite" gid="14" x="528" y="128" width="48" height="16">
+  <object id="18" type="TileSprite" gid="14" x="608" y="128" width="48" height="16">
    <properties>
     <property name="Moving" type="bool" value="true"/>
     <property name="dir" value="hor"/>
@@ -94,7 +94,7 @@
     <property name="speed" type="int" value="30"/>
    </properties>
   </object>
-  <object id="32" type="TileSprite" gid="14" x="912" y="240" width="48" height="16">
+  <object id="32" type="TileSprite" gid="14" x="912" y="176" width="48" height="16">
    <properties>
     <property name="Moving" type="bool" value="true"/>
     <property name="dir" value="vert"/>

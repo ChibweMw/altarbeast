@@ -306,7 +306,7 @@
                  "type":"TileSprite",
                  "visible":true,
                  "width":48,
-                 "x":528,
+                 "x":608,
                  "y":128
                 }, 
                 {
@@ -363,7 +363,7 @@
                  "visible":true,
                  "width":48,
                  "x":912,
-                 "y":240
+                 "y":176
                 }, 
                 {
                  "gid":14,

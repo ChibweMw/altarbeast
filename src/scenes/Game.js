@@ -284,6 +284,7 @@ export default class Game extends Phaser.Scene
                             newPlat_MOVING[prop.name] = prop.value
                             // console.log(prop.name)
                         })
+                        // newPlat_MOVING.isPlayerRiding = false
 
                         newPlat_MOVING.setOrigin(0, 1)
                         this.plat_Moving.add(newPlat_MOVING)
@@ -631,23 +632,74 @@ export default class Game extends Phaser.Scene
         this.doorSet.getChildren().forEach((door) => {
             this.track_DOOR_OverlapEvents(door)
         }, this)
+
         
+
         this.trackOverlapEvents(this.player)
         this.enemyGroups.forEach( (group)=> {
             let newGroup = this[group.group_name]
             newGroup.getChildren().forEach(enemy => {
-                this.trackHitBox(enemy)
-                this.trackOverlapEvents(enemy)
+
+                if  (!this.cameras.main.worldView.contains(enemy.x, enemy.y) && !this.cameras.main.worldView.contains(enemy.x + enemy.displayWidth, enemy.y - enemy.displayHeight))
+                {
+                    if (enemy.body.enable)
+                    {
+                        console.log(`INACTIVE INACTIVE ENEMY`)
+
+                        enemy.body.enable = false
+                        enemy.setActive(false)    
+                    }
+                }
+                else
+                {
+                    // enemy.active = this.cameras.main.worldView.contains(enemy)
+                    if (!enemy.body.enable)
+                    {
+                        enemy.body.enable = true
+                        enemy.setActive(true)
+                        console.log(`ACTIVE ENEMY`)
+                    }
+                    this.trackHitBox(enemy)
+                    this.trackOverlapEvents(enemy)
+                }
             })
         })
+        // this.player.body.enable
+        // this.player.displayWidth
 
         this.plat_Moving.getChildren().forEach((platform) => {
-            if (platform.dir === 'hor')
+            // platform.active = this.cameras.main.worldView.contains(platform.x, platform.y)
+            // if  ( platform.active )
+            // if  ( this.cameras.main.worldView.contains(platform.x, platform.y) )
+            // if  ( this.cameras.main.worldView.contains(platform.x + platform.displayWidth, platform.y - platform.displayHeight))
+            if  (!platform.body.touching.up && !this.cameras.main.worldView.contains(platform.x, platform.y) && !this.cameras.main.worldView.contains(platform.x + platform.displayWidth, platform.y - platform.displayHeight))
             {
-                platform.body.velocity.x = platform.speed
-            } else if (platform.dir === 'vert')
+                if (platform.body.enable)
+                {
+                    console.log(`INACTIVEINACTIVE OBJ`)
+
+                    platform.body.enable = false
+                    platform.setActive(false)    
+                }
+            }
+            else 
             {
-                platform.body.velocity.y = platform.speed
+                if (!platform.body.enable)
+                {
+                    platform.body.enable = true
+                    platform.setActive(true)
+                    console.log(`ACTIVE OBJ`)
+
+                }
+
+                if (platform.dir === 'hor')
+                {
+                    platform.body.velocity.x = platform.speed
+                } else if (platform.dir === 'vert')
+                {
+                    platform.body.velocity.y = platform.speed
+                }
+                
             }
         })
     }
